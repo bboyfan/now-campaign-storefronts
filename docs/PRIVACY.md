@@ -16,8 +16,14 @@ The optional external report is hosted by the merchant's own WordPress site. It 
 
 The public report does not intentionally expose customer names, email addresses, phone numbers, postal addresses, or order numbers.
 
-## Passwords
+## Report password
 
-The public authentication flow uses a WordPress password hash. An encrypted recoverable copy may be stored so authorized WooCommerce administrators can view/copy the share password in the campaign editor. The plaintext password is not intentionally emitted in the public report HTML or report data endpoint.
+External report access uses WordPress Core password-protected-content behavior. WC Campaign creates an internal, non-public WordPress record whose `post_password` value acts as the report sharing password, and WordPress manages the unlocked browser session through its standard `wp-postpass_*` cookie.
+
+This is a **sharing password**, not a WordPress user-account password. WordPress stores post/page protection passwords in the post record so they can be managed as protected-content passwords. Store owners should therefore use a dedicated report sharing password and should not reuse an administrator, customer, payment, email, or other sensitive account credential.
+
+The sharing password is available to authorized WooCommerce managers in the Campaign editor so it can be copied and shared with the intended report viewer. It is not intentionally emitted in the public report HTML or report data response.
+
+Pre-release/private builds that used the earlier custom report-authentication mechanism may migrate a recoverable legacy report password to the WordPress-native password record and remove the obsolete custom-auth credential metadata.
 
 Site owners remain responsible for their overall WordPress privacy policy, hosting configuration, backups, logs, analytics, security plugins, and any third-party extensions installed alongside WC Campaign.
