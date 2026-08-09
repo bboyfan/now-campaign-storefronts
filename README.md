@@ -17,6 +17,7 @@ It is designed for group buys, influencer campaigns, limited-time sales, private
 - Order-item campaign attribution with HPOS support.
 - Refund-aware campaign reporting.
 - Password-protected live report links with product-level performance metrics.
+- WordPress-native report password sessions using Core `post_password` / `wp-postpass_*` behavior.
 - Theme-aware presentation with isolated campaign commerce controls.
 - Traditional Chinese (`zh_TW`) localization.
 
@@ -66,7 +67,9 @@ Campaign introduction content uses the standard WordPress `the_content` pipeline
 
 ## Live reports
 
-Campaign owners can optionally enable a password-protected external report. The report shows aggregate campaign metrics and product-level performance without exposing customer contact details or order numbers.
+Campaign owners can optionally enable a password-protected external report. The public report keeps the `/campaign-report/{share-key}/` format, while authentication is delegated to WordPress Core password protection. WordPress therefore owns the password session through its standard `wp-postpass_*` cookie rather than WC Campaign maintaining a separate login/session system.
+
+The report shows aggregate campaign metrics and product-level performance without exposing customer contact details or order numbers.
 
 See [docs/PRIVACY.md](docs/PRIVACY.md).
 
@@ -81,6 +84,10 @@ The plugin uses the `WooCampaign\\` PHP namespace and includes a runtime fallbac
 Before submitting a pull request, run PHP syntax checks and JavaScript syntax checks and verify the commerce behavior relevant to your change.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for release history and notable implementation changes.
 
 ## Security
 
