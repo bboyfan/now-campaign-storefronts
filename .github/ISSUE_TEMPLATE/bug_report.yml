@@ -1,0 +1,45 @@
+name: Bug report
+description: Report a reproducible WC Campaign problem
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include customer data, credentials, or suspected security vulnerabilities. Follow SECURITY.md for security issues."
+  - type: input
+    id: wp
+    attributes:
+      label: WordPress version
+    validations:
+      required: true
+  - type: input
+    id: woo
+    attributes:
+      label: WooCommerce version
+    validations:
+      required: true
+  - type: input
+    id: plugin
+    attributes:
+      label: WC Campaign version
+    validations:
+      required: true
+  - type: input
+    id: php
+    attributes:
+      label: PHP version
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the actual and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
