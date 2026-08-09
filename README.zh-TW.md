@@ -15,6 +15,7 @@ WC Campaign 是一個免費、開源、以 WooCommerce 為核心的 Campaign／�
 - 將 Campaign attribution 寫入 WooCommerce order item，支援 HPOS。
 - 退款感知的 Campaign 業績報表。
 - 可設定密碼的對外即時報表分享連結。
+- 對外報表使用 WordPress Core 原生 `post_password` / `wp-postpass_*` 密碼機制，不另建一套登入 Session。
 - 對外報表可查看商品層級表現，但不顯示顧客姓名、Email、電話、地址或訂單號碼。
 - 前台承接 Theme 的一般視覺風格，同時隔離 Campaign 的數量控制、Add to Cart 與 Bottom Mini Cart，降低 Theme 全域樣式造成的跑版。
 - 內建繁體中文 `zh_TW` 語系。
@@ -61,13 +62,19 @@ WC Campaign = Campaign Context + Campaign Price + Attribution + Reporting + Pres
 
 ## 即時報表與隱私
 
-External Report 可以設定分享密碼與獨立分享網址，並顯示彙總業績與商品表現。公開頁面不會顯示顧客個資或訂單明細。
+External Report 保留 `/campaign-report/{share-key}/` 分享網址，但密碼驗證交給 WordPress Core 原生 Password Protected Content。登入後使用的是 WordPress 標準 `wp-postpass_*` cookie，而不是 WC Campaign 自行維護另一套登入 cookie／session。
+
+報表顯示彙總業績與商品表現，公開頁面不會顯示顧客個資或訂單明細。
 
 詳見 [docs/PRIVACY.md](docs/PRIVACY.md)。
 
 ## 多語系
 
 公開版本使用英文作為 canonical source strings，並提供繁體中文 `zh_TW` 翻譯於 `languages/`。
+
+## Changelog
+
+版本更新紀錄與重要實作變更請見 [CHANGELOG.md](CHANGELOG.md)。
 
 ## 開源授權
 
