@@ -2,18 +2,27 @@
 
 [繁體中文](README.zh-TW.md)
 
-WC Campaign is a free and open-source WooCommerce extension for campaign-specific storefronts, campaign pricing, order attribution, and live reporting.
+WC Campaign is a free and open-source WooCommerce extension for campaign-specific storefronts, campaign pricing, campaign-wide quantity pricing, order attribution, and live reporting.
 
 It is designed for group buys, influencer campaigns, limited-time sales, private campaign pages, and other campaign-specific storefronts while keeping WooCommerce as the source of truth for products, inventory, carts, orders, refunds, coupons, and financial data.
 
-> **Project status:** WC Campaign 1.1.1 has been submitted to the WordPress.org Plugin Directory and is awaiting review.
+> **Project status:** WC Campaign 1.2.0 is the current public source and WordPress.org review package. The plugin-directory submission is still awaiting review.
 
 ## Features
 
 - Campaign pricing for WooCommerce simple products and purchasable variations.
+- Campaign Bulk Pricing with campaign-wide mix-and-match quantity tiers.
+- Bulk tiers use each eligible item's own Campaign Price as the pricing baseline.
+- Optional custom storefront heading and description for the bulk-pricing offer.
 - Quick Order, Editorial, and Compact campaign layouts.
+- Variation attributes included in visible campaign product titles.
 - Campaign sections, image galleries, rich content, and shortcode support.
+- Optional visible Campaign page title.
+- Section-level product-copy and CTA color controls.
+- Unified Add to cart CTA presentation and hover behavior across all three layouts.
+- Product imagery uses centered `contain` behavior to preserve proportions.
 - WooCommerce cart/session integration and Classic Checkout compatibility.
+- Bottom Mini Cart with quantity editing and a single Checkout action.
 - Order-item campaign attribution with HPOS support.
 - Refund-aware campaign reporting.
 - Password-protected live report links with product-level performance metrics.
@@ -43,7 +52,9 @@ WooCommerce Order / Refund      = Financial authority
 WC Campaign = campaign context + campaign price + attribution + reporting + presentation
 ```
 
-WC Campaign does not create a second product catalog, inventory system, cart, checkout, order ledger, or refund ledger.
+Campaign Bulk Pricing is implemented as a quantity-dependent Campaign Price. It does not create a second discount engine: eligible products and variations in the same Campaign are counted together, the reached tier adjusts each line from its own Campaign Price, and WooCommerce coupons / compatible pricing rules continue afterward through the normal WooCommerce flow.
+
+WC Campaign does not create a second product catalog, inventory system, cart, checkout, order ledger, refund ledger, or financial counter.
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for more detail.
 
@@ -60,6 +71,14 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for more detail.
 ### WordPress.org
 
 WC Campaign has been submitted to WordPress.org and is currently awaiting review. Once approved and published, it will also be installable directly from the WordPress plugin installer.
+
+## Campaign Bulk Pricing
+
+Bulk Pricing can be enabled per Campaign. Tiers are based on the total eligible quantity across products and variations in that Campaign, which supports mix-and-match group-buy offers such as 2+, 4+, and 8+ item discounts.
+
+Each product keeps its own Campaign Price. For example, a 10% tier changes Campaign Prices of 500, 400, and 550 to 450, 360, and 495 respectively. WooCommerce remains responsible for coupons, checkout totals, orders, and refunds.
+
+The storefront offer heading and description can be customized per Campaign while tier badges are generated from the configured quantity rules.
 
 ## Campaign introduction and shortcodes
 
