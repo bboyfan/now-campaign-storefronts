@@ -69,12 +69,19 @@ Campaign 列表的每一列都有「複製」動作。複製會建立一個新�
 
 ## 安裝方式
 
-1. 安裝並啟用 WooCommerce。
-2. 安裝並啟用 WC Campaign。
-3. 在 WordPress 後台建立 Campaign，加入商品或 Variations。
-4. 設定 Campaign Price、內容、圖片與商品區塊。
-5. 如有需要，啟用 Campaign Bulk Pricing。
-6. 發布 Campaign。
+下載可直接安裝的外掛 ZIP：
+
+**[WC Campaign 1.3.0 — wc-campaign-1.3.0.zip](releases/wc-campaign-1.3.0.zip?raw=1)**
+
+接著到 WordPress 後台：
+
+**外掛 → 安裝外掛 → 上傳外掛 → 選擇 ZIP → 安裝 → 啟用**
+
+使用前需先安裝並啟用 WooCommerce。
+
+SHA256 驗證檔：[`releases/wc-campaign-1.3.0.sha256`](releases/wc-campaign-1.3.0.sha256)
+
+WordPress.org 目前仍在審核中；正式上架後，也可以直接從 WordPress 外掛安裝器搜尋安裝。
 
 ## 活動介紹與 Shortcode
 
