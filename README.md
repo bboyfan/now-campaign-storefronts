@@ -63,13 +63,15 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for more detail.
 
 ### Download the installable ZIP
 
-Download the packaged plugin archive here:
+Download the packaged plugin archive from the current GitHub Release:
 
-**[WC Campaign 1.3.0 — wc-campaign-1.3.0.zip](releases/wc-campaign-1.3.0.zip?raw=1)**
+**[WC Campaign 1.3.0 — wc-campaign-1.3.0.zip](https://github.com/bboyfan/wc-campaign/releases/download/v1.3.0/wc-campaign-1.3.0.zip)**
 
 Then in WordPress go to **Plugins → Add Plugin → Upload Plugin**, upload the ZIP, and activate **WC Campaign**. WooCommerce must already be installed and active.
 
-The SHA256 checksum is available at [`releases/wc-campaign-1.3.0.sha256`](releases/wc-campaign-1.3.0.sha256).
+Release page: [WC Campaign 1.3.0](https://github.com/bboyfan/wc-campaign/releases/tag/v1.3.0)
+
+SHA256 checksum: [`wc-campaign-1.3.0.sha256`](https://github.com/bboyfan/wc-campaign/releases/download/v1.3.0/wc-campaign-1.3.0.sha256)
 
 ### WordPress.org
 
