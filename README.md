@@ -61,13 +61,15 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for more detail.
 
 ## Installation
 
-### Manual installation
+### Install from GitHub while WordPress.org review is pending
 
-1. Download the latest release ZIP.
+1. On this repository page, choose **Code → Download ZIP**.
 2. In WordPress, go to **Plugins → Add Plugin → Upload Plugin**.
-3. Upload the ZIP and activate **WC Campaign**.
+3. Upload the downloaded ZIP and activate **WC Campaign**.
 4. Make sure WooCommerce is installed and active.
 5. Open **Campaigns** in the WordPress admin and create your first campaign.
+
+The GitHub source archive also contains project documentation and community files. They do not affect plugin operation. A dedicated release ZIP may be provided through GitHub Releases later.
 
 ### WordPress.org
 
