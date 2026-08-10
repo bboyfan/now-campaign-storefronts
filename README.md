@@ -61,15 +61,15 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for more detail.
 
 ## Installation
 
-### Install from GitHub while WordPress.org review is pending
+### Download the installable ZIP
 
-1. On this repository page, choose **Code → Download ZIP**.
-2. In WordPress, go to **Plugins → Add Plugin → Upload Plugin**.
-3. Upload the downloaded ZIP and activate **WC Campaign**.
-4. Make sure WooCommerce is installed and active.
-5. Open **Campaigns** in the WordPress admin and create your first campaign.
+Download the packaged plugin archive here:
 
-The GitHub source archive also contains project documentation and community files. They do not affect plugin operation. A dedicated release ZIP may be provided through GitHub Releases later.
+**[WC Campaign 1.3.0 — wc-campaign-1.3.0.zip](releases/wc-campaign-1.3.0.zip?raw=1)**
+
+Then in WordPress go to **Plugins → Add Plugin → Upload Plugin**, upload the ZIP, and activate **WC Campaign**. WooCommerce must already be installed and active.
+
+The SHA256 checksum is available at [`releases/wc-campaign-1.3.0.sha256`](releases/wc-campaign-1.3.0.sha256).
 
 ### WordPress.org
 
