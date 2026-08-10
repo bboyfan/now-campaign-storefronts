@@ -3,7 +3,7 @@ Contributors: bboyfan
 Tags: woocommerce, campaigns, group buying, reporting, storefront
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.1.1
+Stable tag: 1.2.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -19,6 +19,8 @@ It is designed for stores that run group buys, influencer campaigns, limited-tim
 Features include:
 
 * Campaign-specific pricing for WooCommerce simple products and variations.
+* Campaign-wide mix-and-match bulk pricing tiers based on total campaign quantity.
+* Customizable storefront title and description for Campaign Bulk Pricing offers.
 * Quick Order, Editorial, and Compact storefront layouts.
 * Campaign sections, images, rich content, and shortcode support.
 * WooCommerce cart and session integration.
@@ -29,7 +31,7 @@ Features include:
 * WooCommerce coupon compatibility and coexistence with dynamic pricing rules.
 * Theme-aware presentation with isolated campaign commerce controls.
 
-WC Campaign does not create a second product catalog, inventory system, cart, order system, or financial ledger. WooCommerce remains authoritative for those areas.
+WC Campaign does not create a second product catalog, inventory system, cart, order system, discount engine, or financial ledger. WooCommerce remains authoritative for those areas.
 
 == Installation ==
 
@@ -37,9 +39,10 @@ WC Campaign does not create a second product catalog, inventory system, cart, or
 2. Upload and activate WC Campaign.
 3. Open the Campaigns screen in the WordPress admin.
 4. Create a campaign, add WooCommerce products or variations, and set campaign pricing.
-5. Configure campaign content and sections.
-6. Publish the campaign.
-7. Optional: enable the password-protected external report and share its generated link.
+5. Optional: enable Campaign Bulk Pricing and add quantity / percentage-off tiers.
+6. Configure campaign content and sections.
+7. Publish the campaign.
+8. Optional: enable the password-protected external report and share its generated link.
 
 == Frequently Asked Questions ==
 
@@ -50,6 +53,18 @@ No. WooCommerce remains the product and inventory authority. Campaign products r
 = Does it replace the WooCommerce cart or checkout? =
 
 No. Campaign items use the WooCommerce cart, WooCommerce session, and normal checkout flow.
+
+= How does Campaign Bulk Pricing work? =
+
+Bulk Pricing counts eligible products and variations from the same campaign together. The highest reached quantity tier adjusts each eligible line from its own Campaign Price. Coupons and other WooCommerce discount integrations can still run afterward through the normal WooCommerce pricing flow.
+
+= Can I customize the Campaign Bulk Pricing message? =
+
+Yes. Each campaign can set its own storefront offer title and description while keeping the quantity-tier badges generated from the configured bulk-pricing rules.
+
+= Does Campaign Bulk Pricing create another discount engine? =
+
+No. Bulk tiers are treated as a quantity-dependent Campaign Price. WooCommerce remains authoritative for the cart, coupons, checkout, orders, refunds, and financial totals.
 
 = Does it work with WooCommerce HPOS? =
 
@@ -76,6 +91,15 @@ No. WC Campaign does not make external service requests for campaign operation o
 No. External reports are designed around aggregate sales metrics and product performance and do not expose customer names, email addresses, phone numbers, addresses, or order numbers.
 
 == Changelog ==
+
+= 1.2.0 =
+* Added Campaign Bulk Pricing with campaign-wide mix-and-match quantity tiers.
+* Bulk tiers use each item's Campaign Price as the pricing baseline before WooCommerce coupon / dynamic-pricing processing.
+* Added customizable storefront bulk-pricing title and description.
+* Fixed bulk-pricing percentage inputs so whole-number discounts remain valid while decimal values are still supported.
+* Aligned Bulk Pricing editor spacing with the rest of the Campaign editor.
+* Mini Cart keeps Proceed to checkout as its only navigation action.
+* Added campaign title visibility, unified product CTA sizing/colors/hover behavior, variation-aware product titles, product-copy color controls, and contain-fit product imagery.
 
 = 1.1.1 =
 * Initial WordPress.org submission.

@@ -1,0 +1,165 @@
+<?php
+
+namespace WooCampaign\Admin;
+
+use WooCampaign\Campaign\CampaignService;
+use WooCampaign\Campaign\Meta;
+use WooCampaign\Campaign\PostType;
+use WooCampaign\Reporting\CampaignReportService;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+final class CampaignMetaBox {
+	private const NONCE_ACTION = 'woo_campaign_save_settings';
+	private const NONCE_NAME = 'woo_campaign_settings_nonce';
+
+	public function __construct(
+		private CampaignReportService $reports,
+		private CampaignService $campaigns,
+	) {}
+
+	public function register(): void {
+		add_action( 'add_meta_boxes_' . PostType::TYPE, [ $this, 'addMetaBoxes' ] );
+		add_action( 'save_post_' . PostType::TYPE, [ $this, 'save' ], 10, 2 );
+	}
+
+	public function addMetaBoxes(): void {
+		add_meta_box( 'woo-campaign-settings', __( 'Campaign Settings', 'wc-campaign' ), [ $this, 'renderSettings' ], PostType::TYPE, 'side', 'high' );
+		add_meta_box( 'woo-campaign-report', __( 'Campaign Performance', 'wc-campaign' ), [ $this, 'renderReport' ], PostType::TYPE, 'side', 'default' );
+	}
+
+	public function renderSettings( \WP_Post $post ): void {
+		wp_nonce_field( self::NONCE_ACTION, self::NONCE_NAME );
+		$start = (int) get_post_meta( $post->ID, Meta::START_AT, true );
+		$end = (int) get_post_meta( $post->ID, Meta::END_AT, true );
+		$archived = (bool) get_post_meta( $post->ID, Meta::ARCHIVED, true );
+		$status = 'auto-draft' === $post->post_status ? 'draft' : $this->campaigns->statusLabel( $post->ID );
+		?>
+		<div class="woo-campaign-admin-status woo-campaign-status-<?php echo esc_attr( sanitize_html_class( $status ) ); ?>">
+			<span class="woo-campaign-status-dot" aria-hidden="true"></span>
+			<div>
+				<span class="woo-campaign-status-label"><?php echo esc_html( $this->statusText( $status ) ); ?></span>
+				<span class="woo-campaign-status-help"><?php echo esc_html( $this->statusHelp( $status ) ); ?></span>
+			</div>
+		</div>
+
+		<div class="woo-campaign-admin-field">
+			<label for="woo-campaign-start"><?php esc_html_e( 'Starts', 'wc-campaign' ); ?></label>
+			<input class="widefat" id="woo-campaign-start" type="datetime-local" name="woo_campaign_start_at" value="<?php echo esc_attr( $this->formatTimestamp( $start ) ); ?>">
+			<span class="description"><?php esc_html_e( 'Leave empty to make it available immediately after publishing.', 'wc-campaign' ); ?></span>
+		</div>
+
+		<div class="woo-campaign-admin-field">
+			<label for="woo-campaign-end"><?php esc_html_e( 'Ends', 'wc-campaign' ); ?></label>
+			<input class="widefat" id="woo-campaign-end" type="datetime-local" name="woo_campaign_end_at" value="<?php echo esc_attr( $this->formatTimestamp( $end ) ); ?>">
+			<span class="description"><?php esc_html_e( 'Leave empty for no automatic end date.', 'wc-campaign' ); ?></span>
+		</div>
+
+		<label class="woo-campaign-archive-toggle">
+			<input type="checkbox" name="woo_campaign_archived" value="1" <?php checked( $archived ); ?>>
+			<span>
+				<strong><?php esc_html_e( 'Archive campaign', 'wc-campaign' ); ?></strong>
+				<small><?php esc_html_e( 'Archived campaigns cannot be purchased from.', 'wc-campaign' ); ?></small>
+			</span>
+		</label>
+
+		<?php if ( 'publish' === $post->post_status ) : ?>
+			<div class="woo-campaign-admin-public-link">
+				<a class="button button-secondary" href="<?php echo esc_url( get_permalink( $post ) ); ?>" target="_blank" rel="noopener noreferrer">
+					<?php esc_html_e( 'View campaign', 'wc-campaign' ); ?> <span class="dashicons dashicons-external"></span>
+				</a>
+			</div>
+		<?php endif; ?>
+		<?php
+	}
+
+	public function renderReport( \WP_Post $post ): void {
+		if ( 'auto-draft' === $post->post_status ) {
+			echo '<div class="woo-campaign-empty-state"><span class="dashicons dashicons-chart-line"></span><p>' . esc_html__( 'Save the campaign to begin tracking performance.', 'wc-campaign' ) . '</p></div>';
+			return;
+		}
+
+		$report = $this->reports->report( $post->ID );
+		?>
+		<div class="woo-campaign-performance-primary">
+			<span><?php esc_html_e( 'Net sales', 'wc-campaign' ); ?></span>
+			<strong><?php echo wp_kses_post( wc_price( $report['net_sales'] ) ); ?></strong>
+			<small><?php esc_html_e( 'After discounts and item refunds', 'wc-campaign' ); ?></small>
+		</div>
+		<div class="woo-campaign-performance-grid">
+			<?php $this->metric( __( 'Paid orders', 'wc-campaign' ), number_format_i18n( $report['orders'] ) ); ?>
+			<?php $this->metric( __( 'Units', 'wc-campaign' ), number_format_i18n( $report['units'] ) ); ?>
+			<?php $this->metric( __( 'Campaign subtotal', 'wc-campaign' ), wc_price( $report['campaign_subtotal'] ), true ); ?>
+			<?php $this->metric( __( 'Discounts', 'wc-campaign' ), wc_price( $report['discount'] ), true ); ?>
+			<?php $this->metric( __( 'Refunds', 'wc-campaign' ), wc_price( $report['refund'] ), true ); ?>
+			<?php $this->metric( __( 'Pending', 'wc-campaign' ), number_format_i18n( $report['pending_orders'] ) ); ?>
+		</div>
+		<?php if ( (int) $report['refunded_units'] > 0 ) : ?>
+			<p class="woo-campaign-performance-note"><?php echo esc_html( sprintf( _n( '%s refunded unit', '%s refunded units', (int) $report['refunded_units'], 'wc-campaign' ), number_format_i18n( $report['refunded_units'] ) ) ); ?></p>
+		<?php endif; ?>
+		<?php
+	}
+
+	public function save( int $postId, \WP_Post $post ): void {
+		if ( wp_is_post_revision( $postId ) || wp_is_post_autosave( $postId ) ) {
+			return;
+		}
+		if ( ! isset( $_POST[ self::NONCE_NAME ] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST[ self::NONCE_NAME ] ) ), self::NONCE_ACTION ) ) {
+			return;
+		}
+		if ( ! current_user_can( 'manage_woocommerce' ) ) {
+			return;
+		}
+		update_post_meta( $postId, Meta::START_AT, $this->parseDate( sanitize_text_field( wp_unslash( $_POST['woo_campaign_start_at'] ?? '' ) ) ) );
+		update_post_meta( $postId, Meta::END_AT, $this->parseDate( sanitize_text_field( wp_unslash( $_POST['woo_campaign_end_at'] ?? '' ) ) ) );
+		update_post_meta( $postId, Meta::ARCHIVED, isset( $_POST['woo_campaign_archived'] ) ? 1 : 0 );
+		do_action( 'woo_campaign_updated', $postId );
+	}
+
+	private function metric( string $label, string $value, bool $allowHtml = false ): void {
+		?>
+		<div class="woo-campaign-performance-metric">
+			<span><?php echo esc_html( $label ); ?></span>
+			<strong><?php echo $allowHtml ? wp_kses_post( $value ) : esc_html( $value ); ?></strong>
+		</div>
+		<?php
+	}
+
+	private function statusText( string $status ): string {
+		$labels = [
+			'active'    => __( 'Active', 'wc-campaign' ),
+			'scheduled' => __( 'Scheduled', 'wc-campaign' ),
+			'expired'   => __( 'Ended', 'wc-campaign' ),
+			'archived'  => __( 'Archived', 'wc-campaign' ),
+			'draft'     => __( 'Draft', 'wc-campaign' ),
+			'pending'   => __( 'Pending review', 'wc-campaign' ),
+			'private'   => __( 'Private', 'wc-campaign' ),
+		];
+		return $labels[ $status ] ?? ucfirst( str_replace( '-', ' ', $status ) );
+	}
+
+	private function statusHelp( string $status ): string {
+		$labels = [
+			'active'    => __( 'Customers can purchase campaign products now.', 'wc-campaign' ),
+			'scheduled' => __( 'The campaign will open at the scheduled start time.', 'wc-campaign' ),
+			'expired'   => __( 'The campaign end time has passed.', 'wc-campaign' ),
+			'archived'  => __( 'Purchasing is disabled until the campaign is restored.', 'wc-campaign' ),
+			'draft'     => __( 'Publish when the campaign is ready to go live.', 'wc-campaign' ),
+		];
+		return $labels[ $status ] ?? __( 'Campaign availability follows its publish status and schedule.', 'wc-campaign' );
+	}
+
+	private function parseDate( string $value ): int {
+		if ( '' === $value ) {
+			return 0;
+		}
+		$date = \DateTimeImmutable::createFromFormat( 'Y-m-d\\TH:i', $value, wp_timezone() );
+		return $date instanceof \DateTimeImmutable ? $date->getTimestamp() : 0;
+	}
+
+	private function formatTimestamp( int $timestamp ): string {
+		return $timestamp > 0 ? wp_date( 'Y-m-d\\TH:i', $timestamp, wp_timezone() ) : '';
+	}
+}

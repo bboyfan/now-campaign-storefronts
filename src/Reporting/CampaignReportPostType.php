@@ -1,0 +1,45 @@
+<?php
+
+namespace WooCampaign\Reporting;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Internal post type used only as WordPress Core's password authority for a
+ * Campaign external report. It deliberately has no public URL or admin UI.
+ */
+final class CampaignReportPostType {
+	public const TYPE = 'woo_campaign_report';
+
+	public function register(): void {
+		add_action( 'init', [ $this, 'registerPostType' ], 8 );
+	}
+
+	public function registerPostType(): void {
+		register_post_type(
+			self::TYPE,
+			[
+				'labels'              => [
+					'name'          => __( 'Campaign Report Passwords', 'wc-campaign' ),
+					'singular_name' => __( 'Campaign Report Password', 'wc-campaign' ),
+				],
+				'public'              => false,
+				'publicly_queryable'  => false,
+				'exclude_from_search' => true,
+				'show_ui'             => false,
+				'show_in_menu'        => false,
+				'show_in_nav_menus'   => false,
+				'show_in_admin_bar'   => false,
+				'show_in_rest'        => false,
+				'query_var'           => false,
+				'rewrite'             => false,
+				'supports'            => [],
+				'capability_type'     => 'post',
+				'map_meta_cap'        => true,
+				'delete_with_user'    => false,
+			]
+		);
+	}
+}

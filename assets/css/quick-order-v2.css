@@ -1,0 +1,44 @@
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-list{border-top:1px solid var(--wcg-line,#e5e8e5)}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row{display:grid;grid-template-columns:120px minmax(0,1fr) minmax(190px,220px);gap:24px;align-items:center;padding:22px 0;border-bottom:1px solid var(--wcg-line,#e5e8e5);background:transparent;color:inherit}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row.has-no-image{grid-template-columns:minmax(0,1fr) minmax(190px,220px)}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-media{width:120px;height:120px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:transparent}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-media img{display:block;width:100%;height:100%;object-fit:contain}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-content{min-width:0}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-identity{display:grid;gap:3px}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-identity h3{margin:0;color:inherit;font:inherit;font-size:18px;font-weight:650;line-height:1.35;letter-spacing:0}
+.woo-campaign-section.layout-quick_order .woo-campaign-variation-label{color:var(--wcg-muted,#707772);font-size:13px;line-height:1.4}
+.woo-campaign-section.layout-quick_order .woo-campaign-row-copy{margin-top:5px;color:var(--wcg-muted,#707772);font-size:12px;line-height:1.55}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-price{display:flex;align-items:baseline;gap:10px;margin-top:15px}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-price del{color:var(--wcg-muted,#707772);font-size:13px;opacity:.72}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-price strong{color:inherit;font-size:18px;font-weight:650;line-height:1.2}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-actions{display:grid;gap:12px;align-content:center}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-quantity{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--wcg-muted,#707772);font-size:12px}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-actions .woo-campaign-quantity{display:grid;grid-template-columns:38px 52px 38px;gap:7px;border:0;border-radius:0;background:transparent;overflow:visible}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-actions .woo-campaign-quantity button{width:38px;height:38px!important;border:1px solid var(--wcg-line,#d7dcd8)!important;border-radius:999px;background:transparent!important;color:inherit!important;line-height:1;box-shadow:none!important}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-actions .woo-campaign-quantity button:hover{background:rgba(0,0,0,.035)!important}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-actions .woo-campaign-quantity input{width:52px!important;height:38px!important;border:1px solid var(--wcg-line,#d7dcd8)!important;border-radius:0!important;background:transparent!important;color:inherit!important;text-align:center!important;box-shadow:none!important}
+.woo-campaign-section.layout-quick_order .woo-campaign-add-to-cart{display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:44px!important;padding:9px 18px!important;border:1px solid currentColor!important;border-radius:999px!important;background:transparent!important;color:inherit!important;font:inherit!important;font-size:13px!important;font-weight:600!important;box-shadow:none!important;transform:none!important;cursor:pointer!important}
+.woo-campaign-section.layout-quick_order .woo-campaign-add-to-cart:hover{background:var(--wcg-ink,#1f2421)!important;color:#fff!important;border-color:var(--wcg-ink,#1f2421)!important;transform:none!important}
+.woo-campaign-section.layout-quick_order .woo-campaign-add-to-cart.is-loading{opacity:.6!important;cursor:wait!important}
+.woo-campaign-section.layout-quick_order .woo-campaign-product-feedback{min-height:0;margin:0;color:var(--wcg-muted,#707772);font-size:11px}
+.woo-campaign-section.layout-quick_order .woo-campaign-product-feedback.is-visible{min-height:16px}
+@media(max-width:760px){
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row{grid-template-columns:84px minmax(0,1fr);gap:14px 16px;padding:18px 0}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row.has-no-image{grid-template-columns:1fr}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-media{width:84px;height:84px}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-identity h3{font-size:16px}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-price{margin-top:10px}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-actions{grid-column:1/-1;display:grid;grid-template-columns:minmax(150px,auto) minmax(0,1fr);align-items:end;gap:12px}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-quantity{display:grid;gap:6px;justify-content:start}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-actions .woo-campaign-quantity{grid-template-columns:38px 48px 38px}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-actions .woo-campaign-quantity input{width:48px!important}
+.woo-campaign-section.layout-quick_order .woo-campaign-product-feedback{grid-column:1/-1}
+}
+@media(max-width:430px){
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-actions{grid-template-columns:1fr}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-quantity{grid-template-columns:auto 1fr;align-items:center}
+.woo-campaign-section.layout-quick_order .woo-campaign-purchase-row-actions .woo-campaign-quantity{justify-self:end}
+.woo-campaign-section.layout-quick_order .woo-campaign-add-to-cart{min-height:46px!important}
+}
+.woo-campaign-page .woo-campaign-editorial-media img{min-height:0}
+.woo-campaign-page .woo-campaign-compact-card .woo-campaign-purchase-controls.is-compact{grid-template-columns:1fr}.woo-campaign-page .woo-campaign-compact-card .woo-campaign-quantity{width:100%;grid-template-columns:1fr 40px 1fr}.woo-campaign-page .woo-campaign-compact-card .woo-campaign-add-to-cart{width:100%!important}

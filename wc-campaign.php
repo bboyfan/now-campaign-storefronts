@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       WC Campaign
  * Description:       Build campaign storefronts for WooCommerce with campaign pricing, layouts, attribution, live reports, and protected sharing.
- * Version:           1.1.1
+ * Version:           1.2.0
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WOO_CAMPAIGN_VERSION', '1.1.1' );
+define( 'WOO_CAMPAIGN_VERSION', '1.2.0' );
 define( 'WOO_CAMPAIGN_FILE', __FILE__ );
 define( 'WOO_CAMPAIGN_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WOO_CAMPAIGN_URL', plugin_dir_url( __FILE__ ) );

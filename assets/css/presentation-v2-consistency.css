@@ -1,0 +1,74 @@
+/* Final storefront presentation rules shared by Quick Order, Editorial, and Compact Grid. */
+.woo-campaign-page .woo-campaign-section .woo-campaign-row-copy,
+.woo-campaign-page .woo-campaign-section .woo-campaign-editorial-description,
+.woo-campaign-page .woo-campaign-section .woo-campaign-compact-copy{
+	color:var(--woo-campaign-section-copy-color,inherit)!important;
+	font-size:14px!important;
+	line-height:1.6!important;
+	opacity:1!important;
+}
+
+/* Keep every Campaign layout on one CTA contract. The stronger layout-aware
+ * selector intentionally overrides older Quick Order / Editorial / Compact
+ * presentation rules while preserving the section-level color controls. */
+.woo-campaign-page .woo-campaign-section[class*="layout-"] .woo-campaign-add-to-cart{
+	display:inline-flex!important;
+	align-items:center!important;
+	justify-content:center!important;
+	min-height:44px!important;
+	padding:10px 18px!important;
+	border:1px solid var(--woo-campaign-section-cta-bg,var(--woo-campaign-accent,currentColor))!important;
+	border-radius:8px!important;
+	background-color:var(--woo-campaign-section-cta-bg,var(--woo-campaign-accent,currentColor))!important;
+	color:var(--woo-campaign-section-cta-text,#fff)!important;
+	font:inherit!important;
+	font-size:14px!important;
+	font-weight:650!important;
+	line-height:1.2!important;
+	text-align:center!important;
+	text-decoration:none!important;
+	white-space:nowrap!important;
+	box-shadow:none!important;
+	filter:none!important;
+	transform:none!important;
+	transition:filter .16s ease,opacity .16s ease!important;
+}
+.woo-campaign-page .woo-campaign-section[class*="layout-"] .woo-campaign-add-to-cart:hover,
+.woo-campaign-page .woo-campaign-section[class*="layout-"] .woo-campaign-add-to-cart:focus-visible{
+	background-color:var(--woo-campaign-section-cta-bg,var(--woo-campaign-accent,currentColor))!important;
+	border-color:var(--woo-campaign-section-cta-bg,var(--woo-campaign-accent,currentColor))!important;
+	color:var(--woo-campaign-section-cta-text,#fff)!important;
+	filter:brightness(1.07)!important;
+	transform:none!important;
+}
+.woo-campaign-page .woo-campaign-section[class*="layout-"] .woo-campaign-add-to-cart:disabled{
+	opacity:.55!important;
+	cursor:not-allowed!important;
+	filter:none!important;
+}
+
+.woo-campaign-page .woo-campaign-purchase-row-media,
+.woo-campaign-page .woo-campaign-editorial-media,
+.woo-campaign-page .woo-campaign-compact-card-media{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+	overflow:hidden;
+}
+.woo-campaign-page .woo-campaign-purchase-row-media img,
+.woo-campaign-page .woo-campaign-editorial-media img,
+.woo-campaign-page .woo-campaign-compact-card-media img{
+	display:block!important;
+	width:100%!important;
+	height:100%!important;
+	max-width:100%!important;
+	object-fit:contain!important;
+	object-position:center!important;
+}
+.woo-campaign-page .woo-campaign-editorial-media{min-height:360px}
+.woo-campaign-page .woo-campaign-compact-card-media{aspect-ratio:1/1}
+
+@media(max-width:760px){
+	.woo-campaign-page .woo-campaign-editorial-media{min-height:0;aspect-ratio:1/1}
+	.woo-campaign-page .woo-campaign-section[class*="layout-"] .woo-campaign-add-to-cart{width:100%!important}
+}
