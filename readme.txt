@@ -93,6 +93,8 @@ No. External reports are designed around aggregate sales metrics and product per
 == Changelog ==
 
 = 1.2.0 =
+* Fixed variable-product headings so selected variation attributes remain visible in Campaign cards.
+* Fixed CTA fallback colors when no custom CTA or Campaign accent color is configured.
 * Added Campaign Bulk Pricing with campaign-wide mix-and-match quantity tiers.
 * Bulk tiers use each item's Campaign Price as the pricing baseline before WooCommerce coupon / dynamic-pricing processing.
 * Added customizable storefront bulk-pricing title and description.

@@ -31,6 +31,8 @@ Campaign storefront consistency and campaign-wide bulk pricing release.
 
 ### Fixed
 
+- Fixed variable-product headings so selected variation attributes remain visible, for example `淨味噴霧 - 冷水`.
+- Fixed CTA fallback colors so leaving section CTA colors unset cannot produce an unreadable white-on-white button.
 - Section product-copy color overrides persist after Campaign saves, including newly created sections.
 - Restored localized Mini Cart Checkout copy for the Traditional Chinese interface.
 - Fixed WordPress.org 1.2.0 i18n preparation by removing obsolete translation msgids and ensuring generated English canonical strings remain valid PHP source.

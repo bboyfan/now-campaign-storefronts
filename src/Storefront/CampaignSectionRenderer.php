@@ -207,7 +207,7 @@ final class CampaignSectionRenderer {
 		$available = $product->is_purchasable() && $product->is_in_stock();
 		$title = $this->normalizeName( $displayProduct->get_name() );
 		$variation = $product instanceof \WC_Product_Variation ? $this->variationLabel( $product ) : '';
-		$displayTitle = '' !== $variation ? $title . ' — ' . $variation : $title;
+		$displayTitle = '' !== $variation ? $title . ' - ' . $variation : $title;
 
 		return [
 			'product'       => $product,
@@ -239,7 +239,7 @@ final class CampaignSectionRenderer {
 	}
 
 	private function variationLabel( \WC_Product_Variation $variation ): string {
-		$label = wc_get_formatted_variation( $variation, true, false, true );
+		$label = wc_get_formatted_variation( $variation, true, false, false );
 		return $this->normalizeName( is_string( $label ) ? $label : '' );
 	}
 
