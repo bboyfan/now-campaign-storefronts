@@ -165,6 +165,10 @@ msgstr "Campaign 已變更"
 msgid "Campaign content"
 msgstr "Campaign 內容"
 
+#: src/Campaign/CampaignDuplicator.php:63
+msgid "Campaign could not be duplicated."
+msgstr "Campaign 無法複製。"
+
 #: src/Admin/CampaignEditor.php:349
 msgid "Campaign could not be saved. Reload the editor, verify the current values, and try again."
 msgstr "Campaign 無法儲存。請重新載入編輯器、確認目前資料後再試一次。"
@@ -172,6 +176,10 @@ msgstr "Campaign 無法儲存。請重新載入編輯器、確認目前資料後
 #: src/Admin/CampaignEditor.php:196
 msgid "Campaign Design"
 msgstr "Campaign Design"
+
+#: src/Admin/CampaignDuplicate.php:77
+msgid "Campaign duplicated."
+msgstr "Campaign 已複製。"
 
 #: src/Admin/CampaignEditor.php:51
 #: src/Admin/CampaignEditor.php:52
@@ -205,20 +213,22 @@ msgstr "Campaign 任選優惠"
 msgid "Campaign name"
 msgstr "活動名稱"
 
+#: src/Admin/CampaignDuplicate.php:54
 #: src/Admin/CampaignEditor.php:137
 #: src/Admin/CampaignEditor.php:257
+#: src/Campaign/CampaignDuplicator.php:37
 #: src/Reporting/CampaignReportShare.php:45
 #: src/Reporting/CampaignReportShare.php:79
 msgid "Campaign not found."
 msgstr "找不到 Campaign。"
 
-#: src/Admin/CampaignEditor.php:221
-msgid "Campaign performance"
-msgstr "活動成效"
-
 #: src/Admin/CampaignMetaBox.php:30
 msgid "Campaign Performance"
 msgstr "Campaign 成效"
+
+#: src/Admin/CampaignEditor.php:221
+msgid "Campaign performance"
+msgstr "活動成效"
 
 #: src/Admin/Assets.php:40
 #: src/Admin/CampaignProductsPanel.php:138
@@ -384,6 +394,14 @@ msgstr "顯示狀態"
 msgid "Draft"
 msgstr "草稿"
 
+#: src/Admin/CampaignDuplicate.php:39
+msgid "Duplicate"
+msgstr "複製"
+
+#: src/Admin/CampaignDuplicate.php:39
+msgid "Duplicate “%s”"
+msgstr "複製「%s」"
+
 #: src/Admin/CampaignEditor.php:106
 #: src/Campaign/PostType.php:24
 msgid "Edit Campaign"
@@ -460,6 +478,10 @@ msgstr "Campaign 資料無效"
 #: src/Cart/AjaxController.php:45
 msgid "Invalid campaign items."
 msgstr "Campaign 商品資料無效。"
+
+#: src/Admin/CampaignDuplicate.php:46
+msgid "Invalid Campaign."
+msgstr "無效的 Campaign。"
 
 #: src/Storefront/Assets.php:64
 msgid "Item removed"
@@ -995,6 +1017,10 @@ msgstr "無法載入 Report 密碼資料。"
 msgid "Unable to remove the cart item."
 msgstr "無法移除購物車商品。"
 
+#: src/Campaign/CampaignDuplicator.php:42
+msgid "Unable to start Campaign duplication."
+msgstr "無法開始複製 Campaign。"
+
 #: src/Cart/CartService.php:77
 msgid "Unable to update the cart item."
 msgstr "無法更新購物車商品。"
@@ -1012,6 +1038,7 @@ msgstr "件數"
 
 #: src/Admin/CampaignEditor.php:306
 #: src/Admin/CampaignEditor.php:73
+#: src/Campaign/CampaignDuplicator.php:78
 msgid "Untitled Campaign"
 msgstr "未命名 Campaign"
 
@@ -1073,6 +1100,7 @@ msgstr "Woo 價格"
 msgid "WooCommerce remains the source of truth for stock, SKU, images and product data."
 msgstr "庫存、SKU、圖片與商品資料仍以 WooCommerce 為準。"
 
+#: src/Admin/CampaignDuplicate.php:50
 #: src/Admin/CampaignEditor.php:132
 #: src/Admin/CampaignEditor.php:251
 msgid "You do not have permission to manage campaigns."

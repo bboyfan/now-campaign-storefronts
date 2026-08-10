@@ -6,11 +6,12 @@ WC Campaign is a free and open-source WooCommerce extension for campaign-specifi
 
 It is designed for group buys, influencer campaigns, limited-time sales, private campaign pages, and other campaign-specific storefronts while keeping WooCommerce as the source of truth for products, inventory, carts, orders, refunds, coupons, and financial data.
 
-> **Project status:** WC Campaign 1.2.0 is the current public source and WordPress.org review package. The plugin-directory submission is still awaiting review.
+> **Project status:** WC Campaign 1.3.0 is the current public source and WordPress.org review package. The plugin-directory submission is still awaiting review.
 
 ## Features
 
 - Campaign pricing for WooCommerce simple products and purchasable variations.
+- Duplicate any Campaign from the Campaign list, preserving configuration, sections, products, pricing, bulk pricing, and presentation with fresh internal identities.
 - Campaign Bulk Pricing with campaign-wide mix-and-match quantity tiers.
 - Bulk tiers use each eligible item's own Campaign Price as the pricing baseline.
 - Optional custom storefront heading and description for the bulk-pricing offer.
@@ -79,6 +80,10 @@ Bulk Pricing can be enabled per Campaign. Tiers are based on the total eligible 
 Each product keeps its own Campaign Price. For example, a 10% tier changes Campaign Prices of 500, 400, and 550 to 450, 360, and 495 respectively. WooCommerce remains responsible for coupons, checkout totals, orders, and refunds.
 
 The storefront offer heading and description can be customized per Campaign while tier badges are generated from the configured quantity rules.
+
+## Campaign duplication
+
+Every Campaign row in the Campaign list has a **Duplicate** action. Duplicating creates a new draft Campaign with the same configuration, sections, products and variation references, Campaign pricing, bulk pricing, and presentation. The new Campaign receives its own post, section, and product-relationship IDs plus a fresh external-report share key and password record, so it never shares the source Campaign's public report link or financial attribution.
 
 ## Campaign introduction and shortcodes
 

@@ -3,10 +3,12 @@
 namespace WooCampaign;
 
 use WooCampaign\Admin\CampaignBulkPricing as CampaignBulkPricingAdmin;
+use WooCampaign\Admin\CampaignDuplicate as CampaignDuplicateAdmin;
 use WooCampaign\Admin\CampaignEditor;
 use WooCampaign\Admin\CampaignList;
 use WooCampaign\Admin\CampaignPresentation;
 use WooCampaign\Admin\CampaignReportAdmin;
+use WooCampaign\Campaign\CampaignDuplicator;
 use WooCampaign\Campaign\CampaignRepository;
 use WooCampaign\Campaign\CampaignService;
 use WooCampaign\Campaign\Meta;
@@ -85,6 +87,7 @@ final class Plugin {
 		$reportSecret = new CampaignReportSecret();
 		$reportShare = new CampaignReportShare( $reportSecret );
 		$reportController = new CampaignReportController( $reportShare, $reportCache );
+		$campaignDuplicator = new CampaignDuplicator( $campaigns, $campaignSections, $campaignProducts, $reportShare );
 
 		( new CartPriceApplier( $priceResolver, $bulkPricing ) )->register();
 		( new CartValidator( $priceResolver, $products ) )->register();
@@ -117,6 +120,7 @@ final class Plugin {
 			( new CampaignPresentation( $campaignSections ) )->register();
 			( new CampaignBulkPricingAdmin() )->register();
 			( new CampaignReportAdmin( $reportShare, $reports ) )->register();
+			( new CampaignDuplicateAdmin( $campaignDuplicator ) )->register();
 		}
 
 		add_action( 'deleted_post', function( int $postId, \WP_Post $post ) use ( $campaignProductService, $campaignSectionService, $reportCache, $reportShare ): void {

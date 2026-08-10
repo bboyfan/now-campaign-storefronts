@@ -87,6 +87,43 @@ final class Meta {
 		);
 	}
 
+	/**
+	 * Campaign-owned user configuration meta keys.
+	 *
+	 * These are the only wp_postmeta values copied when a Campaign is
+	 * duplicated. Generated, runtime, cache, and unique report identity keys
+	 * are deliberately excluded and handled by the duplicator seam.
+	 */
+	public static function duplicableKeys(): array {
+		return [
+			self::START_AT,
+			self::END_AT,
+			self::ARCHIVED,
+			self::MEDIA_IDS,
+			self::DESIGN,
+			self::BULK_PRICING,
+		];
+	}
+
+	/**
+	 * Campaign-owned runtime / unique identity meta keys.
+	 *
+	 * These must never be copied verbatim when a Campaign is duplicated:
+	 * concurrency state, external report identity, and legacy credentials are
+	 * regenerated or recreated for the new Campaign.
+	 */
+	public static function runtimeKeys(): array {
+		return [
+			self::EDITOR_REVISION,
+			self::REPORT_ENABLED,
+			self::REPORT_SHARE_KEY,
+			self::REPORT_POST_ID,
+			self::REPORT_ENABLED_AT,
+			self::REPORT_PASSWORD_HASH,
+			self::REPORT_PASSWORD_SECRET,
+		];
+	}
+
 	public static function sanitizeDesign( mixed $value ): array {
 		$value = is_array( $value ) ? $value : [];
 		$contentWidth = absint( $value['content_width'] ?? 0 );

@@ -4,11 +4,12 @@
 
 WC Campaign 是一個免費、開源、以 WooCommerce 為核心的 Campaign／團購活動外掛，用來建立獨立活動頁、Campaign 價格、混搭件數優惠、訂單歸因與即時業績報表，同時不取代 WooCommerce 原本的商品、庫存、購物車、訂單、退款與折扣系統。
 
-> **專案狀態：** WC Campaign 1.2.0 是目前公開 Source 與 WordPress.org 更新送審版本；Plugin Directory submission 目前仍等待審核。
+> **專案狀態：** WC Campaign 1.3.0 是目前公開 Source 與 WordPress.org 更新送審版本；Plugin Directory submission 目前仍等待審核。
 
 ## 主要功能
 
 - 支援 WooCommerce Simple Product 與 Variation 的 Campaign Price。
+- 可在 Campaign 列表對任一 Campaign 執行「複製」，完整保留設定、商品區塊、商品與 Variation 引用、Campaign Price、Bulk Pricing 與 Presentation，並產生全新的內部識別。
 - Campaign Bulk Pricing：同一 Campaign 商品與 Variations 可混搭累計件數，依設定門檻套用折扣。
 - Bulk tier 以每個商品自己的 Campaign Price 為基準，不要求所有商品同價。
 - Bulk Pricing 前台優惠標題與說明可依 Campaign 自訂。
@@ -61,6 +62,10 @@ Bulk Pricing 以同一 Campaign 內 eligible 商品與 Variation 的合計件數
 ```
 
 假設三個商品的 Campaign Price 分別是 500、400、550，達到 4 件 10% off 時，effective Campaign Price 分別為 450、360、495。之後 Coupon / WDP、Checkout、Order totals 與 Refund 都仍由 WooCommerce 處理。
+
+## Campaign 複製
+
+Campaign 列表的每一列都有「複製」動作。複製會建立一個新的 **draft** Campaign，內容、商品區塊、商品與 Variation 引用、Campaign Price、Bulk Pricing 與 Presentation 與來源完全一致。新 Campaign 會取得全新的 post、section 與商品關聯 ID，以及全新的對外報表 share key 與密碼記錄，因此不會共用來源的報表連結或訂單歸因。
 
 ## 安裝方式
 

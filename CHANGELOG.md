@@ -2,6 +2,26 @@
 
 All notable changes to WC Campaign are documented here.
 
+## 1.3.0 — 2026-08-10
+
+Campaign duplication release.
+
+### Added
+
+- Duplicate Campaign action from the Campaign list.
+- Duplicated campaigns preserve campaign configuration, sections, products,
+  variation references, campaign pricing, bulk pricing and presentation while
+  receiving new internal identities.
+
+### Compatibility / architecture
+
+- Duplicated Campaigns are created as drafts with a unique URL slug and never
+  share the source external report key or hidden password record.
+- WooCommerce Product / Variation remains the product authority; duplication
+  never creates second products, inventory, carts, discount engines, or
+  financial ledgers. A duplicated Campaign starts with zero sales, orders, and
+  units, and the source Campaign is never modified.
+
 ## 1.2.0 — 2026-08-10
 
 Campaign storefront consistency and campaign-wide bulk pricing release.

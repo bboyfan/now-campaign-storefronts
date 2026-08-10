@@ -18,6 +18,12 @@ WC Campaign = campaign context + campaign price + attribution + reporting + pres
 
 A simple WooCommerce product can be referenced as a campaign item. For variable products, each purchasable variation is represented independently so inventory, attributes, and pricing remain attached to the WooCommerce variation.
 
+## Campaign duplication
+
+The Campaign list exposes a Duplicate action per Campaign row. Duplication copies the complete user configuration — Campaign meta, sections, product/variation references, campaign prices, bulk pricing, presentation, and external-report intent — into a new draft Campaign while regenerating every unique identity.
+
+New identities are created for the WordPress post, the Campaign section rows, the Campaign product-relationship rows, the external report share key, and the hidden WordPress report-password record. The source Campaign is never modified, and WooCommerce products, inventory, orders, refunds, and financial data are never duplicated. A duplicated Campaign therefore starts with zero sales, orders, and units.
+
 ## Pricing
 
 Campaign Price is applied inside the WooCommerce cart flow. WC Campaign does not replace WooCommerce coupons or the order totals ledger.

@@ -165,12 +165,20 @@ msgstr ""
 msgid "Campaign content"
 msgstr ""
 
+#: src/Campaign/CampaignDuplicator.php:63
+msgid "Campaign could not be duplicated."
+msgstr ""
+
 #: src/Admin/CampaignEditor.php:349
 msgid "Campaign could not be saved. Reload the editor, verify the current values, and try again."
 msgstr ""
 
 #: src/Admin/CampaignEditor.php:196
 msgid "Campaign Design"
+msgstr ""
+
+#: src/Admin/CampaignDuplicate.php:77
+msgid "Campaign duplicated."
 msgstr ""
 
 #: src/Admin/CampaignEditor.php:51
@@ -205,19 +213,21 @@ msgstr ""
 msgid "Campaign name"
 msgstr ""
 
+#: src/Admin/CampaignDuplicate.php:54
 #: src/Admin/CampaignEditor.php:137
 #: src/Admin/CampaignEditor.php:257
+#: src/Campaign/CampaignDuplicator.php:37
 #: src/Reporting/CampaignReportShare.php:45
 #: src/Reporting/CampaignReportShare.php:79
 msgid "Campaign not found."
 msgstr ""
 
-#: src/Admin/CampaignEditor.php:221
-msgid "Campaign performance"
-msgstr ""
-
 #: src/Admin/CampaignMetaBox.php:30
 msgid "Campaign Performance"
+msgstr ""
+
+#: src/Admin/CampaignEditor.php:221
+msgid "Campaign performance"
 msgstr ""
 
 #: src/Admin/Assets.php:40
@@ -384,6 +394,14 @@ msgstr ""
 msgid "Draft"
 msgstr ""
 
+#: src/Admin/CampaignDuplicate.php:39
+msgid "Duplicate"
+msgstr ""
+
+#: src/Admin/CampaignDuplicate.php:39
+msgid "Duplicate “%s”"
+msgstr ""
+
 #: src/Admin/CampaignEditor.php:106
 #: src/Campaign/PostType.php:24
 msgid "Edit Campaign"
@@ -459,6 +477,10 @@ msgstr ""
 
 #: src/Cart/AjaxController.php:45
 msgid "Invalid campaign items."
+msgstr ""
+
+#: src/Admin/CampaignDuplicate.php:46
+msgid "Invalid Campaign."
 msgstr ""
 
 #: src/Storefront/Assets.php:64
@@ -995,6 +1017,10 @@ msgstr ""
 msgid "Unable to remove the cart item."
 msgstr ""
 
+#: src/Campaign/CampaignDuplicator.php:42
+msgid "Unable to start Campaign duplication."
+msgstr ""
+
 #: src/Cart/CartService.php:77
 msgid "Unable to update the cart item."
 msgstr ""
@@ -1012,6 +1038,7 @@ msgstr ""
 
 #: src/Admin/CampaignEditor.php:306
 #: src/Admin/CampaignEditor.php:73
+#: src/Campaign/CampaignDuplicator.php:78
 msgid "Untitled Campaign"
 msgstr ""
 
@@ -1073,6 +1100,7 @@ msgstr ""
 msgid "WooCommerce remains the source of truth for stock, SKU, images and product data."
 msgstr ""
 
+#: src/Admin/CampaignDuplicate.php:50
 #: src/Admin/CampaignEditor.php:132
 #: src/Admin/CampaignEditor.php:251
 msgid "You do not have permission to manage campaigns."

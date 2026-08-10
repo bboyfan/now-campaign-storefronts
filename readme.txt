@@ -3,7 +3,7 @@ Contributors: bboyfan
 Tags: woocommerce, campaigns, group buying, reporting, storefront
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -19,6 +19,7 @@ It is designed for stores that run group buys, influencer campaigns, limited-tim
 Features include:
 
 * Campaign-specific pricing for WooCommerce simple products and variations.
+* Duplicate any Campaign from the Campaign list, preserving configuration, sections, products, pricing, bulk pricing, and presentation with fresh internal identities.
 * Campaign-wide mix-and-match bulk pricing tiers based on total campaign quantity.
 * Customizable storefront title and description for Campaign Bulk Pricing offers.
 * Quick Order, Editorial, and Compact storefront layouts.
@@ -91,6 +92,12 @@ No. WC Campaign does not make external service requests for campaign operation o
 No. External reports are designed around aggregate sales metrics and product performance and do not expose customer names, email addresses, phone numbers, addresses, or order numbers.
 
 == Changelog ==
+
+= 1.3.0 =
+* Added a Duplicate action to every Campaign row in the Campaign list.
+* Duplicated Campaigns preserve campaign configuration, sections, products and variation references, campaign pricing, bulk pricing, and presentation while receiving new post, section, and product-relationship IDs.
+* Duplicated Campaigns are created as drafts with a unique URL slug and never share the source external report link or password record.
+* Order attribution and financial reporting stay isolated: a duplicated Campaign starts with zero sales, orders, and units, and the source Campaign is never modified.
 
 = 1.2.0 =
 * Fixed variable-product headings so selected variation attributes remain visible in Campaign cards.
