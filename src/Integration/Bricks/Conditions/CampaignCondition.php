@@ -62,7 +62,7 @@ final class CampaignCondition {
 	 * @param mixed $condition The full condition array (key/compare/value).
 	 */
 	public function evaluate( bool $renderSet, string $key, array $condition ): bool {
-		if ( self::KEY_CURRENT !== $key || ( $condition['group'] ?? '' ) !== self::GROUP ) {
+		if ( self::KEY_CURRENT !== $key ) {
 			return $renderSet;
 		}
 		$campaignId = CampaignContext::currentId();
