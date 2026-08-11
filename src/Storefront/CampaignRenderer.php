@@ -36,7 +36,10 @@ final class CampaignRenderer {
 	}
 
 	public function register(): void {
-		// After Bricks (100) so a Bricks content template is resolved before we decide.
+		// Page ownership is captured via bricks/active_templates during the
+		// "wp" lifecycle (BricksIntegration::captureOwnership). This filter
+		// only selects the native fallback renderer when Bricks does not own
+		// the page; the priority is not about running after Bricks.
 		add_filter( 'template_include', [ $this, 'templateInclude' ], 110 );
 		add_filter( 'the_content', [ $this, 'appendCampaignCommerce' ], 20 );
 		add_action( 'wp_footer', [ $this, 'renderFooterFallback' ], 20 );

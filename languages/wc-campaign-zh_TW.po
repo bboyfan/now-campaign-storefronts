@@ -245,7 +245,7 @@ msgid "Campaign product copy"
 msgstr "活動商品文案"
 
 #: src/Admin/CampaignProductsPanel.php:31
-#: src/Integration/Bricks/Query/CampaignProductsQuery.php:35
+#: src/Integration/Bricks/Query/CampaignProductsQuery.php:34
 msgid "Campaign Products"
 msgstr "Campaign 商品"
 
@@ -344,7 +344,7 @@ msgstr "複製連結"
 msgid "Copy Password"
 msgstr "複製密碼"
 
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:42
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:44
 msgid "Current Campaign"
 msgstr "目前 Campaign"
 
@@ -488,12 +488,12 @@ msgstr "Campaign 商品資料無效。"
 msgid "Invalid Campaign."
 msgstr "無效的 Campaign。"
 
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:46
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:49
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:48
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:51
 msgid "is"
 msgstr "是"
 
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:47
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:49
 msgid "is not"
 msgstr "不是"
 
@@ -854,7 +854,7 @@ msgstr "全選可用 Variations"
 msgid "Select at least one campaign item."
 msgstr "請至少選擇一個 Campaign 商品。"
 
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:55
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:57
 msgid "Select campaigns"
 msgstr "選擇 Campaign"
 
@@ -1109,7 +1109,7 @@ msgstr "查看報表"
 msgid "Visible"
 msgstr "顯示中"
 
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:33
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:35
 msgid "WC Campaign"
 msgstr "WC Campaign"
 

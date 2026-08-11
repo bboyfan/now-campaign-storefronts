@@ -24,7 +24,9 @@ final class CampaignCondition {
 	public function register(): void {
 		add_filter( 'bricks/conditions/groups', [ $this, 'registerGroups' ] );
 		add_filter( 'bricks/conditions/options', [ $this, 'registerOptions' ] );
-		add_filter( 'bricks/conditions/result', [ $this, 'evaluate' ], 10, 3 );
+		// Late priority: WC Campaign is the final authority for its own key,
+		// so no generic extension fallback can overwrite the result after us.
+		add_filter( 'bricks/conditions/result', [ $this, 'evaluate' ], 9999, 3 );
 	}
 
 	public function registerGroups( array $groups ): array {
@@ -65,13 +67,39 @@ final class CampaignCondition {
 		if ( self::KEY_CURRENT !== $key ) {
 			return $renderSet;
 		}
-		$campaignId = CampaignContext::currentId();
+
+		// No Campaign context (any page outside a Campaign): the condition
+		// never matches, regardless of compare.
+		$campaignId = $this->currentCampaignId();
 		if ( $campaignId <= 0 ) {
 			return false;
 		}
-		$selected = array_map( 'absint', (array) ( $condition['value'] ?? [] ) );
+
+		// Normalize string/int IDs, arrays of either; drop zeros/duplicates.
+		$selected = array_values(
+			array_unique(
+				array_filter(
+					array_map( 'absint', (array) ( $condition['value'] ?? [] ) )
+				)
+			)
+		);
 		$matches = in_array( $campaignId, $selected, true );
+
 		return ( $condition['compare'] ?? '==' ) === '!=' ? ! $matches : $matches;
+	}
+
+	/**
+	 * Resolve the current Campaign from Bricks page context first (builder
+	 * preview / AJAX render), falling back to the WordPress queried object.
+	 */
+	private function currentCampaignId(): int {
+		if ( class_exists( '\Bricks\Database' ) ) {
+			$previewId = (int) ( \Bricks\Database::$page_data['preview_or_post_id'] ?? 0 );
+			if ( $previewId > 0 ) {
+				return CampaignContext::resolveId( $previewId );
+			}
+		}
+		return CampaignContext::currentId();
 	}
 
 	private function campaignOptions(): array {

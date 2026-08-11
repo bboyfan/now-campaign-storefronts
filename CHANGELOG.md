@@ -1,6 +1,40 @@
 # Changelog
 
-All notable changes to WC Campaign are documented here.
+All notable changes to Woo Campaign / WC Campaign are documented here.
+
+## 1.4.1 — 2026-08-11
+
+Bricks integration hardening.
+
+### Fixed
+
+- Bricks element conditions: `campaign_current` is now evaluated by WC
+  Campaign as the final authority (late filter priority), so no extension
+  fallback can override the result. Campaign resolution prefers the Bricks
+  page context (`preview_or_post_id`) and always validates through
+  `CampaignContext`; outside a Campaign page every condition evaluates to
+  false regardless of `is` / `is not`.
+- Dynamic data now renders inside mixed text content (e.g.
+  `開團：{wc_campaign_title}`) in Text, Heading, Rich Text, and Button
+  elements. The tags are registered as a real Bricks 2.3.10 provider through
+  `bricks/dynamic_data/register_providers`, using Bricks' native tag
+  parsing pipeline instead of the single-tag `render_tag` path only.
+- Campaign image dynamic data follows the Bricks image contract: attachment
+  ID for the Image element (image context), URL string for text/link
+  contexts.
+- Campaign Products query loop id is scoped to the `campaign_products` query
+  type only, so other Bricks queries are never rewritten.
+
+### Changed
+
+- Removed the no-op `bricks/query/loop_object` registration for Campaign
+  Products loops.
+- `bricks/active_templates` capture now accepts the full 3-argument Bricks
+  contract and only flips content ownership on content-template passes
+  (header/footer/archive passes can no longer affect it).
+- Corrected the `template_include` comment in the native renderer: page
+  ownership is captured during the Bricks `wp` lifecycle, not by running
+  after Bricks on `template_include`.
 
 ## 1.4.0 — 2026-08-11
 
@@ -8,17 +42,35 @@ Bricks Builder integration release.
 
 ### Added
 
-- Native Bricks Builder integration: `woo_campaign` is supported in the Bricks Builder and can be designed with Bricks Single Templates.
-- Bricks template ownership: an assigned Bricks content template takes over Campaign pages; the native template, automatic product append, and footer Mini Cart fallback stay out of the way.
-- Campaign Products Query Loop for Bricks, returning CampaignProduct objects with campaign, section, product, and variation identity.
-- WC Campaign dynamic data tags for Campaign and Campaign Product values (title, slug, excerpt, featured image, product name, variation, image, reference price, Campaign price, savings, copy, stock note).
-- Campaign-aware Bricks element conditions (current Campaign is / is not, multi-select).
-- Shared CampaignContext and presentation resolver keep native storefront and Bricks output identical.
+- Native Bricks Builder integration: `woo_campaign` is supported in the
+  Bricks Builder and can be designed with Bricks Single Templates.
+- Bricks template ownership: when a Bricks content template is assigned to a
+  Campaign, the native `single-woo_campaign.php` template is not forced and
+  `the_content` / `wp_footer` no longer auto-inject the product list or Mini
+  Cart, so Bricks owns the page layout.
+- Campaign Products Query Loop for Bricks, returning `CampaignProduct` domain
+  objects so each loop item keeps campaign, section, product, and variation
+  identity.
+- WC Campaign dynamic data tags (Campaign and Campaign Product): ID, title,
+  slug, excerpt, featured image, product name, variation, image, Woo reference
+  price, Campaign price, savings, copy, stock note, and source product /
+  variation IDs.
+- Campaign-aware Bricks element conditions: shared elements can be shown or
+  hidden per current Campaign (`is` / `is not`, multi-select).
+- Shared `CampaignContext` and `CampaignProductPresentationResolver` so native
+  storefront rendering and Bricks dynamic data always produce identical
+  values.
 
-### Compatibility
+### Compatibility / architecture
 
-- Bricks is an optional dependency; without it (or without an assigned Campaign template) the native storefront is unchanged.
-- `[woo_campaign_products]` still renders the complete native purchase UI inside Bricks templates, with Campaign pricing, bulk pricing, cart, and attribution unchanged.
+- Bricks remains an optional dependency: without Bricks (or without an
+  assigned Campaign template) the native storefront is completely unchanged.
+- `[woo_campaign_products]` can still be placed inside a Bricks template and
+  loads the full native purchase UI, Campaign pricing, bulk pricing, cart, and
+  attribution unchanged.
+- Commerce authority is untouched: WooCommerce remains authoritative for
+  products, inventory, carts, discounts, orders, and refunds; this release
+  only adds presentation primitives.
 
 ## 1.3.0 — 2026-08-10
 
@@ -27,7 +79,7 @@ Campaign duplication release.
 ### Added
 
 - Duplicate Campaign action from the Campaign list.
-- Duplicated campaigns preserve campaign configuration, sections, products,
+- Duplicated campaigns preserve Campaign configuration, sections, products,
   variation references, campaign pricing, bulk pricing and presentation while
   receiving new internal identities.
 
@@ -49,7 +101,8 @@ Campaign storefront consistency and campaign-wide bulk pricing release.
 - Campaign Bulk Pricing with campaign-wide mix-and-match quantity tiers.
 - Bulk tiers count eligible products and variations from the same Campaign together.
 - Each tier applies a percentage reduction to each item's own Campaign Price, keeping different product price points intact.
-- Campaign-specific storefront heading and description controls for active Bulk Pricing offers.
+- Storefront messaging for active Campaign Bulk Pricing tiers.
+- Campaign Bulk Pricing storefront title and description can be customized per Campaign from the editor.
 - Optional Campaign page-title visibility setting; the WordPress document title remains unchanged when the visible H1 is hidden.
 - Section-level Campaign product copy color control.
 
@@ -58,32 +111,33 @@ Campaign storefront consistency and campaign-wide bulk pricing release.
 - Variable Campaign items include their variation attributes directly in the visible product title across Quick Order, Editorial, and Compact Grid.
 - Campaign product copy is standardized at 14px.
 - Section color controls use the same Set / Not set state labels as Campaign-level color controls.
-- Standardized Add to cart copy and CTA presentation across all three product layouts.
-- All three layouts share the same CTA hover behavior, derived from the configured CTA background with a slight brightness increase.
+- Standardized Add to cart copy, CTA sizing, colors, borders, and hover behavior across all three product layouts.
+- CTA hover uses the configured CTA color with a subtle brightness increase instead of layout-specific hover styles.
 - Adding Campaign products refreshes Mini Cart data without automatically expanding the Mini Cart panel.
-- Mini Cart keeps Checkout as its only navigation action; View cart is no longer shown.
+- Mini Cart keeps Proceed to checkout as its only navigation action; View cart is no longer shown.
 - Product imagery across the three Campaign product layouts uses centered `contain` behavior to preserve image proportions.
-- Campaign Bulk Pricing is resolved before later WooCommerce coupon / compatible dynamic-pricing processing, so WooCommerce remains the discount authority.
+- Campaign Bulk Pricing editor spacing now follows the standard Campaign editor card padding and field layout.
+- Campaign Bulk Pricing is resolved before later WooCommerce coupon / WDP processing, so WooCommerce remains the discount authority.
 - Order attribution stores the effective Campaign Price after the reached bulk tier, while WooCommerce order totals remain the financial authority.
-- Bulk Pricing percentage inputs accept both whole-number and decimal percentages.
 
 ### Fixed
 
 - Fixed variable-product headings so selected variation attributes remain visible, for example `淨味噴霧 - 冷水`.
 - Fixed CTA fallback colors so leaving section CTA colors unset cannot produce an unreadable white-on-white button.
-- Section product-copy color overrides persist after Campaign saves, including newly created sections.
-- Restored localized Mini Cart Checkout copy for the Traditional Chinese interface.
-- Fixed WordPress.org 1.2.0 i18n preparation by removing obsolete translation msgids and ensuring generated English canonical strings remain valid PHP source.
+- Section product-copy color overrides now persist reliably after Campaign saves, including newly created sections.
+- Campaign Bulk Pricing discount inputs now accept whole-number percentages such as `5` and `10` while still allowing decimal percentages.
+- Restored the Traditional Chinese `前往結帳` label in the private zh-TW-first Mini Cart UI.
+- Removed obsolete WordPress.org translation msgids from the prepared 1.2.0 localization map so strict i18n validation remains exact.
+- Adjusted a build-time English canonical replacement so the generated public PHP source remains syntactically valid.
 
 ### Compatibility / architecture
 
 - WooCommerce Product / Variation remains the product authority.
 - WooCommerce inventory remains the inventory authority.
 - WooCommerce Cart / Session remains the cart authority.
-- WooCommerce / compatible pricing rules / Coupon remains the discount authority.
+- WooCommerce / WDP / Coupon remains the discount authority.
 - WooCommerce Order / HPOS / Refund remains the financial authority.
 - WC Campaign remains responsible only for Campaign context, Campaign Price, attribution, reporting, and presentation.
-- Campaign Bulk Pricing is a quantity-dependent Campaign Price, not a parallel discount engine.
 
 ## 1.1.1 — 2026-08-10
 
@@ -95,35 +149,36 @@ First public release candidate prepared for WordPress.org.
 - Quick Order, Editorial, and Compact campaign storefront layouts.
 - Campaign section builder with section-level imagery, copy, product layout, and product selection.
 - Campaign media gallery, rich campaign introduction content, and shortcode rendering through the standard WordPress content pipeline.
-- WooCommerce cart/session integration while keeping WooCommerce authoritative for products, inventory, checkout, orders, refunds, coupons, and financial data.
+- Campaign-aware cart/session flow while keeping WooCommerce authoritative for products, inventory, cart, checkout, orders, refunds, and financial data.
 - HPOS-compatible order-item campaign attribution.
 - Refund-aware campaign reporting with campaign subtotal, discounts, refunds, net sales, paid orders, units, pending orders, average order value, refunded units, and product-level performance.
 - Password-protected external live reports with share-link regeneration and 15-second data refresh.
-- Traditional Chinese (`zh_TW`) localization.
+- Traditional Chinese (`zh_TW`) localization for the WordPress.org package.
 
 ### Changed
 
-- External report authentication uses WordPress Core password protection (`post_password` and `wp-postpass_*`) instead of a custom report session cookie.
-- External report passwords are backed by an internal, non-public WordPress password record while preserving the public `/campaign-report/{share-key}/` URL format.
-- Existing recoverable credentials from pre-release builds are migrated to the WordPress-native password authority when available.
-- Campaign report pages and data endpoints emit explicit no-cache and no-index headers.
-- The Campaign editor and storefront presentation layer were refined with clearer publish controls, rich campaign introductions, section-based layouts, and theme-aware styling.
-- WordPress.org packaging uses the `wc-campaign` slug/text domain, English canonical source strings, and bundled `zh_TW` translations.
+- Rebuilt the Campaign editor and storefront presentation layer with clearer publish controls, campaign introduction editing, section-based presentation, and theme-aware styling.
+- Moved the external report authentication layer to WordPress Core password protection using `post_password` / `wp-postpass_*` instead of a custom report session cookie.
+- External report passwords now use an internal, non-public WordPress password record while preserving the existing `/campaign-report/{share-key}/` URL format and report dashboard.
+- Existing recoverable report credentials are migrated lazily to the WordPress-native password authority when possible.
+- Campaign report pages and data endpoints emit explicit no-cache / no-index response headers while relying on the WordPress-native password cookie for authenticated access.
+- WordPress.org release builds use the public `wc-campaign` slug, `wc-campaign` text domain, English canonical strings, and bundled `zh_TW` translations while preserving private runtime identifiers needed for upgrade compatibility.
 
 ### Fixed
 
-- Campaign introduction content passes through the standard `the_content` filter so registered shortcodes render correctly.
-- Stabilized the Campaign rich-text editor and moved Preview / Save controls into the publish settings card.
-- Hardened quantity and Add to Cart controls against broad theme or page-builder CSS overrides.
-- Fixed the WordPress.org release builder so the main plugin file always preserves the required `<?php` opening tag.
-- Added a release guard and PHP syntax checks to prevent invalid plugin packages from being generated.
-- Removed the obsolete custom external-report authentication runtime after moving to WordPress-native password protection.
+- Campaign introduction content now passes through the standard `the_content` filter so registered shortcodes render correctly.
+- Stabilized the Campaign editor rich-text field and moved Preview / Save controls into the publish settings card without making the card sticky.
+- Hardened Campaign quantity and Add to Cart controls against broad theme / builder CSS overrides.
+- Fixed the WordPress.org build pipeline so `wc-campaign.php` always preserves the required `<?php` opening tag.
+- Added a hard release guard so a missing PHP opening tag fails the build before packaging.
+- Added PHP syntax validation to the WordPress.org release builder.
+- Removed the custom external-report authentication class after the migration to WordPress-native password protection.
 
-### Architecture
+### Compatibility / architecture
 
 - WooCommerce Product / Variation remains the product authority.
 - WooCommerce inventory remains the inventory authority.
 - WooCommerce Cart / Session remains the cart authority.
-- WooCommerce Coupon / Pricing remains the discount authority.
+- WooCommerce / WDP / Coupon remains the discount authority.
 - WooCommerce Order / HPOS / Refund remains the financial authority.
-- WC Campaign is responsible for campaign context, campaign price, attribution, reporting, and presentation.
+- WC Campaign remains responsible only for Campaign context, Campaign Price, attribution, reporting, and presentation.

@@ -108,6 +108,16 @@ final class Plugin {
 		( new Shortcodes( $campaigns, $sectionRenderer, $bulkPricingNotice, $miniCart, $storefrontAssets ) )->register();
 		( new CampaignRenderer() )->register();
 
+		// Bricks theme bootstraps after plugins_loaded and applies
+		// bricks/dynamic_data/register_providers during its load, before init.
+		// Register the WC Campaign provider key here so Bricks picks it up.
+		add_filter( 'bricks/dynamic_data/register_providers', static function ( array $providers ): array {
+			if ( ! in_array( 'woo_campaign', $providers, true ) ) {
+				$providers[] = 'woo_campaign';
+			}
+			return $providers;
+		} );
+
 		// Bricks theme is a theme: by init its constants are defined. The
 		// integration self-gates on BRICKS_VERSION.
 		add_action( 'init', static function() use ( $campaignProducts, $presentationResolver ): void {

@@ -36,7 +36,7 @@ final class BricksIntegration {
 			return;
 		}
 		add_filter( 'bricks/builder/supported_post_types', [ $this, 'supportCampaignPostType' ] );
-		add_filter( 'bricks/active_templates', [ $this, 'captureOwnership' ], 10, 2 );
+		add_filter( 'bricks/active_templates', [ $this, 'captureOwnership' ], 10, 3 );
 		add_filter( CampaignRenderer::FILTER_PRESENTATION_OWNER, [ $this, 'presentationOwner' ], 10, 2 );
 
 		( new CampaignProductsQuery( $this->campaignProducts ) )->register();
@@ -56,9 +56,17 @@ final class BricksIntegration {
 	 * via the official bricks/active_templates hook (Bricks applies it on the
 	 * "wp" action, before any template_include decision).
 	 *
+	 * Only content ownership passes (content_type === 'content') update the
+	 * flag; header/footer/archive template passes must not flip it.
+	 *
 	 * @param mixed $activeTemplates Bricks active template map (header/content/footer).
+	 * @param mixed $postId
+	 * @param mixed $contentType
 	 */
-	public function captureOwnership( $activeTemplates, $postId = 0 ): mixed {
+	public function captureOwnership( $activeTemplates, $postId = 0, $contentType = '' ): mixed {
+		if ( 'content' !== (string) $contentType ) {
+			return $activeTemplates;
+		}
 		$campaignId = CampaignContext::resolveId( (int) $postId );
 		if ( $campaignId > 0 && is_array( $activeTemplates ) ) {
 			$contentTemplate = (int) ( $activeTemplates['content'] ?? 0 );

@@ -6,7 +6,7 @@ WC Campaign is a free and open-source WooCommerce extension for campaign-specifi
 
 It is designed for group buys, influencer campaigns, limited-time sales, private campaign pages, and other campaign-specific storefronts while keeping WooCommerce as the source of truth for products, inventory, carts, orders, refunds, coupons, and financial data.
 
-> **Project status:** WC Campaign 1.4.0 is the current public source and WordPress.org review package. The plugin-directory submission is still awaiting review.
+> **Project status:** WC Campaign 1.4.1 is the current public source and WordPress.org review package. The plugin-directory submission is still awaiting review.
 
 ## Features
 
@@ -65,13 +65,13 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for more detail.
 
 Download the packaged plugin archive from the repository releases folder:
 
-**[WC Campaign 1.4.0 — wc-campaign-1.4.0.zip](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.0.zip)**
+**[WC Campaign 1.4.1 — wc-campaign-1.4.1.zip](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.1.zip)**
 
 Then in WordPress go to **Plugins → Add Plugin → Upload Plugin**, upload the ZIP, and activate **WC Campaign**. WooCommerce must already be installed and active.
 
-Download page: [releases/wc-campaign-1.4.0.zip](https://github.com/bboyfan/wc-campaign/tree/main/releases)
+Download page: [releases/wc-campaign-1.4.1.zip](https://github.com/bboyfan/wc-campaign/tree/main/releases)
 
-SHA256 checksum: [`wc-campaign-1.4.0.sha256`](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.0.sha256)
+SHA256 checksum: [`wc-campaign-1.4.1.sha256`](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.1.sha256)
 
 ### WordPress.org
 

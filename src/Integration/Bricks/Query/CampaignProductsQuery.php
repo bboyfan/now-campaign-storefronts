@@ -27,7 +27,6 @@ final class CampaignProductsQuery {
 	public function register(): void {
 		add_filter( 'bricks/setup/control_options', [ $this, 'addQueryType' ] );
 		add_filter( 'bricks/query/run', [ $this, 'run' ], 10, 2 );
-		add_filter( 'bricks/query/loop_object', [ $this, 'loopObject' ], 10, 3 );
 		add_filter( 'bricks/query/loop_object_id', [ $this, 'loopObjectId' ], 10, 3 );
 	}
 
@@ -52,25 +51,20 @@ final class CampaignProductsQuery {
 	}
 
 	/**
-	 * Contract point: loop objects are CampaignProduct domain objects.
-	 *
-	 * @param mixed $loopObject
-	 * @param mixed $loopKey
-	 * @param mixed $query
-	 */
-	public function loopObject( $loopObject, $loopKey, $query ) {
-		return $loopObject;
-	}
-
-	/**
 	 * Stable loop id for the Bricks Dynamic Data lifecycle.
+	 *
+	 * Only rewrites object IDs for our own query type so other Bricks
+	 * queries are never affected.
 	 *
 	 * @param mixed $objectId
 	 * @param mixed $object
 	 * @param mixed $queryId
 	 */
 	public function loopObjectId( $objectId, $object, $queryId ) {
-		if ( $object instanceof CampaignProduct ) {
+		if ( $object instanceof CampaignProduct
+			&& class_exists( '\Bricks\Query' )
+			&& self::TYPE === \Bricks\Query::get_query_object_type( (string) $queryId )
+		) {
 			return $object->id;
 		}
 		return $objectId;

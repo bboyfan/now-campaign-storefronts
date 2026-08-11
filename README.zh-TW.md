@@ -71,9 +71,9 @@ Campaign 列表的每一列都有「複製」動作。複製會建立一個新�
 
 下載 GitHub Release 中可直接安裝的外掛 ZIP：
 
-**[WC Campaign 1.4.0 — wc-campaign-1.4.0.zip](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.0.zip)**
+**[WC Campaign 1.4.1 — wc-campaign-1.4.1.zip](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.1.zip)**
 
-下載頁面：[releases/wc-campaign-1.4.0.zip](https://github.com/bboyfan/wc-campaign/tree/main/releases)
+下載頁面：[releases/wc-campaign-1.4.1.zip](https://github.com/bboyfan/wc-campaign/tree/main/releases)
 
 接著到 WordPress 後台：
 
@@ -81,7 +81,7 @@ Campaign 列表的每一列都有「複製」動作。複製會建立一個新�
 
 使用前需先安裝並啟用 WooCommerce。
 
-SHA256 驗證檔：[`wc-campaign-1.4.0.sha256`](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.0.sha256)
+SHA256 驗證檔：[`wc-campaign-1.4.1.sha256`](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.1.sha256)
 
 WordPress.org 目前仍在審核中；正式上架後，也可以直接從 WordPress 外掛安裝器搜尋安裝。
 

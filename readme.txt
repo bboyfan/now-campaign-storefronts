@@ -3,7 +3,7 @@ Contributors: bboyfan
 Tags: woocommerce, campaigns, group buying, reporting, storefront
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -92,6 +92,12 @@ No. WC Campaign does not make external service requests for campaign operation o
 No. External reports are designed around aggregate sales metrics and product performance and do not expose customer names, email addresses, phone numbers, addresses, or order numbers.
 
 == Changelog ==
+
+= 1.4.1 =
+* Bricks element conditions hardened: WC Campaign now evaluates its own Current Campaign condition as the final authority, resolves the Campaign from Bricks page context (including builder preview), and normalizes selected Campaign IDs robustly.
+* Bricks dynamic data moved to a real provider pipeline: WC Campaign tags now resolve inside mixed text content (for example "開團：{wc_campaign_title}") in Text, Heading, Rich Text, and Button elements, not only as a whole-field tag.
+* Campaign image dynamic data follows the Bricks image contract (attachment ID for the Image element, URL for text/link contexts).
+* Campaign Products query loop id scoped to the campaign_products query type only, so other Bricks queries are never affected.
 
 = 1.4.0 =
 * Native Bricks Builder integration: Campaign pages can be designed and assigned with Bricks Single Templates.

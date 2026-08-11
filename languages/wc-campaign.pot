@@ -245,7 +245,7 @@ msgid "Campaign product copy"
 msgstr ""
 
 #: src/Admin/CampaignProductsPanel.php:31
-#: src/Integration/Bricks/Query/CampaignProductsQuery.php:35
+#: src/Integration/Bricks/Query/CampaignProductsQuery.php:34
 msgid "Campaign Products"
 msgstr ""
 
@@ -344,7 +344,7 @@ msgstr ""
 msgid "Copy Password"
 msgstr ""
 
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:42
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:44
 msgid "Current Campaign"
 msgstr ""
 
@@ -488,12 +488,12 @@ msgstr ""
 msgid "Invalid Campaign."
 msgstr ""
 
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:46
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:49
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:48
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:51
 msgid "is"
 msgstr ""
 
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:47
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:49
 msgid "is not"
 msgstr ""
 
@@ -854,7 +854,7 @@ msgstr ""
 msgid "Select at least one campaign item."
 msgstr ""
 
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:55
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:57
 msgid "Select campaigns"
 msgstr ""
 
@@ -1109,7 +1109,7 @@ msgstr ""
 msgid "Visible"
 msgstr ""
 
-#: src/Integration/Bricks/Conditions/CampaignCondition.php:33
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:35
 msgid "WC Campaign"
 msgstr ""
 
