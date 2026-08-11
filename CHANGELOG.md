@@ -2,6 +2,24 @@
 
 All notable changes to WC Campaign are documented here.
 
+## 1.4.0 — 2026-08-11
+
+Bricks Builder integration release.
+
+### Added
+
+- Native Bricks Builder integration: `woo_campaign` is supported in the Bricks Builder and can be designed with Bricks Single Templates.
+- Bricks template ownership: an assigned Bricks content template takes over Campaign pages; the native template, automatic product append, and footer Mini Cart fallback stay out of the way.
+- Campaign Products Query Loop for Bricks, returning CampaignProduct objects with campaign, section, product, and variation identity.
+- WC Campaign dynamic data tags for Campaign and Campaign Product values (title, slug, excerpt, featured image, product name, variation, image, reference price, Campaign price, savings, copy, stock note).
+- Campaign-aware Bricks element conditions (current Campaign is / is not, multi-select).
+- Shared CampaignContext and presentation resolver keep native storefront and Bricks output identical.
+
+### Compatibility
+
+- Bricks is an optional dependency; without it (or without an assigned Campaign template) the native storefront is unchanged.
+- `[woo_campaign_products]` still renders the complete native purchase UI inside Bricks templates, with Campaign pricing, bulk pricing, cart, and attribution unchanged.
+
 ## 1.3.0 — 2026-08-10
 
 Campaign duplication release.

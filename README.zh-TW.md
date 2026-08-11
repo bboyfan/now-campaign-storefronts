@@ -4,7 +4,7 @@
 
 WC Campaign 是一個免費、開源、以 WooCommerce 為核心的 Campaign／團購活動外掛，用來建立獨立活動頁、Campaign 價格、混搭件數優惠、訂單歸因與即時業績報表，同時不取代 WooCommerce 原本的商品、庫存、購物車、訂單、退款與折扣系統。
 
-> **專案狀態：** WC Campaign 1.3.0 是目前公開 Source 與 WordPress.org 更新送審版本；Plugin Directory submission 目前仍等待審核。
+> **專案狀態：** WC Campaign 1.4.0 是目前公開 Source 與 WordPress.org 更新送審版本；Plugin Directory submission 目前仍等待審核。
 
 ## 主要功能
 
@@ -71,9 +71,9 @@ Campaign 列表的每一列都有「複製」動作。複製會建立一個新�
 
 下載 GitHub Release 中可直接安裝的外掛 ZIP：
 
-**[WC Campaign 1.3.0 — wc-campaign-1.3.0.zip](https://github.com/bboyfan/wc-campaign/releases/download/v1.3.0/wc-campaign-1.3.0.zip)**
+**[WC Campaign 1.4.0 — wc-campaign-1.4.0.zip](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.0.zip)**
 
-Release 頁面：[WC Campaign 1.3.0](https://github.com/bboyfan/wc-campaign/releases/tag/v1.3.0)
+下載頁面：[releases/wc-campaign-1.4.0.zip](https://github.com/bboyfan/wc-campaign/tree/main/releases)
 
 接著到 WordPress 後台：
 
@@ -81,7 +81,7 @@ Release 頁面：[WC Campaign 1.3.0](https://github.com/bboyfan/wc-campaign/rele
 
 使用前需先安裝並啟用 WooCommerce。
 
-SHA256 驗證檔：[`wc-campaign-1.3.0.sha256`](https://github.com/bboyfan/wc-campaign/releases/download/v1.3.0/wc-campaign-1.3.0.sha256)
+SHA256 驗證檔：[`wc-campaign-1.4.0.sha256`](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.0.sha256)
 
 WordPress.org 目前仍在審核中；正式上架後，也可以直接從 WordPress 外掛安裝器搜尋安裝。
 

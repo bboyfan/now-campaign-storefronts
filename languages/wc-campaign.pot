@@ -35,7 +35,7 @@ msgstr ""
 msgid "Add / select images"
 msgstr ""
 
-#: src/Storefront/Assets.php:66
+#: src/Storefront/Assets.php:77
 #: src/Storefront/MiniCart.php:65
 msgid "Add a campaign item to get started."
 msgstr ""
@@ -74,12 +74,12 @@ msgstr ""
 msgid "Add tier"
 msgstr ""
 
-#: src/Storefront/CampaignSectionRenderer.php:115
-#: src/Storefront/CampaignSectionRenderer.php:182
+#: src/Storefront/CampaignSectionRenderer.php:117
+#: src/Storefront/CampaignSectionRenderer.php:184
 msgid "Add to cart"
 msgstr ""
 
-#: src/Storefront/Assets.php:62
+#: src/Storefront/Assets.php:73
 msgid "Added to cart"
 msgstr ""
 
@@ -144,7 +144,7 @@ msgstr ""
 #: src/Admin/CampaignEditor.php:160
 #: src/Campaign/PostType.php:22
 #: src/Pricing/CartPriceApplier.php:77
-#: src/Storefront/Assets.php:67
+#: src/Storefront/Assets.php:78
 #: src/Storefront/MiniCart.php:79
 msgid "Campaign"
 msgstr ""
@@ -245,6 +245,7 @@ msgid "Campaign product copy"
 msgstr ""
 
 #: src/Admin/CampaignProductsPanel.php:31
+#: src/Integration/Bricks/Query/CampaignProductsQuery.php:35
 msgid "Campaign Products"
 msgstr ""
 
@@ -311,7 +312,7 @@ msgstr ""
 msgid "Cart summary"
 msgstr ""
 
-#: src/Storefront/Assets.php:63
+#: src/Storefront/Assets.php:74
 msgid "Cart updated"
 msgstr ""
 
@@ -343,13 +344,17 @@ msgstr ""
 msgid "Copy Password"
 msgstr ""
 
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:42
+msgid "Current Campaign"
+msgstr ""
+
 #: src/Admin/CampaignMetaBox.php:145
 msgid "Customers can purchase campaign products now."
 msgstr ""
 
-#: src/Storefront/Assets.php:69
-#: src/Storefront/CampaignSectionRenderer.php:109
-#: src/Storefront/CampaignSectionRenderer.php:177
+#: src/Storefront/Assets.php:80
+#: src/Storefront/CampaignSectionRenderer.php:111
+#: src/Storefront/CampaignSectionRenderer.php:179
 #: src/Storefront/MiniCart.php:83
 msgid "Decrease quantity"
 msgstr ""
@@ -464,9 +469,9 @@ msgstr ""
 msgid "Images are displayed above the campaign introduction in this order and use the campaign content width by default."
 msgstr ""
 
-#: src/Storefront/Assets.php:70
-#: src/Storefront/CampaignSectionRenderer.php:111
-#: src/Storefront/CampaignSectionRenderer.php:179
+#: src/Storefront/Assets.php:81
+#: src/Storefront/CampaignSectionRenderer.php:113
+#: src/Storefront/CampaignSectionRenderer.php:181
 #: src/Storefront/MiniCart.php:83
 msgid "Increase quantity"
 msgstr ""
@@ -483,7 +488,16 @@ msgstr ""
 msgid "Invalid Campaign."
 msgstr ""
 
-#: src/Storefront/Assets.php:64
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:46
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:49
+msgid "is"
+msgstr ""
+
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:47
+msgid "is not"
+msgstr ""
+
+#: src/Storefront/Assets.php:75
 msgid "Item removed"
 msgstr ""
 
@@ -550,7 +564,7 @@ msgstr ""
 msgid "No campaign images have been added yet."
 msgstr ""
 
-#: src/Storefront/CampaignSectionRenderer.php:26
+#: src/Storefront/CampaignSectionRenderer.php:28
 msgid "No campaign products are available yet."
 msgstr ""
 
@@ -574,7 +588,7 @@ msgstr ""
 msgid "Not set"
 msgstr ""
 
-#: src/Storefront/CampaignSectionRenderer.php:236
+#: src/CampaignProduct/CampaignProductPresentationResolver.php:82
 msgid "Only %d left"
 msgstr ""
 
@@ -699,10 +713,10 @@ msgstr ""
 msgid "Purchasing is disabled until the campaign is restored."
 msgstr ""
 
-#: src/Storefront/Assets.php:71
-#: src/Storefront/CampaignSectionRenderer.php:107
-#: src/Storefront/CampaignSectionRenderer.php:110
-#: src/Storefront/CampaignSectionRenderer.php:178
+#: src/Storefront/Assets.php:82
+#: src/Storefront/CampaignSectionRenderer.php:109
+#: src/Storefront/CampaignSectionRenderer.php:112
+#: src/Storefront/CampaignSectionRenderer.php:180
 #: src/Storefront/MiniCart.php:83
 msgid "Quantity"
 msgstr ""
@@ -738,7 +752,7 @@ msgstr ""
 
 #: src/Admin/CampaignEditor.php:474
 #: src/Admin/CampaignPresentation.php:176
-#: src/Storefront/Assets.php:68
+#: src/Storefront/Assets.php:79
 #: src/Storefront/MiniCart.php:84
 msgid "Remove"
 msgstr ""
@@ -771,7 +785,7 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: src/Storefront/Assets.php:72
+#: src/Storefront/Assets.php:83
 msgid "Save %d%"
 msgstr ""
 
@@ -840,6 +854,10 @@ msgstr ""
 msgid "Select at least one campaign item."
 msgstr ""
 
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:55
+msgid "Select campaigns"
+msgstr ""
+
 #: src/Admin/CampaignEditor.php:473
 msgid "Select image"
 msgstr ""
@@ -892,12 +910,12 @@ msgstr ""
 msgid "Simple"
 msgstr ""
 
-#: src/Storefront/CampaignSectionRenderer.php:119
-#: src/Storefront/CampaignSectionRenderer.php:171
+#: src/Storefront/CampaignSectionRenderer.php:121
+#: src/Storefront/CampaignSectionRenderer.php:173
 msgid "Sold out"
 msgstr ""
 
-#: src/Storefront/Assets.php:61
+#: src/Storefront/Assets.php:72
 msgid "Something went wrong. Please try again."
 msgstr ""
 
@@ -955,7 +973,7 @@ msgstr ""
 msgid "There are no paid campaign product results yet."
 msgstr ""
 
-#: src/Storefront/Shortcodes.php:39
+#: src/Storefront/Shortcodes.php:43
 msgid "This campaign is not currently available."
 msgstr ""
 
@@ -1091,6 +1109,10 @@ msgstr ""
 msgid "Visible"
 msgstr ""
 
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:33
+msgid "WC Campaign"
+msgstr ""
+
 #: src/Admin/Assets.php:39
 #: src/Admin/CampaignProductsPanel.php:54
 msgid "Woo price"
@@ -1110,7 +1132,7 @@ msgstr ""
 msgid "Your cart"
 msgstr ""
 
-#: src/Storefront/Assets.php:65
+#: src/Storefront/Assets.php:76
 #: src/Storefront/MiniCart.php:65
 msgid "Your cart is empty"
 msgstr ""

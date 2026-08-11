@@ -18,13 +18,20 @@ final class Assets {
 	}
 
 	public function maybeEnqueue(): void {
-		if ( is_singular( PostType::TYPE ) ) {
-			$this->enqueue();
+		if ( ! is_singular( PostType::TYPE ) ) {
+			return;
 		}
+		// Bricks-owned pages: Bricks controls layout; native assets load only
+		// when the user deliberately inserts a native commerce shortcode,
+		// which calls enqueue() itself.
+		if ( $this->isBricksOwned() ) {
+			return;
+		}
+		$this->enqueue();
 	}
 
 	public function enqueueIsolation(): void {
-		if ( ! is_singular( PostType::TYPE ) ) {
+		if ( ! is_singular( PostType::TYPE ) || $this->isBricksOwned() ) {
 			return;
 		}
 		wp_enqueue_style(
@@ -39,6 +46,10 @@ final class Assets {
 			[ 'woo-campaign-commerce-isolation' ],
 			WOO_CAMPAIGN_VERSION
 		);
+	}
+
+	private function isBricksOwned(): bool {
+		return 'bricks' === apply_filters( CampaignRenderer::FILTER_PRESENTATION_OWNER, 'native', (int) get_queried_object_id() );
 	}
 
 	public function enqueue(): void {

@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 final class CampaignRenderer {
+	public const FILTER_PRESENTATION_OWNER = 'woo_campaign_storefront_presentation_owner';
+
 	private static bool $renderedProducts = false;
 	private static bool $renderedMiniCart = false;
 	private static bool $nativeTemplate = false;
@@ -34,13 +36,17 @@ final class CampaignRenderer {
 	}
 
 	public function register(): void {
-		add_filter( 'template_include', [ $this, 'templateInclude' ], 99 );
+		// After Bricks (100) so a Bricks content template is resolved before we decide.
+		add_filter( 'template_include', [ $this, 'templateInclude' ], 110 );
 		add_filter( 'the_content', [ $this, 'appendCampaignCommerce' ], 20 );
 		add_action( 'wp_footer', [ $this, 'renderFooterFallback' ], 20 );
 	}
 
 	public function templateInclude( string $template ): string {
 		if ( ! is_singular( PostType::TYPE ) ) {
+			return $template;
+		}
+		if ( $this->isBricksOwned() ) {
 			return $template;
 		}
 		$native = WOO_CAMPAIGN_PATH . 'templates/single-woo_campaign.php';
@@ -52,7 +58,7 @@ final class CampaignRenderer {
 	}
 
 	public function appendCampaignCommerce( string $content ): string {
-		if ( self::$nativeTemplate || ! is_singular( PostType::TYPE ) || is_feed() || doing_action( 'wp_head' ) ) {
+		if ( self::$nativeTemplate || $this->isBricksOwned() || ! is_singular( PostType::TYPE ) || is_feed() || doing_action( 'wp_head' ) ) {
 			return $content;
 		}
 		if ( ! in_the_loop() || ! is_main_query() ) {
@@ -69,7 +75,7 @@ final class CampaignRenderer {
 	}
 
 	public function renderFooterFallback(): void {
-		if ( self::$nativeTemplate || ! is_singular( PostType::TYPE ) || is_feed() ) {
+		if ( self::$nativeTemplate || $this->isBricksOwned() || ! is_singular( PostType::TYPE ) || is_feed() ) {
 			return;
 		}
 		if ( ! self::$renderedProducts ) {
@@ -78,5 +84,14 @@ final class CampaignRenderer {
 		if ( ! self::$renderedMiniCart ) {
 			echo do_shortcode( '[woo_campaign_mini_cart]' );
 		}
+	}
+
+	/**
+	 * Whether another presentation layer (currently only Bricks) owns this
+	 * Campaign page. The Bricks integration flips this via the official
+	 * bricks/active_templates hook; core never imports Bricks classes.
+	 */
+	private function isBricksOwned(): bool {
+		return 'bricks' === apply_filters( self::FILTER_PRESENTATION_OWNER, 'native', (int) get_queried_object_id() );
 	}
 }

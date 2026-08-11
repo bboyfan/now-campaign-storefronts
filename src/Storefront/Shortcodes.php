@@ -2,6 +2,7 @@
 
 namespace WooCampaign\Storefront;
 
+use WooCampaign\Campaign\CampaignContext;
 use WooCampaign\Campaign\CampaignRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -30,7 +31,10 @@ final class Shortcodes {
 		$atts = shortcode_atts( [ 'campaign_id' => 0 ], $atts, 'woo_campaign_products' );
 		$campaignId = absint( $atts['campaign_id'] );
 		if ( $campaignId <= 0 ) {
-			$campaignId = (int) ( get_the_ID() ?: get_queried_object_id() );
+			// Shared context validates the candidate: inside a Bricks template
+			// get_the_ID() can be the template post, so fall back to the
+			// queried Campaign instead of trusting it blindly.
+			$campaignId = CampaignContext::resolveId( (int) get_the_ID() );
 		}
 		if ( $campaignId <= 0 || ! $this->campaigns->find( $campaignId ) ) {
 			return '';

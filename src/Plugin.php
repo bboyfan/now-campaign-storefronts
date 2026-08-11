@@ -13,6 +13,7 @@ use WooCampaign\Campaign\CampaignRepository;
 use WooCampaign\Campaign\CampaignService;
 use WooCampaign\Campaign\Meta;
 use WooCampaign\Campaign\PostType;
+use WooCampaign\CampaignProduct\CampaignProductPresentationResolver;
 use WooCampaign\CampaignProduct\Repository as CampaignProductRepository;
 use WooCampaign\CampaignProduct\Service as CampaignProductService;
 use WooCampaign\CampaignSection\Repository as CampaignSectionRepository;
@@ -21,6 +22,7 @@ use WooCampaign\Cart\AjaxController;
 use WooCampaign\Cart\CartService;
 use WooCampaign\Cart\CartValidator;
 use WooCampaign\Install\Migrator;
+use WooCampaign\Integration\Bricks\BricksIntegration;
 use WooCampaign\Order\OrderAttribution;
 use WooCampaign\Order\OrderCampaignIndex;
 use WooCampaign\Pricing\CampaignBulkPricing;
@@ -100,10 +102,17 @@ final class Plugin {
 		$storefrontAssets = new StorefrontAssets();
 		$storefrontAssets->register();
 		$miniCart = new MiniCart( $cart, $storefrontAssets );
-		$sectionRenderer = new CampaignSectionRenderer( $campaignSections, $campaignProducts, $products );
+		$presentationResolver = new CampaignProductPresentationResolver( $products );
+		$sectionRenderer = new CampaignSectionRenderer( $campaignSections, $campaignProducts, $products, $presentationResolver );
 		$bulkPricingNotice = new BulkPricingNotice( $bulkPricing );
 		( new Shortcodes( $campaigns, $sectionRenderer, $bulkPricingNotice, $miniCart, $storefrontAssets ) )->register();
 		( new CampaignRenderer() )->register();
+
+		// Bricks theme is a theme: by init its constants are defined. The
+		// integration self-gates on BRICKS_VERSION.
+		add_action( 'init', static function() use ( $campaignProducts, $presentationResolver ): void {
+			( new BricksIntegration( $campaignProducts, $presentationResolver ) )->register();
+		} );
 
 		if ( is_admin() ) {
 			( new CampaignList( $campaignService, $campaignProducts ) )->register();

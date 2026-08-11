@@ -35,7 +35,7 @@ msgstr "啟用中"
 msgid "Add / select images"
 msgstr "新增／選擇圖片"
 
-#: src/Storefront/Assets.php:66
+#: src/Storefront/Assets.php:77
 #: src/Storefront/MiniCart.php:65
 msgid "Add a campaign item to get started."
 msgstr "先加入一個 Campaign 商品即可開始。"
@@ -74,12 +74,12 @@ msgstr "加入所選 Variations"
 msgid "Add tier"
 msgstr "新增級距"
 
-#: src/Storefront/CampaignSectionRenderer.php:115
-#: src/Storefront/CampaignSectionRenderer.php:182
+#: src/Storefront/CampaignSectionRenderer.php:117
+#: src/Storefront/CampaignSectionRenderer.php:184
 msgid "Add to cart"
 msgstr "加入購物車"
 
-#: src/Storefront/Assets.php:62
+#: src/Storefront/Assets.php:73
 msgid "Added to cart"
 msgstr "已加入購物車"
 
@@ -144,7 +144,7 @@ msgstr "計算方式：同一 Campaign 全商品與變體合計數量"
 #: src/Admin/CampaignEditor.php:160
 #: src/Campaign/PostType.php:22
 #: src/Pricing/CartPriceApplier.php:77
-#: src/Storefront/Assets.php:67
+#: src/Storefront/Assets.php:78
 #: src/Storefront/MiniCart.php:79
 msgid "Campaign"
 msgstr "Campaign"
@@ -245,6 +245,7 @@ msgid "Campaign product copy"
 msgstr "活動商品文案"
 
 #: src/Admin/CampaignProductsPanel.php:31
+#: src/Integration/Bricks/Query/CampaignProductsQuery.php:35
 msgid "Campaign Products"
 msgstr "Campaign 商品"
 
@@ -311,7 +312,7 @@ msgstr "購物車目前無法使用。"
 msgid "Cart summary"
 msgstr "購物車摘要"
 
-#: src/Storefront/Assets.php:63
+#: src/Storefront/Assets.php:74
 msgid "Cart updated"
 msgstr "購物車已更新"
 
@@ -343,13 +344,17 @@ msgstr "複製連結"
 msgid "Copy Password"
 msgstr "複製密碼"
 
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:42
+msgid "Current Campaign"
+msgstr "目前 Campaign"
+
 #: src/Admin/CampaignMetaBox.php:145
 msgid "Customers can purchase campaign products now."
 msgstr "顧客目前可以購買 Campaign 商品。"
 
-#: src/Storefront/Assets.php:69
-#: src/Storefront/CampaignSectionRenderer.php:109
-#: src/Storefront/CampaignSectionRenderer.php:177
+#: src/Storefront/Assets.php:80
+#: src/Storefront/CampaignSectionRenderer.php:111
+#: src/Storefront/CampaignSectionRenderer.php:179
 #: src/Storefront/MiniCart.php:83
 msgid "Decrease quantity"
 msgstr "減少數量"
@@ -464,9 +469,9 @@ msgstr "隱藏"
 msgid "Images are displayed above the campaign introduction in this order and use the campaign content width by default."
 msgstr "圖片會依排序顯示在活動介紹上方，前台預設使用 Campaign 內容寬度。"
 
-#: src/Storefront/Assets.php:70
-#: src/Storefront/CampaignSectionRenderer.php:111
-#: src/Storefront/CampaignSectionRenderer.php:179
+#: src/Storefront/Assets.php:81
+#: src/Storefront/CampaignSectionRenderer.php:113
+#: src/Storefront/CampaignSectionRenderer.php:181
 #: src/Storefront/MiniCart.php:83
 msgid "Increase quantity"
 msgstr "增加數量"
@@ -483,7 +488,16 @@ msgstr "Campaign 商品資料無效。"
 msgid "Invalid Campaign."
 msgstr "無效的 Campaign。"
 
-#: src/Storefront/Assets.php:64
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:46
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:49
+msgid "is"
+msgstr "是"
+
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:47
+msgid "is not"
+msgstr "不是"
+
+#: src/Storefront/Assets.php:75
 msgid "Item removed"
 msgstr "商品已移除"
 
@@ -550,7 +564,7 @@ msgstr "淨銷售額"
 msgid "No campaign images have been added yet."
 msgstr "尚未新增 Campaign 圖片。"
 
-#: src/Storefront/CampaignSectionRenderer.php:26
+#: src/Storefront/CampaignSectionRenderer.php:28
 msgid "No campaign products are available yet."
 msgstr "目前還沒有可購買的 Campaign 商品。"
 
@@ -574,7 +588,7 @@ msgstr "找不到頁面"
 msgid "Not set"
 msgstr "不使用"
 
-#: src/Storefront/CampaignSectionRenderer.php:236
+#: src/CampaignProduct/CampaignProductPresentationResolver.php:82
 msgid "Only %d left"
 msgstr "只剩 %d 件"
 
@@ -699,10 +713,10 @@ msgstr "已發布"
 msgid "Purchasing is disabled until the campaign is restored."
 msgstr "Campaign 恢復前會維持停止購買。"
 
-#: src/Storefront/Assets.php:71
-#: src/Storefront/CampaignSectionRenderer.php:107
-#: src/Storefront/CampaignSectionRenderer.php:110
-#: src/Storefront/CampaignSectionRenderer.php:178
+#: src/Storefront/Assets.php:82
+#: src/Storefront/CampaignSectionRenderer.php:109
+#: src/Storefront/CampaignSectionRenderer.php:112
+#: src/Storefront/CampaignSectionRenderer.php:180
 #: src/Storefront/MiniCart.php:83
 msgid "Quantity"
 msgstr "數量"
@@ -738,7 +752,7 @@ msgstr "重新產生後，舊連結會立即失效。"
 
 #: src/Admin/CampaignEditor.php:474
 #: src/Admin/CampaignPresentation.php:176
-#: src/Storefront/Assets.php:68
+#: src/Storefront/Assets.php:79
 #: src/Storefront/MiniCart.php:84
 msgid "Remove"
 msgstr "移除"
@@ -771,7 +785,7 @@ msgstr "需要先安裝並啟用 WooCommerce。"
 msgid "Save"
 msgstr "儲存"
 
-#: src/Storefront/Assets.php:72
+#: src/Storefront/Assets.php:83
 msgid "Save %d%"
 msgstr "省下 %d%%"
 
@@ -840,6 +854,10 @@ msgstr "全選可用 Variations"
 msgid "Select at least one campaign item."
 msgstr "請至少選擇一個 Campaign 商品。"
 
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:55
+msgid "Select campaigns"
+msgstr "選擇 Campaign"
+
 #: src/Admin/CampaignEditor.php:473
 msgid "Select image"
 msgstr "選擇圖片"
@@ -892,12 +910,12 @@ msgstr "分享密碼"
 msgid "Simple"
 msgstr "Simple"
 
-#: src/Storefront/CampaignSectionRenderer.php:119
-#: src/Storefront/CampaignSectionRenderer.php:171
+#: src/Storefront/CampaignSectionRenderer.php:121
+#: src/Storefront/CampaignSectionRenderer.php:173
 msgid "Sold out"
 msgstr "售完"
 
-#: src/Storefront/Assets.php:61
+#: src/Storefront/Assets.php:72
 msgid "Something went wrong. Please try again."
 msgstr "發生錯誤，請再試一次。"
 
@@ -955,7 +973,7 @@ msgstr "版型會套用在整個 Section，避免同一區塊視覺混亂。"
 msgid "There are no paid campaign product results yet."
 msgstr "目前還沒有已付款的 Campaign 商品資料。"
 
-#: src/Storefront/Shortcodes.php:39
+#: src/Storefront/Shortcodes.php:43
 msgid "This campaign is not currently available."
 msgstr "此 Campaign 目前無法使用。"
 
@@ -1091,6 +1109,10 @@ msgstr "查看報表"
 msgid "Visible"
 msgstr "顯示中"
 
+#: src/Integration/Bricks/Conditions/CampaignCondition.php:33
+msgid "WC Campaign"
+msgstr "WC Campaign"
+
 #: src/Admin/Assets.php:39
 #: src/Admin/CampaignProductsPanel.php:54
 msgid "Woo price"
@@ -1110,7 +1132,7 @@ msgstr "你沒有管理 Campaign 的權限。"
 msgid "Your cart"
 msgstr "你的購物車"
 
-#: src/Storefront/Assets.php:65
+#: src/Storefront/Assets.php:76
 #: src/Storefront/MiniCart.php:65
 msgid "Your cart is empty"
 msgstr "購物車目前是空的"
