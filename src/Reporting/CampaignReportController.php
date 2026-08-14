@@ -85,7 +85,7 @@ final class CampaignReportController {
 	private function sendData( int $campaignId, \WP_Post $reportPost ): void {
 		$this->emitDynamicHeaders();
 		if ( post_password_required( $reportPost ) ) {
-			wp_send_json_error( [ 'message' => __( 'Report authentication required.', 'wc-campaign' ) ], 401 );
+			wp_send_json_error( [ 'message' => __( 'Report authentication required.', 'now-campaign-storefronts' ) ], 401 );
 		}
 		wp_send_json_success( $this->presentSnapshot( $this->cache->get( $campaignId ) ) );
 	}
@@ -97,19 +97,29 @@ final class CampaignReportController {
 		}
 
 		$presented = $authenticated ? $this->presentSnapshot( $snapshot ) : [];
-		$styleUrl = add_query_arg( 'ver', rawurlencode( WOO_CAMPAIGN_VERSION ), WOO_CAMPAIGN_URL . 'assets/css/campaign-report.css' );
-		$scriptUrl = add_query_arg( 'ver', rawurlencode( WOO_CAMPAIGN_VERSION ), WOO_CAMPAIGN_URL . 'assets/js/campaign-report.js' );
 		$scriptConfig = $authenticated ? [
 			'dataUrl'  => $this->share->urlForKey( $key ) . 'data/',
 			'interval' => 15000,
 			'i18n'     => [
-				'emptyProducts' => __( 'There are no paid campaign product results yet.', 'wc-campaign' ),
-				'items'         => __( 'items', 'wc-campaign' ),
+				'emptyProducts' => __( 'There are no paid campaign product results yet.', 'now-campaign-storefronts' ),
+				'items'         => __( 'items', 'now-campaign-storefronts' ),
 			],
 		] : [];
+
+		wp_register_style( 'woo-campaign-report', WOO_CAMPAIGN_URL . 'assets/css/campaign-report.css', [], WOO_CAMPAIGN_VERSION );
+		wp_enqueue_style( 'woo-campaign-report' );
+		if ( $authenticated ) {
+			wp_register_script( 'woo-campaign-report', WOO_CAMPAIGN_URL . 'assets/js/campaign-report.js', [], WOO_CAMPAIGN_VERSION, [ 'in_footer' => false, 'strategy' => 'defer' ] );
+			wp_enqueue_script( 'woo-campaign-report' );
+			wp_add_inline_script(
+				'woo-campaign-report',
+				'window.WooCampaignLiveReport=' . wp_json_encode( $scriptConfig ) . ';',
+				'before'
+			);
+		}
 		$template = WOO_CAMPAIGN_PATH . 'templates/campaign-report.php';
 		if ( ! is_readable( $template ) ) {
-			wp_die( esc_html__( 'Campaign report template is unavailable.', 'wc-campaign' ), '', [ 'response' => 500 ] );
+			wp_die( esc_html__( 'Campaign report template is unavailable.', 'now-campaign-storefronts' ), '', [ 'response' => 500 ] );
 		}
 		include $template;
 		exit;
@@ -175,6 +185,6 @@ final class CampaignReportController {
 		}
 		status_header( 404 );
 		$this->emitDynamicHeaders();
-		wp_die( esc_html__( 'Campaign report not found.', 'wc-campaign' ), esc_html__( 'Not found', 'wc-campaign' ), [ 'response' => 404 ] );
+		wp_die( esc_html__( 'Campaign report not found.', 'now-campaign-storefronts' ), esc_html__( 'Not found', 'now-campaign-storefronts' ), [ 'response' => 404 ] );
 	}
 }

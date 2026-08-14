@@ -1,9 +1,9 @@
-=== WC Campaign ===
+=== NOW Campaign Storefronts for WooCommerce ===
 Contributors: bboyfan
 Tags: woocommerce, campaigns, group buying, reporting, storefront
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -12,7 +12,9 @@ Build campaign storefronts for WooCommerce with campaign pricing, layouts, attri
 
 == Description ==
 
-WC Campaign adds campaign-specific storefronts and reporting to WooCommerce while keeping WooCommerce as the source of truth for products, inventory, carts, orders, refunds, and discounts.
+NOW Campaign Storefronts for WooCommerce adds campaign-specific storefronts and reporting while keeping WooCommerce as the source of truth for products, inventory, carts, orders, refunds, and discounts.
+
+NOW Campaign Storefronts is an independent open-source project and is not an official WooCommerce or Automattic product.
 
 It is designed for stores that run group buys, influencer campaigns, limited-time sales, private campaign pages, or other campaign-specific storefronts without duplicating WooCommerce product or order data.
 
@@ -32,12 +34,12 @@ Features include:
 * WooCommerce coupon compatibility and coexistence with dynamic pricing rules.
 * Theme-aware presentation with isolated campaign commerce controls.
 
-WC Campaign does not create a second product catalog, inventory system, cart, order system, discount engine, or financial ledger. WooCommerce remains authoritative for those areas.
+NOW Campaign Storefronts does not create a second product catalog, inventory system, cart, order system, discount engine, or financial ledger. WooCommerce remains authoritative for those areas.
 
 == Installation ==
 
 1. Install and activate WooCommerce.
-2. Upload and activate WC Campaign.
+2. Upload and activate NOW Campaign Storefronts for WooCommerce.
 3. Open the Campaigns screen in the WordPress admin.
 4. Create a campaign, add WooCommerce products or variations, and set campaign pricing.
 5. Optional: enable Campaign Bulk Pricing and add quantity / percentage-off tiers.
@@ -47,7 +49,7 @@ WC Campaign does not create a second product catalog, inventory system, cart, or
 
 == Frequently Asked Questions ==
 
-= Does WC Campaign replace WooCommerce products or inventory? =
+= Does NOW Campaign Storefronts replace WooCommerce products or inventory? =
 
 No. WooCommerce remains the product and inventory authority. Campaign products reference existing WooCommerce products or variations.
 
@@ -69,7 +71,7 @@ No. Bulk tiers are treated as a quantity-dependent Campaign Price. WooCommerce r
 
 = Does it work with WooCommerce HPOS? =
 
-Yes. WC Campaign declares compatibility with WooCommerce High-Performance Order Storage and stores campaign attribution on WooCommerce order items.
+Yes. NOW Campaign Storefronts declares compatibility with WooCommerce High-Performance Order Storage and stores campaign attribution on WooCommerce order items.
 
 = Can a campaign contain variable products? =
 
@@ -81,17 +83,23 @@ Yes. Campaign introduction content uses the normal WordPress content pipeline, s
 
 = How are live report passwords handled? =
 
-External reports use WordPress Core password-protected-content behavior. WC Campaign stores the sharing password in an internal, non-public WordPress password record and WordPress manages the unlocked browser session through its standard wp-postpass cookie. Use a dedicated report sharing password and do not reuse an administrator or other sensitive account password.
+External reports use WordPress Core password-protected-content behavior. NOW Campaign Storefronts stores the sharing password in an internal, non-public WordPress password record and WordPress manages the unlocked browser session through its standard wp-postpass cookie. Use a dedicated report sharing password and do not reuse an administrator or other sensitive account password.
 
 = Does the plugin send store or customer data to an external service? =
 
-No. WC Campaign does not make external service requests for campaign operation or reporting. Live reports are served by your own WordPress site and expose aggregate campaign metrics rather than customer contact details.
+No. NOW Campaign Storefronts does not make external service requests for campaign operation or reporting. Live reports are served by your own WordPress site and expose aggregate campaign metrics rather than customer contact details.
 
 = Does it include customer details in the external report? =
 
 No. External reports are designed around aggregate sales metrics and product performance and do not expose customer names, email addresses, phone numbers, addresses, or order numbers.
 
 == Changelog ==
+
+= 1.4.2 =
+* Renamed the public plugin identity to NOW Campaign Storefronts for WooCommerce.
+* Updated the WordPress.org package slug and translation domain.
+* Used WordPress asset enqueue APIs for the standalone Campaign Report package template.
+* Removed bundled translation binaries so WordPress.org language packs supply translations.
 
 = 1.4.1 =
 * Bricks element conditions hardened: WC Campaign now evaluates its own Current Campaign condition as the final authority, resolves the Campaign from Bricks page context (including builder preview), and normalizes selected Campaign IDs robustly.

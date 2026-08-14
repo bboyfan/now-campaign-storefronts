@@ -31,7 +31,7 @@ final class CampaignProductsQuery {
 	}
 
 	public function addQueryType( array $options ): array {
-		$options['queryTypes'][ self::TYPE ] = esc_html__( 'Campaign Products', 'wc-campaign' );
+		$options['queryTypes'][ self::TYPE ] = esc_html__( 'Campaign Products', 'now-campaign-storefronts' );
 		return $options;
 	}
 

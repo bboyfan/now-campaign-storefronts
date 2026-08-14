@@ -18,10 +18,10 @@ final class PostType {
 			self::TYPE,
 			[
 				'labels' => [
-					'name'          => __( 'Campaigns', 'wc-campaign' ),
-					'singular_name' => __( 'Campaign', 'wc-campaign' ),
-					'add_new_item'  => __( 'Add New Campaign', 'wc-campaign' ),
-					'edit_item'     => __( 'Edit Campaign', 'wc-campaign' ),
+					'name'          => __( 'Campaigns', 'now-campaign-storefronts' ),
+					'singular_name' => __( 'Campaign', 'now-campaign-storefronts' ),
+					'add_new_item'  => __( 'Add New Campaign', 'now-campaign-storefronts' ),
+					'edit_item'     => __( 'Edit Campaign', 'now-campaign-storefronts' ),
 				],
 				'public'       => true,
 				'show_ui'      => true,

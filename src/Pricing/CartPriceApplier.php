@@ -74,7 +74,7 @@ final class CartPriceApplier {
 	public function itemData( array $data, array $cartItem ): array {
 		if ( ! empty( $cartItem['_woo_campaign_id'] ) ) {
 			$data[] = [
-				'key'   => __( 'Campaign', 'wc-campaign' ),
+				'key'   => __( 'Campaign', 'now-campaign-storefronts' ),
 				'value' => sanitize_text_field( (string) ( $cartItem['_woo_campaign_title'] ?? '#' . absint( $cartItem['_woo_campaign_id'] ) ) ),
 			];
 		}

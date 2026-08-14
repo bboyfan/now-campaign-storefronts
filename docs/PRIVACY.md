@@ -1,6 +1,6 @@
 # Privacy
 
-WC Campaign does not require an external SaaS service for campaign operation or reporting and does not intentionally transmit store or customer data to a third-party service as part of its core functionality.
+NOW Campaign Storefronts does not require an external SaaS service for campaign operation or reporting and does not intentionally transmit store or customer data to a third-party service as part of its core functionality.
 
 ## Campaign data
 
@@ -18,7 +18,7 @@ The public report does not intentionally expose customer names, email addresses,
 
 ## Report password
 
-External report access uses WordPress Core password-protected-content behavior. WC Campaign creates an internal, non-public WordPress record whose `post_password` value acts as the report sharing password, and WordPress manages the unlocked browser session through its standard `wp-postpass_*` cookie.
+External report access uses WordPress Core password-protected-content behavior. NOW Campaign Storefronts creates an internal, non-public WordPress record whose `post_password` value acts as the report sharing password, and WordPress manages the unlocked browser session through its standard `wp-postpass_*` cookie.
 
 This is a **sharing password**, not a WordPress user-account password. WordPress stores post/page protection passwords in the post record so they can be managed as protected-content passwords. Store owners should therefore use a dedicated report sharing password and should not reuse an administrator, customer, payment, email, or other sensitive account credential.
 
@@ -26,4 +26,4 @@ The sharing password is available to authorized WooCommerce managers in the Camp
 
 Pre-release/private builds that used the earlier custom report-authentication mechanism may migrate a recoverable legacy report password to the WordPress-native password record and remove the obsolete custom-auth credential metadata.
 
-Site owners remain responsible for their overall WordPress privacy policy, hosting configuration, backups, logs, analytics, security plugins, and any third-party extensions installed alongside WC Campaign.
+Site owners remain responsible for their overall WordPress privacy policy, hosting configuration, backups, logs, analytics, security plugins, and any third-party extensions installed alongside NOW Campaign Storefronts.

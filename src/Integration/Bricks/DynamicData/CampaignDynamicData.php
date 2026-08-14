@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Bricks Dynamic Data registration for WC Campaign tags.
+ * Bricks Dynamic Data registration for NOW Campaign Storefronts tags.
  *
  * Tag rendering now lives in ProviderWooCampaign, a real Bricks 2.3.10
  * provider registered through bricks/dynamic_data/register_providers (the

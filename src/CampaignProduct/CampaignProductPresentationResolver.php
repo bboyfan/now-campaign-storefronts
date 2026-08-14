@@ -79,7 +79,7 @@ final class CampaignProductPresentationResolver {
 		}
 		$threshold = function_exists( 'wc_get_low_stock_amount' ) ? (int) wc_get_low_stock_amount( $product ) : 2;
 		if ( $threshold > 0 && $quantity <= $threshold ) {
-			return sprintf( /* translators: %d: remaining stock quantity */ __( 'Only %d left', 'wc-campaign' ), $quantity );
+			return sprintf( /* translators: %d: remaining stock quantity */ __( 'Only %d left', 'now-campaign-storefronts' ), $quantity );
 		}
 		return '';
 	}

@@ -42,7 +42,7 @@ final class AjaxController {
 			$raw = wp_unslash( $_POST['items'] ?? '[]' );
 			$items = json_decode( is_string( $raw ) ? $raw : '[]', true );
 			if ( ! is_array( $items ) ) {
-				throw new \RuntimeException( __( 'Invalid campaign items.', 'wc-campaign' ) );
+				throw new \RuntimeException( __( 'Invalid campaign items.', 'now-campaign-storefronts' ) );
 			}
 			$this->cart->addMany( absint( $_POST['campaign_id'] ?? 0 ), $items );
 			wp_send_json_success( $this->cart->snapshot() );
@@ -81,7 +81,7 @@ final class AjaxController {
 	private function guard(): void {
 		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
 		if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
-			wp_send_json_error( [ 'message' => __( 'Cart is unavailable.', 'wc-campaign' ) ], 503 );
+			wp_send_json_error( [ 'message' => __( 'Cart is unavailable.', 'now-campaign-storefronts' ) ], 503 );
 		}
 	}
 }

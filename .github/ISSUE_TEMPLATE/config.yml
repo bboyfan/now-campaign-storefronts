@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/bboyfan/wc-campaign/security
+    url: https://github.com/bboyfan/now-campaign-storefronts/security
     about: Please use a private security channel instead of a public issue.

@@ -40,7 +40,7 @@ final class Shortcodes {
 			return '';
 		}
 		if ( ! $this->campaigns->isActive( $campaignId ) ) {
-			return '<div class="woocommerce-info woo-campaign-unavailable">' . esc_html__( 'This campaign is not currently available.', 'wc-campaign' ) . '</div>';
+			return '<div class="woocommerce-info woo-campaign-unavailable">' . esc_html__( 'This campaign is not currently available.', 'now-campaign-storefronts' ) . '</div>';
 		}
 		return $this->bulkPricingNotice->render( $campaignId ) . $this->sections->render( $campaignId );
 	}

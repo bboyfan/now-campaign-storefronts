@@ -28,7 +28,7 @@ final class CampaignProductsPanel {
 	}
 
 	public function addMetaBox(): void {
-		add_meta_box( 'woo-campaign-products', __( 'Campaign Products', 'wc-campaign' ), [ $this, 'render' ], PostType::TYPE, 'normal', 'high' );
+		add_meta_box( 'woo-campaign-products', __( 'Campaign Products', 'now-campaign-storefronts' ), [ $this, 'render' ], PostType::TYPE, 'normal', 'high' );
 	}
 
 	public function render( \WP_Post $post ): void {
@@ -39,22 +39,22 @@ final class CampaignProductsPanel {
 			<div class="woo-campaign-products-toolbar">
 				<div>
 					<div class="woo-campaign-products-title-row">
-						<strong><?php esc_html_e( 'Products in this campaign', 'wc-campaign' ); ?></strong>
+						<strong><?php esc_html_e( 'Products in this campaign', 'now-campaign-storefronts' ); ?></strong>
 						<span class="woo-campaign-count-badge" data-woo-campaign-product-count><?php echo esc_html( (string) count( $rows ) ); ?></span>
 					</div>
-					<p><?php esc_html_e( 'Choose simple products or a variable product. Variable products open a picker so each variation can have its own Campaign Price.', 'wc-campaign' ); ?></p>
+					<p><?php esc_html_e( 'Choose simple products or a variable product. Variable products open a picker so each variation can have its own Campaign Price.', 'now-campaign-storefronts' ); ?></p>
 				</div>
-				<button type="button" class="button button-primary woo-campaign-add-product-row"><span class="dashicons dashicons-plus-alt2"></span><?php esc_html_e( 'Add product', 'wc-campaign' ); ?></button>
+				<button type="button" class="button button-primary woo-campaign-add-product-row"><span class="dashicons dashicons-plus-alt2"></span><?php esc_html_e( 'Add product', 'now-campaign-storefronts' ); ?></button>
 			</div>
 
 			<div class="woo-campaign-products-table-wrap">
 				<table class="widefat woo-campaign-products-table">
 					<thead><tr>
-						<th><?php esc_html_e( 'Product / Variation', 'wc-campaign' ); ?></th>
-						<th><?php esc_html_e( 'Woo price', 'wc-campaign' ); ?></th>
-						<th><?php esc_html_e( 'Campaign price', 'wc-campaign' ); ?></th>
-						<th><?php esc_html_e( 'Availability', 'wc-campaign' ); ?></th>
-						<th><span class="screen-reader-text"><?php esc_html_e( 'Actions', 'wc-campaign' ); ?></span></th>
+						<th><?php esc_html_e( 'Product / Variation', 'now-campaign-storefronts' ); ?></th>
+						<th><?php esc_html_e( 'Woo price', 'now-campaign-storefronts' ); ?></th>
+						<th><?php esc_html_e( 'Campaign price', 'now-campaign-storefronts' ); ?></th>
+						<th><?php esc_html_e( 'Availability', 'now-campaign-storefronts' ); ?></th>
+						<th><span class="screen-reader-text"><?php esc_html_e( 'Actions', 'now-campaign-storefronts' ); ?></span></th>
 					</tr></thead>
 					<tbody class="woo-campaign-product-rows">
 					<?php foreach ( $rows as $row ) : $this->renderRow( $row->saleableId(), $row->campaignPrice, $row->status, $row->displayOrder ); endforeach; ?>
@@ -62,16 +62,16 @@ final class CampaignProductsPanel {
 				</table>
 				<div class="woo-campaign-products-empty" data-woo-campaign-products-empty <?php echo $rows ? 'hidden' : ''; ?>>
 					<span class="dashicons dashicons-products"></span>
-					<strong><?php esc_html_e( 'No campaign products yet', 'wc-campaign' ); ?></strong>
-					<p><?php esc_html_e( 'Add products and set the price customers should receive inside this campaign.', 'wc-campaign' ); ?></p>
+					<strong><?php esc_html_e( 'No campaign products yet', 'now-campaign-storefronts' ); ?></strong>
+					<p><?php esc_html_e( 'Add products and set the price customers should receive inside this campaign.', 'now-campaign-storefronts' ); ?></p>
 				</div>
 			</div>
 
 			<div class="woo-campaign-products-footer">
-				<span><?php esc_html_e( 'WooCommerce remains the source of truth for stock, SKU, images and product data.', 'wc-campaign' ); ?></span>
-				<button type="button" class="button woo-campaign-add-product-row"><span class="dashicons dashicons-plus-alt2"></span><?php esc_html_e( 'Add another product', 'wc-campaign' ); ?></button>
+				<span><?php esc_html_e( 'WooCommerce remains the source of truth for stock, SKU, images and product data.', 'now-campaign-storefronts' ); ?></span>
+				<button type="button" class="button woo-campaign-add-product-row"><span class="dashicons dashicons-plus-alt2"></span><?php esc_html_e( 'Add another product', 'now-campaign-storefronts' ); ?></button>
 			</div>
-			<script type="text/template" id="tmpl-woo-campaign-product-row"><?php $this->renderRow( 0, '', 'active', 9999 ); ?></script>
+			<template id="tmpl-woo-campaign-product-row"><?php $this->renderRow( 0, '', 'active', 9999 ); ?></template>
 		</div>
 		<?php
 	}
@@ -114,13 +114,13 @@ final class CampaignProductsPanel {
 		$stock = $product ? wc_get_stock_html( $product ) : '—';
 		$typeLabel = '';
 		if ( $product ) {
-			$typeLabel = $product instanceof \WC_Product_Variation ? __( 'Variation', 'wc-campaign' ) : __( 'Simple', 'wc-campaign' );
+			$typeLabel = $product instanceof \WC_Product_Variation ? __( 'Variation', 'now-campaign-storefronts' ) : __( 'Simple', 'now-campaign-storefronts' );
 		}
 		?>
 		<tr class="woo-campaign-product-row" data-saleable-id="<?php echo esc_attr( (string) $saleableId ); ?>">
 			<td class="woo-campaign-product-cell">
 				<div class="woo-campaign-product-search-wrap">
-					<select class="wc-product-search" style="width:100%" name="woo_campaign_saleable_id[]" data-placeholder="<?php esc_attr_e( 'Search products or variations…', 'wc-campaign' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-allow_clear="true">
+					<select class="wc-product-search" style="width:100%" name="woo_campaign_saleable_id[]" data-placeholder="<?php esc_attr_e( 'Search products or variations…', 'now-campaign-storefronts' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-allow_clear="true">
 						<?php if ( $saleableId > 0 ) : ?><option value="<?php echo esc_attr( (string) $saleableId ); ?>" selected><?php echo esc_html( $label ); ?></option><?php endif; ?>
 					</select>
 					<?php if ( $typeLabel ) : ?><span class="woo-campaign-product-type"><?php echo esc_html( $typeLabel ); ?></span><?php endif; ?>
@@ -135,18 +135,18 @@ final class CampaignProductsPanel {
 			</td>
 			<td>
 				<label class="woo-campaign-price-input-wrap">
-					<span class="screen-reader-text"><?php esc_html_e( 'Campaign price', 'wc-campaign' ); ?></span>
+					<span class="screen-reader-text"><?php esc_html_e( 'Campaign price', 'now-campaign-storefronts' ); ?></span>
 					<input type="number" min="0.00000001" step="0.01" name="woo_campaign_price[]" value="<?php echo esc_attr( $campaignPrice ); ?>" required data-woo-campaign-price-input>
 				</label>
 				<span class="woo-campaign-saving-preview" data-woo-campaign-saving-preview></span>
 			</td>
 			<td>
 				<select name="woo_campaign_product_status[]" class="woo-campaign-status-select">
-					<option value="active" <?php selected( $status, 'active' ); ?>><?php esc_html_e( 'Active', 'wc-campaign' ); ?></option>
-					<option value="paused" <?php selected( $status, 'paused' ); ?>><?php esc_html_e( 'Paused', 'wc-campaign' ); ?></option>
+					<option value="active" <?php selected( $status, 'active' ); ?>><?php esc_html_e( 'Active', 'now-campaign-storefronts' ); ?></option>
+					<option value="paused" <?php selected( $status, 'paused' ); ?>><?php esc_html_e( 'Paused', 'now-campaign-storefronts' ); ?></option>
 				</select>
 			</td>
-			<td class="woo-campaign-product-actions"><button type="button" class="button-link-delete woo-campaign-remove-product-row" aria-label="<?php esc_attr_e( 'Remove product', 'wc-campaign' ); ?>"><span class="dashicons dashicons-trash"></span></button></td>
+			<td class="woo-campaign-product-actions"><button type="button" class="button-link-delete woo-campaign-remove-product-row" aria-label="<?php esc_attr_e( 'Remove product', 'now-campaign-storefronts' ); ?>"><span class="dashicons dashicons-trash"></span></button></td>
 		</tr>
 		<?php
 	}

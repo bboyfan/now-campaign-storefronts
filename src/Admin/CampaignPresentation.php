@@ -25,7 +25,7 @@ final class CampaignPresentation {
 
 	public function setAdminTitle(): void {
 		global $title;
-		$title = __( 'Campaign Editor', 'wc-campaign' );
+		$title = __( 'Campaign Editor', 'now-campaign-storefronts' );
 	}
 
 	public function enqueue(): void {
@@ -170,16 +170,16 @@ final class CampaignPresentation {
 			'design'     => $design,
 			'sections'   => $sectionDesign,
 			'i18n'       => [
-				'imagesTitle' => __( 'Campaign images', 'wc-campaign' ),
-				'imagesHelp'  => __( 'Images are displayed above the campaign introduction in this order and use the campaign content width by default.', 'wc-campaign' ),
-				'addImages'   => __( 'Add / select images', 'wc-campaign' ),
-				'remove'      => __( 'Remove', 'wc-campaign' ),
-				'removeImage' => __( 'Remove image', 'wc-campaign' ),
-				'inherit'     => __( 'Not set', 'wc-campaign' ),
-				'overridden'  => __( 'Set', 'wc-campaign' ),
-				'emptyGallery' => __( 'No campaign images have been added yet.', 'wc-campaign' ),
-				'introLabel'  => __( 'Campaign introduction', 'wc-campaign' ),
-				'sectionDesignHelp' => __( 'Empty values inherit from the campaign or active theme.', 'wc-campaign' ),
+				'imagesTitle' => __( 'Campaign images', 'now-campaign-storefronts' ),
+				'imagesHelp'  => __( 'Images are displayed above the campaign introduction in this order and use the campaign content width by default.', 'now-campaign-storefronts' ),
+				'addImages'   => __( 'Add / select images', 'now-campaign-storefronts' ),
+				'remove'      => __( 'Remove', 'now-campaign-storefronts' ),
+				'removeImage' => __( 'Remove image', 'now-campaign-storefronts' ),
+				'inherit'     => __( 'Not set', 'now-campaign-storefronts' ),
+				'overridden'  => __( 'Set', 'now-campaign-storefronts' ),
+				'emptyGallery' => __( 'No campaign images have been added yet.', 'now-campaign-storefronts' ),
+				'introLabel'  => __( 'Campaign introduction', 'now-campaign-storefronts' ),
+				'sectionDesignHelp' => __( 'Empty values inherit from the campaign or active theme.', 'now-campaign-storefronts' ),
 			],
 		];
 	}

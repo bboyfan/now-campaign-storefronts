@@ -1,6 +1,6 @@
 # Architecture
 
-WC Campaign adds campaign context to WooCommerce without creating a parallel commerce system.
+NOW Campaign Storefronts adds campaign context to WooCommerce without creating a parallel commerce system.
 
 ## Authority model
 
@@ -11,7 +11,7 @@ WooCommerce Cart / Session      = Cart authority
 WooCommerce Coupon / Pricing    = Discount authority
 WooCommerce Order / Refund      = Financial authority
 
-WC Campaign = campaign context + campaign price + attribution + reporting + presentation
+NOW Campaign Storefronts = campaign context + campaign price + attribution + reporting + presentation
 ```
 
 ## Campaign products
@@ -26,7 +26,7 @@ New identities are created for the WordPress post, the Campaign section rows, th
 
 ## Pricing
 
-Campaign Price is applied inside the WooCommerce cart flow. WC Campaign does not replace WooCommerce coupons or the order totals ledger.
+Campaign Price is applied inside the WooCommerce cart flow. NOW Campaign Storefronts does not replace WooCommerce coupons or the order totals ledger.
 
 Campaign Bulk Pricing extends Campaign Price with campaign-wide quantity tiers. Eligible Campaign products and variations are counted together. The highest reached tier adjusts each eligible line from that line's own Campaign Price, producing an effective Campaign Price before later WooCommerce coupon or compatible dynamic-pricing processing.
 
@@ -52,8 +52,8 @@ Campaign identity and campaign snapshots are stored on WooCommerce order items s
 
 ## Reporting
 
-Campaign reporting derives sales and refund-aware metrics from WooCommerce order/order-item data. WC Campaign does not maintain an independent financial ledger.
+Campaign reporting derives sales and refund-aware metrics from WooCommerce order/order-item data. NOW Campaign Storefronts does not maintain an independent financial ledger.
 
 ## Storefront
 
-WC Campaign provides campaign layouts, sections, content, quantity controls, Add to Cart UI, Campaign Bulk Pricing messaging, and a bottom mini cart. General typography/theme presentation can inherit from the active theme while commerce controls are isolated from aggressive global theme styles.
+NOW Campaign Storefronts provides campaign layouts, sections, content, quantity controls, Add to Cart UI, Campaign Bulk Pricing messaging, and a bottom mini cart. General typography/theme presentation can inherit from the active theme while commerce controls are isolated from aggressive global theme styles.

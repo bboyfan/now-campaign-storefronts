@@ -27,13 +27,13 @@ final class CampaignReportSecret {
 			return '';
 		}
 		if ( ! function_exists( 'openssl_encrypt' ) ) {
-			return new \WP_Error( 'report_secret_crypto_unavailable', __( 'Server encryption support is unavailable.', 'wc-campaign' ) );
+			return new \WP_Error( 'report_secret_crypto_unavailable', __( 'Server encryption support is unavailable.', 'now-campaign-storefronts' ) );
 		}
 
 		try {
 			$iv = random_bytes( self::IV_BYTES );
 		} catch ( \Throwable $error ) {
-			return new \WP_Error( 'report_secret_random_failed', __( 'Unable to generate secure report credentials.', 'wc-campaign' ) );
+			return new \WP_Error( 'report_secret_random_failed', __( 'Unable to generate secure report credentials.', 'now-campaign-storefronts' ) );
 		}
 
 		$tag = '';
@@ -48,7 +48,7 @@ final class CampaignReportSecret {
 			self::TAG_BYTES
 		);
 		if ( false === $ciphertext || self::TAG_BYTES !== strlen( $tag ) ) {
-			return new \WP_Error( 'report_secret_encrypt_failed', __( 'Unable to encrypt the report password.', 'wc-campaign' ) );
+			return new \WP_Error( 'report_secret_encrypt_failed', __( 'Unable to encrypt the report password.', 'now-campaign-storefronts' ) );
 		}
 
 		return self::PREFIX . base64_encode( $iv . $tag . $ciphertext );

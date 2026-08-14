@@ -29,12 +29,12 @@ final class CartValidator {
 			}
 			$campaignProduct = $this->resolver->resolveFromCartItem( $item );
 			if ( ! $campaignProduct ) {
-				wc_add_notice( __( 'A campaign item in your cart is no longer available at its campaign terms. Please remove it before checkout.', 'wc-campaign' ), 'error' );
+				wc_add_notice( __( 'A campaign item in your cart is no longer available at its campaign terms. Please remove it before checkout.', 'now-campaign-storefronts' ), 'error' );
 				continue;
 			}
 			$product = $this->products->get( $campaignProduct->saleableId() );
 			if ( ! $product || ! $this->products->isPurchasable( $product ) ) {
-				wc_add_notice( __( 'A campaign item in your cart is currently unavailable. Please update your cart before checkout.', 'wc-campaign' ), 'error' );
+				wc_add_notice( __( 'A campaign item in your cart is currently unavailable. Please update your cart before checkout.', 'now-campaign-storefronts' ), 'error' );
 			}
 		}
 	}

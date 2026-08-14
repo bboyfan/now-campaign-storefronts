@@ -27,9 +27,9 @@ final class CampaignList {
 		foreach ( $columns as $key => $label ) {
 			$result[ $key ] = $label;
 			if ( 'title' === $key ) {
-				$result['woo_campaign_status'] = __( 'Status', 'wc-campaign' );
-				$result['woo_campaign_schedule'] = __( 'Schedule', 'wc-campaign' );
-				$result['woo_campaign_products'] = __( 'Products', 'wc-campaign' );
+				$result['woo_campaign_status'] = __( 'Status', 'now-campaign-storefronts' );
+				$result['woo_campaign_schedule'] = __( 'Schedule', 'now-campaign-storefronts' );
+				$result['woo_campaign_products'] = __( 'Products', 'now-campaign-storefronts' );
 			}
 		}
 		return $result;
@@ -46,14 +46,14 @@ final class CampaignList {
 			$start = (int) get_post_meta( $postId, Meta::START_AT, true );
 			$end = (int) get_post_meta( $postId, Meta::END_AT, true );
 			if ( ! $start && ! $end ) {
-				echo '<span class="woo-campaign-list-muted">' . esc_html__( 'Always available', 'wc-campaign' ) . '</span>';
+				echo '<span class="woo-campaign-list-muted">' . esc_html__( 'Always available', 'now-campaign-storefronts' ) . '</span>';
 				return;
 			}
 			if ( $start ) {
-				echo '<span class="woo-campaign-list-date"><small>' . esc_html__( 'Start', 'wc-campaign' ) . '</small>' . esc_html( wp_date( 'M j, Y H:i', $start, wp_timezone() ) ) . '</span>';
+				echo '<span class="woo-campaign-list-date"><small>' . esc_html__( 'Start', 'now-campaign-storefronts' ) . '</small>' . esc_html( wp_date( 'M j, Y H:i', $start, wp_timezone() ) ) . '</span>';
 			}
 			if ( $end ) {
-				echo '<span class="woo-campaign-list-date"><small>' . esc_html__( 'End', 'wc-campaign' ) . '</small>' . esc_html( wp_date( 'M j, Y H:i', $end, wp_timezone() ) ) . '</span>';
+				echo '<span class="woo-campaign-list-date"><small>' . esc_html__( 'End', 'now-campaign-storefronts' ) . '</small>' . esc_html( wp_date( 'M j, Y H:i', $end, wp_timezone() ) ) . '</span>';
 			}
 			return;
 		}
@@ -66,20 +66,20 @@ final class CampaignList {
 			}
 			echo '<strong>' . esc_html( number_format_i18n( count( $rows ) ) ) . '</strong>';
 			if ( count( $rows ) !== $active ) {
-				echo '<small class="woo-campaign-list-product-detail">' . esc_html( sprintf( __( '%d active', 'wc-campaign' ), $active ) ) . '</small>';
+				echo '<small class="woo-campaign-list-product-detail">' . esc_html( sprintf( __( '%d active', 'now-campaign-storefronts' ), $active ) ) . '</small>';
 			}
 		}
 	}
 
 	private function statusText( string $status ): string {
 		$labels = [
-			'active'    => __( 'Active', 'wc-campaign' ),
-			'scheduled' => __( 'Scheduled', 'wc-campaign' ),
-			'expired'   => __( 'Ended', 'wc-campaign' ),
-			'archived'  => __( 'Archived', 'wc-campaign' ),
-			'draft'     => __( 'Draft', 'wc-campaign' ),
-			'pending'   => __( 'Pending', 'wc-campaign' ),
-			'private'   => __( 'Private', 'wc-campaign' ),
+			'active'    => __( 'Active', 'now-campaign-storefronts' ),
+			'scheduled' => __( 'Scheduled', 'now-campaign-storefronts' ),
+			'expired'   => __( 'Ended', 'now-campaign-storefronts' ),
+			'archived'  => __( 'Archived', 'now-campaign-storefronts' ),
+			'draft'     => __( 'Draft', 'now-campaign-storefronts' ),
+			'pending'   => __( 'Pending', 'now-campaign-storefronts' ),
+			'private'   => __( 'Private', 'now-campaign-storefronts' ),
 		];
 		return $labels[ $status ] ?? ucfirst( str_replace( '-', ' ', $status ) );
 	}

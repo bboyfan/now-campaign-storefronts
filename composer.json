@@ -1,6 +1,6 @@
 {
-    "name": "wenszu/wc-campaign",
-    "description": "Campaign storefronts, pricing, attribution, and live reporting for WooCommerce.",
+    "name": "wenszu/woo-campaign",
+    "description": "WooCommerce Campaign Plugin",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
     "autoload": {

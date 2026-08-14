@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Bricks element conditions: "WC Campaign / Current Campaign".
+ * Bricks element conditions: "NOW Campaign Storefronts / Current Campaign".
  *
  * Multi-select Campaign list with == / != compare operators evaluated with
  * overlap semantics against the current Campaign context. Display-only, not
@@ -24,7 +24,7 @@ final class CampaignCondition {
 	public function register(): void {
 		add_filter( 'bricks/conditions/groups', [ $this, 'registerGroups' ] );
 		add_filter( 'bricks/conditions/options', [ $this, 'registerOptions' ] );
-		// Late priority: WC Campaign is the final authority for its own key,
+		// Late priority: NOW Campaign Storefronts is the final authority for its own key,
 		// so no generic extension fallback can overwrite the result after us.
 		add_filter( 'bricks/conditions/result', [ $this, 'evaluate' ], 9999, 3 );
 	}
@@ -32,7 +32,7 @@ final class CampaignCondition {
 	public function registerGroups( array $groups ): array {
 		$groups[] = [
 			'name'  => self::GROUP,
-			'label' => __( 'WC Campaign', 'wc-campaign' ),
+			'label' => __( 'NOW Campaign Storefronts', 'now-campaign-storefronts' ),
 		];
 		return $groups;
 	}
@@ -41,20 +41,20 @@ final class CampaignCondition {
 		$options[] = [
 			'key'     => self::KEY_CURRENT,
 			'group'   => self::GROUP,
-			'label'   => __( 'Current Campaign', 'wc-campaign' ),
+			'label'   => __( 'Current Campaign', 'now-campaign-storefronts' ),
 			'compare' => [
 				'type'        => 'select',
 				'options'     => [
-					'==' => __( 'is', 'wc-campaign' ),
-					'!=' => __( 'is not', 'wc-campaign' ),
+					'==' => __( 'is', 'now-campaign-storefronts' ),
+					'!=' => __( 'is not', 'now-campaign-storefronts' ),
 				],
-				'placeholder' => __( 'is', 'wc-campaign' ),
+				'placeholder' => __( 'is', 'now-campaign-storefronts' ),
 			],
 			'value'   => [
 				'type'        => 'select',
 				'options'     => $this->campaignOptions(),
 				'multiple'    => true,
-				'placeholder' => __( 'Select campaigns', 'wc-campaign' ),
+				'placeholder' => __( 'Select campaigns', 'now-campaign-storefronts' ),
 			],
 		];
 		return $options;

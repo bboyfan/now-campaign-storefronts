@@ -1,35 +1,24 @@
-# WC Campaign
+# NOW Campaign Storefronts for WooCommerce
 
-[繁體中文](README.zh-TW.md)
+[繁體中文 README](README.zh-TW.md)
 
-WC Campaign is a free and open-source WooCommerce extension for campaign-specific storefronts, campaign pricing, campaign-wide quantity pricing, order attribution, and live reporting.
+NOW Campaign Storefronts for WooCommerce adds campaign-specific storefronts, pricing, attribution, and live reporting without replacing WooCommerce products, inventory, carts, orders, refunds, or discounts.
 
-It is designed for group buys, influencer campaigns, limited-time sales, private campaign pages, and other campaign-specific storefronts while keeping WooCommerce as the source of truth for products, inventory, carts, orders, refunds, coupons, and financial data.
-
-> **Project status:** WC Campaign 1.4.1 is the current public source and WordPress.org review package. The plugin-directory submission is still awaiting review.
+NOW Campaign Storefronts is an independent open-source project and is not an official WooCommerce or Automattic product.
 
 ## Features
 
-- Campaign pricing for WooCommerce simple products and purchasable variations.
-- Duplicate any Campaign from the Campaign list, preserving configuration, sections, products, pricing, bulk pricing, and presentation with fresh internal identities.
-- Campaign Bulk Pricing with campaign-wide mix-and-match quantity tiers.
-- Bulk tiers use each eligible item's own Campaign Price as the pricing baseline.
-- Optional custom storefront heading and description for the bulk-pricing offer.
+- Campaign pricing for WooCommerce simple products and variations.
+- Campaign-wide mix-and-match Bulk Pricing tiers based on total eligible Campaign quantity.
 - Quick Order, Editorial, and Compact campaign layouts.
-- Variation attributes included in visible campaign product titles.
 - Campaign sections, image galleries, rich content, and shortcode support.
-- Optional visible Campaign page title.
-- Section-level product-copy and CTA color controls.
-- Unified Add to cart CTA presentation and hover behavior across all three layouts.
-- Product imagery uses centered `contain` behavior to preserve proportions.
 - WooCommerce cart/session integration and Classic Checkout compatibility.
-- Bottom Mini Cart with quantity editing and a single Checkout action.
 - Order-item campaign attribution with HPOS support.
 - Refund-aware campaign reporting.
-- Password-protected live report links with product-level performance metrics.
-- WordPress-native report password sessions using Core `post_password` / `wp-postpass_*` behavior.
+- Password-protected live report links with product performance metrics.
 - Theme-aware presentation with isolated campaign commerce controls.
-- Traditional Chinese (`zh_TW`) localization.
+
+Campaign Bulk Pricing is a quantity-dependent Campaign Price, not a second discount engine. Eligible products and variations in the same Campaign are counted together; the highest reached tier adjusts each item from its own Campaign Price before WooCommerce coupons or compatible dynamic-pricing rules continue through the normal WooCommerce flow.
 
 ## Requirements
 
@@ -37,11 +26,11 @@ It is designed for group buys, influencer campaigns, limited-time sales, private
 - WooCommerce 8.0 or newer.
 - PHP 8.1 or newer.
 
-The current release has been tested with WordPress 7.0 and WooCommerce 10.9.
+The current public release candidate is tested with WordPress 7.0 and WooCommerce 10.9.
 
 ## Architecture
 
-WC Campaign deliberately keeps WooCommerce authoritative for commerce data:
+NOW Campaign Storefronts deliberately keeps WooCommerce authoritative for commerce data:
 
 ```text
 WooCommerce Product / Variation = Product authority
@@ -50,88 +39,45 @@ WooCommerce Cart / Session      = Cart authority
 WooCommerce Coupon / Pricing    = Discount authority
 WooCommerce Order / Refund      = Financial authority
 
-WC Campaign = campaign context + campaign price + attribution + reporting + presentation
+NOW Campaign Storefronts = campaign context + campaign price + attribution + reporting + presentation
 ```
-
-Campaign Bulk Pricing is implemented as a quantity-dependent Campaign Price. It does not create a second discount engine: eligible products and variations in the same Campaign are counted together, the reached tier adjusts each line from its own Campaign Price, and WooCommerce coupons / compatible pricing rules continue afterward through the normal WooCommerce flow.
-
-WC Campaign does not create a second product catalog, inventory system, cart, checkout, order ledger, refund ledger, or financial counter.
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for more detail.
 
 ## Installation
 
-### Download the installable ZIP
+1. Install and activate WooCommerce.
+2. Install and activate NOW Campaign Storefronts for WooCommerce.
+3. Open the Campaigns screen in WordPress admin.
+4. Create a campaign and add products or variations.
+5. Set Campaign Prices and, optionally, Campaign Bulk Pricing quantity tiers.
+6. Configure content and presentation, then publish.
 
-Download the packaged plugin archive from the repository releases folder:
+## Download
 
-**[WC Campaign 1.4.1 — wc-campaign-1.4.1.zip](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.1.zip)**
+Download [NOW Campaign Storefronts 1.4.2](https://github.com/bboyfan/now-campaign-storefronts/releases/download/v1.4.2/now-campaign-storefronts-1.4.2.zip) from the latest GitHub release.
 
-Then in WordPress go to **Plugins → Add Plugin → Upload Plugin**, upload the ZIP, and activate **WC Campaign**. WooCommerce must already be installed and active.
-
-Download page: [releases/wc-campaign-1.4.1.zip](https://github.com/bboyfan/wc-campaign/tree/main/releases)
-
-SHA256 checksum: [`wc-campaign-1.4.1.sha256`](https://github.com/bboyfan/wc-campaign/raw/main/releases/wc-campaign-1.4.1.sha256)
-
-### WordPress.org
-
-WC Campaign has been submitted to WordPress.org and is currently awaiting review. Once approved and published, it will also be installable directly from the WordPress plugin installer.
-
-## Campaign Bulk Pricing
-
-Bulk Pricing can be enabled per Campaign. Tiers are based on the total eligible quantity across products and variations in that Campaign, which supports mix-and-match group-buy offers such as 2+, 4+, and 8+ item discounts.
-
-Each product keeps its own Campaign Price. For example, a 10% tier changes Campaign Prices of 500, 400, and 550 to 450, 360, and 495 respectively. WooCommerce remains responsible for coupons, checkout totals, orders, and refunds.
-
-The storefront offer heading and description can be customized per Campaign while tier badges are generated from the configured quantity rules.
-
-## Campaign duplication
-
-Every Campaign row in the Campaign list has a **Duplicate** action. Duplicating creates a new draft Campaign with the same configuration, sections, products and variation references, Campaign pricing, bulk pricing, and presentation. The new Campaign receives its own post, section, and product-relationship IDs plus a fresh external-report share key and password record, so it never shares the source Campaign's public report link or financial attribution.
-
-## Campaign introduction and shortcodes
-
-Campaign introduction content uses the standard WordPress `the_content` pipeline. Registered shortcodes, including template shortcodes supplied by themes or other plugins, can therefore render inside campaign content.
-
-## Live reports
-
-Campaign owners can optionally enable a password-protected external report. The public report keeps the `/campaign-report/{share-key}/` format, while authentication is delegated to WordPress Core password protection. WordPress therefore owns the password session through its standard `wp-postpass_*` cookie rather than WC Campaign maintaining a separate login/session system.
-
-The report shows aggregate campaign metrics and product-level performance without exposing customer contact details or order numbers.
-
-See [docs/PRIVACY.md](docs/PRIVACY.md).
-
-## Localization
-
-English is the canonical source language. Traditional Chinese (`zh_TW`) translations are included in `languages/`.
+SHA256: [`now-campaign-storefronts-1.4.2.sha256`](https://github.com/bboyfan/now-campaign-storefronts/raw/main/releases/now-campaign-storefronts-1.4.2.sha256)
 
 ## Development
 
-The plugin uses the `WooCampaign\\` PHP namespace and includes a runtime fallback autoloader. `composer.json` is included for source inspection and Composer-based tooling.
+The plugin uses a PSR-4-style `WooCampaign\\` namespace and includes a runtime fallback autoloader. `composer.json` is included so the source can be inspected and worked on with Composer-based tooling.
 
-Before submitting a pull request, run PHP syntax checks and JavaScript syntax checks and verify the commerce behavior relevant to your change.
+Before submitting changes, run PHP syntax checks and JavaScript syntax checks and verify Campaign Price, Bulk Pricing, attribution, reporting, refunds, and storefront behavior against WooCommerce.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+The CSS distributed with the plugin is the project's source CSS; it is not generated from a separate proprietary stylesheet source.
 
-## Changelog
+## WordPress.org release
 
-See [CHANGELOG.md](CHANGELOG.md) for release history and notable implementation changes.
+The private development source keeps its existing internal identifiers. `scripts/build-wordpress-org.sh` creates the WordPress.org-ready package using the public identity `NOW Campaign Storefronts for WooCommerce`, slug `now-campaign-storefronts`, main file `now-campaign-storefronts.php`, and text domain `now-campaign-storefronts` without changing runtime class names, database identifiers, CSS classes, or option/meta prefixes.
+
+The WordPress.org package uses English canonical source strings. WordPress.org supplies translation language packs; no translation binaries are bundled in the ZIP.
 
 ## Security
 
-Please do **not** report suspected security vulnerabilities in public issues. Follow [SECURITY.md](SECURITY.md).
-
-## Open source
-
-WC Campaign is free software released under the **GNU General Public License v2.0 or later (GPL-2.0-or-later)**. You may use, study, modify, and redistribute it under the terms of that license.
-
-See [OPEN_SOURCE.md](OPEN_SOURCE.md) and [LICENSE](LICENSE).
-
-WC Campaign is an independent open-source project and is not an official WooCommerce or Automattic product. WooCommerce is a trademark of Automattic Inc.
+Please do not report security vulnerabilities in a public issue. See [SECURITY.md](SECURITY.md).
 
 ## Contributing
 
-Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before participating.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

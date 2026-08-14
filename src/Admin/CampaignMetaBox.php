@@ -26,8 +26,8 @@ final class CampaignMetaBox {
 	}
 
 	public function addMetaBoxes(): void {
-		add_meta_box( 'woo-campaign-settings', __( 'Campaign Settings', 'wc-campaign' ), [ $this, 'renderSettings' ], PostType::TYPE, 'side', 'high' );
-		add_meta_box( 'woo-campaign-report', __( 'Campaign Performance', 'wc-campaign' ), [ $this, 'renderReport' ], PostType::TYPE, 'side', 'default' );
+		add_meta_box( 'woo-campaign-settings', __( 'Campaign Settings', 'now-campaign-storefronts' ), [ $this, 'renderSettings' ], PostType::TYPE, 'side', 'high' );
+		add_meta_box( 'woo-campaign-report', __( 'Campaign Performance', 'now-campaign-storefronts' ), [ $this, 'renderReport' ], PostType::TYPE, 'side', 'default' );
 	}
 
 	public function renderSettings( \WP_Post $post ): void {
@@ -46,29 +46,29 @@ final class CampaignMetaBox {
 		</div>
 
 		<div class="woo-campaign-admin-field">
-			<label for="woo-campaign-start"><?php esc_html_e( 'Starts', 'wc-campaign' ); ?></label>
+			<label for="woo-campaign-start"><?php esc_html_e( 'Starts', 'now-campaign-storefronts' ); ?></label>
 			<input class="widefat" id="woo-campaign-start" type="datetime-local" name="woo_campaign_start_at" value="<?php echo esc_attr( $this->formatTimestamp( $start ) ); ?>">
-			<span class="description"><?php esc_html_e( 'Leave empty to make it available immediately after publishing.', 'wc-campaign' ); ?></span>
+			<span class="description"><?php esc_html_e( 'Leave empty to make it available immediately after publishing.', 'now-campaign-storefronts' ); ?></span>
 		</div>
 
 		<div class="woo-campaign-admin-field">
-			<label for="woo-campaign-end"><?php esc_html_e( 'Ends', 'wc-campaign' ); ?></label>
+			<label for="woo-campaign-end"><?php esc_html_e( 'Ends', 'now-campaign-storefronts' ); ?></label>
 			<input class="widefat" id="woo-campaign-end" type="datetime-local" name="woo_campaign_end_at" value="<?php echo esc_attr( $this->formatTimestamp( $end ) ); ?>">
-			<span class="description"><?php esc_html_e( 'Leave empty for no automatic end date.', 'wc-campaign' ); ?></span>
+			<span class="description"><?php esc_html_e( 'Leave empty for no automatic end date.', 'now-campaign-storefronts' ); ?></span>
 		</div>
 
 		<label class="woo-campaign-archive-toggle">
 			<input type="checkbox" name="woo_campaign_archived" value="1" <?php checked( $archived ); ?>>
 			<span>
-				<strong><?php esc_html_e( 'Archive campaign', 'wc-campaign' ); ?></strong>
-				<small><?php esc_html_e( 'Archived campaigns cannot be purchased from.', 'wc-campaign' ); ?></small>
+				<strong><?php esc_html_e( 'Archive campaign', 'now-campaign-storefronts' ); ?></strong>
+				<small><?php esc_html_e( 'Archived campaigns cannot be purchased from.', 'now-campaign-storefronts' ); ?></small>
 			</span>
 		</label>
 
 		<?php if ( 'publish' === $post->post_status ) : ?>
 			<div class="woo-campaign-admin-public-link">
 				<a class="button button-secondary" href="<?php echo esc_url( get_permalink( $post ) ); ?>" target="_blank" rel="noopener noreferrer">
-					<?php esc_html_e( 'View campaign', 'wc-campaign' ); ?> <span class="dashicons dashicons-external"></span>
+					<?php esc_html_e( 'View campaign', 'now-campaign-storefronts' ); ?> <span class="dashicons dashicons-external"></span>
 				</a>
 			</div>
 		<?php endif; ?>
@@ -77,27 +77,27 @@ final class CampaignMetaBox {
 
 	public function renderReport( \WP_Post $post ): void {
 		if ( 'auto-draft' === $post->post_status ) {
-			echo '<div class="woo-campaign-empty-state"><span class="dashicons dashicons-chart-line"></span><p>' . esc_html__( 'Save the campaign to begin tracking performance.', 'wc-campaign' ) . '</p></div>';
+			echo '<div class="woo-campaign-empty-state"><span class="dashicons dashicons-chart-line"></span><p>' . esc_html__( 'Save the campaign to begin tracking performance.', 'now-campaign-storefronts' ) . '</p></div>';
 			return;
 		}
 
 		$report = $this->reports->report( $post->ID );
 		?>
 		<div class="woo-campaign-performance-primary">
-			<span><?php esc_html_e( 'Net sales', 'wc-campaign' ); ?></span>
+			<span><?php esc_html_e( 'Net sales', 'now-campaign-storefronts' ); ?></span>
 			<strong><?php echo wp_kses_post( wc_price( $report['net_sales'] ) ); ?></strong>
-			<small><?php esc_html_e( 'After discounts and item refunds', 'wc-campaign' ); ?></small>
+			<small><?php esc_html_e( 'After discounts and item refunds', 'now-campaign-storefronts' ); ?></small>
 		</div>
 		<div class="woo-campaign-performance-grid">
-			<?php $this->metric( __( 'Paid orders', 'wc-campaign' ), number_format_i18n( $report['orders'] ) ); ?>
-			<?php $this->metric( __( 'Units', 'wc-campaign' ), number_format_i18n( $report['units'] ) ); ?>
-			<?php $this->metric( __( 'Campaign subtotal', 'wc-campaign' ), wc_price( $report['campaign_subtotal'] ), true ); ?>
-			<?php $this->metric( __( 'Discounts', 'wc-campaign' ), wc_price( $report['discount'] ), true ); ?>
-			<?php $this->metric( __( 'Refunds', 'wc-campaign' ), wc_price( $report['refund'] ), true ); ?>
-			<?php $this->metric( __( 'Pending', 'wc-campaign' ), number_format_i18n( $report['pending_orders'] ) ); ?>
+			<?php $this->metric( __( 'Paid orders', 'now-campaign-storefronts' ), number_format_i18n( $report['orders'] ) ); ?>
+			<?php $this->metric( __( 'Units', 'now-campaign-storefronts' ), number_format_i18n( $report['units'] ) ); ?>
+			<?php $this->metric( __( 'Campaign subtotal', 'now-campaign-storefronts' ), wc_price( $report['campaign_subtotal'] ), true ); ?>
+			<?php $this->metric( __( 'Discounts', 'now-campaign-storefronts' ), wc_price( $report['discount'] ), true ); ?>
+			<?php $this->metric( __( 'Refunds', 'now-campaign-storefronts' ), wc_price( $report['refund'] ), true ); ?>
+			<?php $this->metric( __( 'Pending', 'now-campaign-storefronts' ), number_format_i18n( $report['pending_orders'] ) ); ?>
 		</div>
 		<?php if ( (int) $report['refunded_units'] > 0 ) : ?>
-			<p class="woo-campaign-performance-note"><?php echo esc_html( sprintf( _n( '%s refunded unit', '%s refunded units', (int) $report['refunded_units'], 'wc-campaign' ), number_format_i18n( $report['refunded_units'] ) ) ); ?></p>
+			<p class="woo-campaign-performance-note"><?php echo esc_html( sprintf( _n( '%s refunded unit', '%s refunded units', (int) $report['refunded_units'], 'now-campaign-storefronts' ), number_format_i18n( $report['refunded_units'] ) ) ); ?></p>
 		<?php endif; ?>
 		<?php
 	}
@@ -129,26 +129,26 @@ final class CampaignMetaBox {
 
 	private function statusText( string $status ): string {
 		$labels = [
-			'active'    => __( 'Active', 'wc-campaign' ),
-			'scheduled' => __( 'Scheduled', 'wc-campaign' ),
-			'expired'   => __( 'Ended', 'wc-campaign' ),
-			'archived'  => __( 'Archived', 'wc-campaign' ),
-			'draft'     => __( 'Draft', 'wc-campaign' ),
-			'pending'   => __( 'Pending review', 'wc-campaign' ),
-			'private'   => __( 'Private', 'wc-campaign' ),
+			'active'    => __( 'Active', 'now-campaign-storefronts' ),
+			'scheduled' => __( 'Scheduled', 'now-campaign-storefronts' ),
+			'expired'   => __( 'Ended', 'now-campaign-storefronts' ),
+			'archived'  => __( 'Archived', 'now-campaign-storefronts' ),
+			'draft'     => __( 'Draft', 'now-campaign-storefronts' ),
+			'pending'   => __( 'Pending review', 'now-campaign-storefronts' ),
+			'private'   => __( 'Private', 'now-campaign-storefronts' ),
 		];
 		return $labels[ $status ] ?? ucfirst( str_replace( '-', ' ', $status ) );
 	}
 
 	private function statusHelp( string $status ): string {
 		$labels = [
-			'active'    => __( 'Customers can purchase campaign products now.', 'wc-campaign' ),
-			'scheduled' => __( 'The campaign will open at the scheduled start time.', 'wc-campaign' ),
-			'expired'   => __( 'The campaign end time has passed.', 'wc-campaign' ),
-			'archived'  => __( 'Purchasing is disabled until the campaign is restored.', 'wc-campaign' ),
-			'draft'     => __( 'Publish when the campaign is ready to go live.', 'wc-campaign' ),
+			'active'    => __( 'Customers can purchase campaign products now.', 'now-campaign-storefronts' ),
+			'scheduled' => __( 'The campaign will open at the scheduled start time.', 'now-campaign-storefronts' ),
+			'expired'   => __( 'The campaign end time has passed.', 'now-campaign-storefronts' ),
+			'archived'  => __( 'Purchasing is disabled until the campaign is restored.', 'now-campaign-storefronts' ),
+			'draft'     => __( 'Publish when the campaign is ready to go live.', 'now-campaign-storefronts' ),
 		];
-		return $labels[ $status ] ?? __( 'Campaign availability follows its publish status and schedule.', 'wc-campaign' );
+		return $labels[ $status ] ?? __( 'Campaign availability follows its publish status and schedule.', 'now-campaign-storefronts' );
 	}
 
 	private function parseDate( string $value ): int {

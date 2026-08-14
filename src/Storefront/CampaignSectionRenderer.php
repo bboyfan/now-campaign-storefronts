@@ -25,7 +25,7 @@ final class CampaignSectionRenderer {
 		$products = $this->campaignProducts->forCampaign( $campaignId, true );
 		$sections = $this->sections->forCampaign( $campaignId, true );
 		if ( ! $products && ! $sections ) {
-			return '<div class="woocommerce-info">' . esc_html__( 'No campaign products are available yet.', 'wc-campaign' ) . '</div>';
+			return '<div class="woocommerce-info">' . esc_html__( 'No campaign products are available yet.', 'now-campaign-storefronts' ) . '</div>';
 		}
 		if ( ! $sections ) {
 			$sections = [ new CampaignSection( 0, $campaignId, '', '', 0, CampaignSection::LAYOUT_QUICK_ORDER, 'active', 0 ) ];
@@ -106,19 +106,19 @@ final class CampaignSectionRenderer {
 			<div class="woo-campaign-purchase-row-actions">
 				<?php if ( $context['available'] ) : ?>
 					<div class="woo-campaign-purchase-row-quantity">
-						<span><?php esc_html_e( 'Quantity', 'wc-campaign' ); ?></span>
+						<span><?php esc_html_e( 'Quantity', 'now-campaign-storefronts' ); ?></span>
 						<div class="woo-campaign-quantity">
-							<button type="button" data-woo-campaign-product-step="-1" aria-label="<?php esc_attr_e( 'Decrease quantity', 'wc-campaign' ); ?>">−</button>
-							<input type="number" min="1" step="1" value="1" inputmode="numeric" data-woo-campaign-qty aria-label="<?php esc_attr_e( 'Quantity', 'wc-campaign' ); ?>">
-							<button type="button" data-woo-campaign-product-step="1" aria-label="<?php esc_attr_e( 'Increase quantity', 'wc-campaign' ); ?>">+</button>
+							<button type="button" data-woo-campaign-product-step="-1" aria-label="<?php esc_attr_e( 'Decrease quantity', 'now-campaign-storefronts' ); ?>">−</button>
+							<input type="number" min="1" step="1" value="1" inputmode="numeric" data-woo-campaign-qty aria-label="<?php esc_attr_e( 'Quantity', 'now-campaign-storefronts' ); ?>">
+							<button type="button" data-woo-campaign-product-step="1" aria-label="<?php esc_attr_e( 'Increase quantity', 'now-campaign-storefronts' ); ?>">+</button>
 						</div>
 					</div>
 					<button type="button" class="button alt woo-campaign-add-to-cart" data-campaign-id="<?php echo esc_attr( (string) $campaignId ); ?>" data-campaign-product-id="<?php echo esc_attr( (string) $row->id ); ?>">
-						<span class="woo-campaign-button-label"><?php esc_html_e( 'Add to cart', 'wc-campaign' ); ?></span>
+						<span class="woo-campaign-button-label"><?php esc_html_e( 'Add to cart', 'now-campaign-storefronts' ); ?></span>
 						<span class="woo-campaign-button-spinner" aria-hidden="true"></span>
 					</button>
 				<?php else : ?>
-					<span class="woo-campaign-sold-out"><?php esc_html_e( 'Sold out', 'wc-campaign' ); ?></span>
+					<span class="woo-campaign-sold-out"><?php esc_html_e( 'Sold out', 'now-campaign-storefronts' ); ?></span>
 				<?php endif; ?>
 				<div class="woo-campaign-product-feedback" role="status" aria-live="polite" data-woo-campaign-product-feedback></div>
 			</div>
@@ -170,18 +170,18 @@ final class CampaignSectionRenderer {
 
 	private function renderPurchaseActions( int $campaignId, int $campaignProductId, bool $available, bool $compact = false ): void {
 		if ( ! $available ) {
-			echo '<span class="woo-campaign-sold-out">' . esc_html__( 'Sold out', 'wc-campaign' ) . '</span>';
+			echo '<span class="woo-campaign-sold-out">' . esc_html__( 'Sold out', 'now-campaign-storefronts' ) . '</span>';
 			return;
 		}
 		?>
 		<div class="woo-campaign-purchase-controls<?php echo $compact ? ' is-compact' : ''; ?>">
 			<div class="woo-campaign-quantity">
-				<button type="button" data-woo-campaign-product-step="-1" aria-label="<?php esc_attr_e( 'Decrease quantity', 'wc-campaign' ); ?>">−</button>
-				<input type="number" min="1" step="1" value="1" inputmode="numeric" data-woo-campaign-qty aria-label="<?php esc_attr_e( 'Quantity', 'wc-campaign' ); ?>">
-				<button type="button" data-woo-campaign-product-step="1" aria-label="<?php esc_attr_e( 'Increase quantity', 'wc-campaign' ); ?>">+</button>
+				<button type="button" data-woo-campaign-product-step="-1" aria-label="<?php esc_attr_e( 'Decrease quantity', 'now-campaign-storefronts' ); ?>">−</button>
+				<input type="number" min="1" step="1" value="1" inputmode="numeric" data-woo-campaign-qty aria-label="<?php esc_attr_e( 'Quantity', 'now-campaign-storefronts' ); ?>">
+				<button type="button" data-woo-campaign-product-step="1" aria-label="<?php esc_attr_e( 'Increase quantity', 'now-campaign-storefronts' ); ?>">+</button>
 			</div>
 			<button type="button" class="button alt woo-campaign-add-to-cart" data-campaign-id="<?php echo esc_attr( (string) $campaignId ); ?>" data-campaign-product-id="<?php echo esc_attr( (string) $campaignProductId ); ?>">
-				<span class="woo-campaign-button-label"><?php esc_html_e( 'Add to cart', 'wc-campaign' ); ?></span>
+				<span class="woo-campaign-button-label"><?php esc_html_e( 'Add to cart', 'now-campaign-storefronts' ); ?></span>
 				<span class="woo-campaign-button-spinner" aria-hidden="true"></span>
 			</button>
 		</div>

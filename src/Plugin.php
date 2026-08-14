@@ -110,7 +110,7 @@ final class Plugin {
 
 		// Bricks theme bootstraps after plugins_loaded and applies
 		// bricks/dynamic_data/register_providers during its load, before init.
-		// Register the WC Campaign provider key here so Bricks picks it up.
+		// Register the NOW Campaign Storefronts provider key here so Bricks picks it up.
 		add_filter( 'bricks/dynamic_data/register_providers', static function ( array $providers ): array {
 			if ( ! in_array( 'woo_campaign', $providers, true ) ) {
 				$providers[] = 'woo_campaign';
@@ -146,7 +146,7 @@ final class Plugin {
 			if ( PostType::TYPE === $post->post_type ) {
 				global $wpdb;
 				if ( false === $wpdb->query( 'START TRANSACTION' ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-					error_log( 'WC Campaign cleanup failed: unable to start transaction.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+					error_log( 'NOW Campaign Storefronts cleanup failed: unable to start transaction.' ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 					return;
 				}
 				try {
@@ -157,7 +157,7 @@ final class Plugin {
 					}
 				} catch ( \Throwable $error ) {
 					$wpdb->query( 'ROLLBACK' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-					error_log( 'WC Campaign cleanup failed: ' . $error->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+					error_log( 'NOW Campaign Storefronts cleanup failed: ' . $error->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 				}
 				$reportCache->invalidateCampaign( $postId );
 				$reportShare->deleteForCampaign( $postId );

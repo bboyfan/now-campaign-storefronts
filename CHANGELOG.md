@@ -1,6 +1,15 @@
 # Changelog
 
-All notable changes to Woo Campaign / WC Campaign are documented here.
+All notable changes to NOW Campaign Storefronts for WooCommerce are documented here. Historical entries retain their release-time names.
+
+## 1.4.2 — 2026-08-14
+
+### Changed
+
+- Renamed the public distribution identity to NOW Campaign Storefronts for WooCommerce.
+- Updated the WordPress.org package slug, main plugin file, metadata, and gettext domain.
+- Removed bundled PO/MO files and the custom text-domain loader from the WordPress.org package.
+- Updated the standalone Campaign Report package template to use WordPress asset enqueue APIs.
 
 ## 1.4.1 — 2026-08-11
 

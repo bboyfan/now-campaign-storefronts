@@ -34,12 +34,12 @@ final class CampaignDuplicator {
 	public function duplicate( int $sourceId ): int|\WP_Error {
 		$source = $this->campaigns->find( $sourceId );
 		if ( ! $source ) {
-			return new \WP_Error( 'campaign_not_found', __( 'Campaign not found.', 'wc-campaign' ) );
+			return new \WP_Error( 'campaign_not_found', __( 'Campaign not found.', 'now-campaign-storefronts' ) );
 		}
 
 		global $wpdb;
 		if ( false === $wpdb->query( 'START TRANSACTION' ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery
-			return new \WP_Error( 'duplicate_transaction', __( 'Unable to start Campaign duplication.', 'wc-campaign' ) );
+			return new \WP_Error( 'duplicate_transaction', __( 'Unable to start Campaign duplication.', 'now-campaign-storefronts' ) );
 		}
 
 		$newId = 0;
@@ -57,10 +57,10 @@ final class CampaignDuplicator {
 			if ( $newId > 0 ) {
 				$this->cleanupNewCampaign( $newId );
 			}
-			error_log( 'WC Campaign duplicate failed: ' . $error->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( 'NOW Campaign Storefronts duplicate failed: ' . $error->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 			return new \WP_Error(
 				'duplicate_failed',
-				__( 'Campaign could not be duplicated.', 'wc-campaign' ),
+				__( 'Campaign could not be duplicated.', 'now-campaign-storefronts' ),
 				[ 'error' => $error->getMessage() ]
 			);
 		}
@@ -75,7 +75,7 @@ final class CampaignDuplicator {
 			[
 				'post_type'       => PostType::TYPE,
 				'post_status'     => 'draft',
-				'post_title'      => $source->post_title ?: __( 'Untitled Campaign', 'wc-campaign' ),
+				'post_title'      => $source->post_title ?: __( 'Untitled Campaign', 'now-campaign-storefronts' ),
 				'post_content'    => $source->post_content,
 				'post_excerpt'    => $source->post_excerpt,
 				'post_author'     => (int) $source->post_author,
@@ -246,7 +246,7 @@ final class CampaignDuplicator {
 			$this->share->deleteForCampaign( $newId );
 			wp_delete_post( $newId, true );
 		} catch ( \Throwable $error ) {
-			error_log( 'WC Campaign duplicate cleanup failed: ' . $error->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( 'NOW Campaign Storefronts duplicate cleanup failed: ' . $error->getMessage() ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		}
 	}
 }

@@ -42,12 +42,12 @@ final class CampaignReportShare {
 
 	public function save( int $campaignId, bool $enabled, string $password = '' ): array|\WP_Error {
 		if ( PostType::TYPE !== get_post_type( $campaignId ) ) {
-			return new \WP_Error( 'invalid_campaign', __( 'Campaign not found.', 'wc-campaign' ) );
+			return new \WP_Error( 'invalid_campaign', __( 'Campaign not found.', 'now-campaign-storefronts' ) );
 		}
 
 		$password = (string) $password;
 		if ( '0' === $password ) {
-			return new \WP_Error( 'invalid_password', __( 'Use a sharing password other than 0.', 'wc-campaign' ) );
+			return new \WP_Error( 'invalid_password', __( 'Use a sharing password other than 0.', 'now-campaign-storefronts' ) );
 		}
 
 		$reportPost = $this->reportPost( $campaignId, true );
@@ -60,7 +60,7 @@ final class CampaignReportShare {
 		}
 
 		if ( $enabled && ( ! $reportPost instanceof \WP_Post || empty( $reportPost->post_password ) ) ) {
-			return new \WP_Error( 'password_required', __( 'Set a password before enabling the external report.', 'wc-campaign' ) );
+			return new \WP_Error( 'password_required', __( 'Set a password before enabling the external report.', 'now-campaign-storefronts' ) );
 		}
 
 		if ( $enabled ) {
@@ -76,7 +76,7 @@ final class CampaignReportShare {
 
 	public function regenerate( int $campaignId ): array|\WP_Error {
 		if ( PostType::TYPE !== get_post_type( $campaignId ) ) {
-			return new \WP_Error( 'invalid_campaign', __( 'Campaign not found.', 'wc-campaign' ) );
+			return new \WP_Error( 'invalid_campaign', __( 'Campaign not found.', 'now-campaign-storefronts' ) );
 		}
 		$key = $this->generateKey();
 		update_post_meta( $campaignId, Meta::REPORT_SHARE_KEY, $key );
@@ -180,7 +180,7 @@ final class CampaignReportShare {
 
 	private function ensureReportPost( int $campaignId, string $password ): \WP_Post|\WP_Error {
 		if ( empty( $password ) ) {
-			return new \WP_Error( 'invalid_password', __( 'Use a non-empty sharing password other than 0.', 'wc-campaign' ) );
+			return new \WP_Error( 'invalid_password', __( 'Use a non-empty sharing password other than 0.', 'now-campaign-storefronts' ) );
 		}
 
 		$existing = $this->reportPost( $campaignId, false );
@@ -199,7 +199,7 @@ final class CampaignReportShare {
 				return $result;
 			}
 			$post = get_post( $existing->ID );
-			return $post instanceof \WP_Post ? $post : new \WP_Error( 'report_password_post_missing', __( 'Unable to load the report password record.', 'wc-campaign' ) );
+			return $post instanceof \WP_Post ? $post : new \WP_Error( 'report_password_post_missing', __( 'Unable to load the report password record.', 'now-campaign-storefronts' ) );
 		}
 
 		$postId = wp_insert_post(
@@ -219,7 +219,7 @@ final class CampaignReportShare {
 		update_post_meta( $postId, self::REPORT_CAMPAIGN_META, $campaignId );
 		update_post_meta( $campaignId, Meta::REPORT_POST_ID, $postId );
 		$post = get_post( $postId );
-		return $post instanceof \WP_Post ? $post : new \WP_Error( 'report_password_post_missing', __( 'Unable to load the report password record.', 'wc-campaign' ) );
+		return $post instanceof \WP_Post ? $post : new \WP_Error( 'report_password_post_missing', __( 'Unable to load the report password record.', 'now-campaign-storefronts' ) );
 	}
 
 	private function ensureKey( int $campaignId ): string {

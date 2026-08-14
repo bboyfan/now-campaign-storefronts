@@ -55,22 +55,22 @@ final class CampaignReportAdmin {
 					'averageOrder'     => wp_kses_post( wc_price( $averageOrder ) ),
 				],
 				'i18n'       => [
-					'title'                => __( 'External Report', 'wc-campaign' ),
-					'eyebrow'              => __( 'Live sharing', 'wc-campaign' ),
-					'enabled'              => __( 'Enable external live report', 'wc-campaign' ),
-					'password'             => __( 'Share password', 'wc-campaign' ),
-					'passwordHelp'         => __( 'Administrators can view and copy this password. The public report page and API never expose it. Password strength is not restricted.', 'wc-campaign' ),
-					'passwordLegacyHelp'   => __( 'This password was created before recoverable credentials were added and cannot be restored from its hash. Enter it again and save to make it viewable and copyable in the admin.', 'wc-campaign' ),
-					'link'                 => __( 'Share link', 'wc-campaign' ),
-					'copy'                 => __( 'Copy Link', 'wc-campaign' ),
-					'copyPassword'         => __( 'Copy Password', 'wc-campaign' ),
-					'open'                 => __( 'Open', 'wc-campaign' ),
-					'save'                 => __( 'Save Report Settings', 'wc-campaign' ),
-					'regenerate'           => __( 'Regenerate Link', 'wc-campaign' ),
-					'regenerateHelp'       => __( 'Regenerating the link immediately invalidates the old URL.', 'wc-campaign' ),
-					'saved'                => __( 'Report settings saved.', 'wc-campaign' ),
-					'copied'               => __( 'Link copied.', 'wc-campaign' ),
-					'passwordCopied'       => __( 'Password copied.', 'wc-campaign' ),
+					'title'                => __( 'External Report', 'now-campaign-storefronts' ),
+					'eyebrow'              => __( 'Live sharing', 'now-campaign-storefronts' ),
+					'enabled'              => __( 'Enable external live report', 'now-campaign-storefronts' ),
+					'password'             => __( 'Share password', 'now-campaign-storefronts' ),
+					'passwordHelp'         => __( 'Administrators can view and copy this password. The public report page and API never expose it. Password strength is not restricted.', 'now-campaign-storefronts' ),
+					'passwordLegacyHelp'   => __( 'This password was created before recoverable credentials were added and cannot be restored from its hash. Enter it again and save to make it viewable and copyable in the admin.', 'now-campaign-storefronts' ),
+					'link'                 => __( 'Share link', 'now-campaign-storefronts' ),
+					'copy'                 => __( 'Copy Link', 'now-campaign-storefronts' ),
+					'copyPassword'         => __( 'Copy Password', 'now-campaign-storefronts' ),
+					'open'                 => __( 'Open', 'now-campaign-storefronts' ),
+					'save'                 => __( 'Save Report Settings', 'now-campaign-storefronts' ),
+					'regenerate'           => __( 'Regenerate Link', 'now-campaign-storefronts' ),
+					'regenerateHelp'       => __( 'Regenerating the link immediately invalidates the old URL.', 'now-campaign-storefronts' ),
+					'saved'                => __( 'Report settings saved.', 'now-campaign-storefronts' ),
+					'copied'               => __( 'Link copied.', 'now-campaign-storefronts' ),
+					'passwordCopied'       => __( 'Password copied.', 'now-campaign-storefronts' ),
 				],
 			]
 		);
@@ -101,7 +101,7 @@ final class CampaignReportAdmin {
 	private function guard(): void {
 		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			wp_send_json_error( [ 'message' => __( 'Unauthorized', 'wc-campaign' ) ], 403 );
+			wp_send_json_error( [ 'message' => __( 'Unauthorized', 'now-campaign-storefronts' ) ], 403 );
 		}
 	}
 }

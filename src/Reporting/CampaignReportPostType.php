@@ -22,8 +22,8 @@ final class CampaignReportPostType {
 			self::TYPE,
 			[
 				'labels'              => [
-					'name'          => __( 'Campaign Report Passwords', 'wc-campaign' ),
-					'singular_name' => __( 'Campaign Report Password', 'wc-campaign' ),
+					'name'          => __( 'Campaign Report Passwords', 'now-campaign-storefronts' ),
+					'singular_name' => __( 'Campaign Report Password', 'now-campaign-storefronts' ),
 				],
 				'public'              => false,
 				'publicly_queryable'  => false,

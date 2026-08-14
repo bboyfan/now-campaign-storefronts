@@ -20,8 +20,8 @@ final class BulkPricingNotice {
 
 		$title = trim( (string) ( $config['notice_title'] ?? '' ) );
 		$description = trim( (string) ( $config['notice_description'] ?? '' ) );
-		$title = '' !== $title ? $title : __( 'Campaign mix-and-match savings', 'wc-campaign' );
-		$description = '' !== $description ? $description : __( 'Products and variations in this campaign are counted together and discounts apply automatically when a tier is reached.', 'wc-campaign' );
+		$title = '' !== $title ? $title : __( 'Campaign mix-and-match savings', 'now-campaign-storefronts' );
+		$description = '' !== $description ? $description : __( 'Products and variations in this campaign are counted together and discounts apply automatically when a tier is reached.', 'now-campaign-storefronts' );
 
 		ob_start();
 		?>
@@ -33,8 +33,8 @@ final class BulkPricingNotice {
 			<div class="woo-campaign-bulk-pricing-tiers">
 				<?php foreach ( $tiers as $tier ) : ?>
 					<span class="woo-campaign-bulk-pricing-tier">
-						<strong><?php echo esc_html( sprintf( __( '%d items or more', 'wc-campaign' ), absint( $tier['min_qty'] ?? 0 ) ) ); ?></strong>
-						<small><?php echo esc_html( sprintf( __( 'Save %s%%', 'wc-campaign' ), wc_format_localized_decimal( (float) ( $tier['discount_percent'] ?? 0 ) ) ) ); ?></small>
+						<strong><?php echo esc_html( sprintf( __( '%d items or more', 'now-campaign-storefronts' ), absint( $tier['min_qty'] ?? 0 ) ) ); ?></strong>
+						<small><?php echo esc_html( sprintf( __( 'Save %s%%', 'now-campaign-storefronts' ), wc_format_localized_decimal( (float) ( $tier['discount_percent'] ?? 0 ) ) ) ); ?></small>
 					</span>
 				<?php endforeach; ?>
 			</div>

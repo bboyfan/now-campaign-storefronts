@@ -36,22 +36,22 @@ final class CampaignDuplicate {
 			),
 			self::NONCE_ACTION . '_' . $post->ID
 		);
-		$actions['duplicate'] = '<a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( sprintf( __( 'Duplicate “%s”', 'wc-campaign' ), $post->post_title ) ) . '">' . esc_html__( 'Duplicate', 'wc-campaign' ) . '</a>';
+		$actions['duplicate'] = '<a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( sprintf( __( 'Duplicate “%s”', 'now-campaign-storefronts' ), $post->post_title ) ) . '">' . esc_html__( 'Duplicate', 'now-campaign-storefronts' ) . '</a>';
 		return $actions;
 	}
 
 	public function handle(): void {
 		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
 		if ( $campaignId <= 0 ) {
-			$this->redirectWithError( 'invalid_campaign', __( 'Invalid Campaign.', 'wc-campaign' ) );
+			$this->redirectWithError( 'invalid_campaign', __( 'Invalid Campaign.', 'now-campaign-storefronts' ) );
 		}
 		check_admin_referer( self::NONCE_ACTION . '_' . $campaignId );
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			wp_die( esc_html__( 'You do not have permission to manage campaigns.', 'wc-campaign' ) );
+			wp_die( esc_html__( 'You do not have permission to manage campaigns.', 'now-campaign-storefronts' ) );
 		}
 		$source = get_post( $campaignId );
 		if ( ! $source instanceof \WP_Post || PostType::TYPE !== $source->post_type ) {
-			$this->redirectWithError( 'campaign_not_found', __( 'Campaign not found.', 'wc-campaign' ) );
+			$this->redirectWithError( 'campaign_not_found', __( 'Campaign not found.', 'now-campaign-storefronts' ) );
 		}
 
 		$newId = $this->duplicator->duplicate( $campaignId );
@@ -74,7 +74,7 @@ final class CampaignDuplicate {
 
 	public function notices(): void {
 		if ( ! empty( $_GET['woo_campaign_duplicated'] ) ) {
-			printf( '<div class="notice notice-success is-dismissible"><p>%s</p></div>', esc_html__( 'Campaign duplicated.', 'wc-campaign' ) );
+			printf( '<div class="notice notice-success is-dismissible"><p>%s</p></div>', esc_html__( 'Campaign duplicated.', 'now-campaign-storefronts' ) );
 		}
 		if ( ! empty( $_GET['woo_campaign_duplicate_error'] ) ) {
 			$message = sanitize_text_field( wp_unslash( $_GET['woo_campaign_duplicate_error'] ) );
@@ -83,7 +83,7 @@ final class CampaignDuplicate {
 	}
 
 	private function redirectWithError( string $code, string $message ): never {
-		error_log( 'WC Campaign duplicate rejected: ' . $code . ' — ' . $message ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+		error_log( 'NOW Campaign Storefronts duplicate rejected: ' . $code . ' — ' . $message ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
 		wp_safe_redirect(
 			add_query_arg(
 				[

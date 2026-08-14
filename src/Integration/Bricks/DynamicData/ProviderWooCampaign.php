@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Bricks 2.3.10 Dynamic Data provider for WC Campaign tags.
+ * Bricks 2.3.10 Dynamic Data provider for NOW Campaign Storefronts tags.
  *
  * Registered through Bricks' official provider seam
  * (bricks/dynamic_data/register_providers) under the class name Bricks
@@ -28,8 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * featured_image contract) and a URL string in text/link context.
  */
 final class ProviderWooCampaign extends \Bricks\Integrations\Dynamic_Data\Providers\Base {
-	private const GROUP_CAMPAIGN = 'WC Campaign';
-	private const GROUP_PRODUCT = 'WC Campaign Product';
+	private const GROUP_CAMPAIGN = 'NOW Campaign Storefronts';
+	private const GROUP_PRODUCT = 'NOW Campaign Storefronts Product';
 
 	private const CAMPAIGN_TAGS = [
 		'wc_campaign_id'             => 'ID',
