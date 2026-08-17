@@ -3,7 +3,7 @@ Contributors: bboyfan
 Tags: woocommerce, campaigns, group buying, reporting, storefront
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -94,6 +94,12 @@ No. NOW Campaign Storefronts does not make external service requests for campaig
 No. External reports are designed around aggregate sales metrics and product performance and do not expose customer names, email addresses, phone numbers, addresses, or order numbers.
 
 == Changelog ==
+
+= 1.4.3 =
+* Restored WooCommerce standard AJAX Add to Cart lifecycle compatibility for Campaign storefront purchases.
+* Added WooCommerce fragments, cart hashes, and frontend added_to_cart events for third-party commerce and analytics integrations.
+* Preserved the existing single-request Campaign cart experience for simple products, variations, and Add selected flows.
+* Removed the redundant cart-fragment refresh request after successful Campaign cart updates.
 
 = 1.4.2 =
 * Renamed the public plugin identity to NOW Campaign Storefronts for WooCommerce.

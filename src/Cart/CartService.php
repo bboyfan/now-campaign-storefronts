@@ -19,7 +19,16 @@ final class CartService {
 		private CampaignRepository $campaigns,
 	) {}
 
-	public function add( int $campaignId, int $campaignProductId, int $quantity ): string {
+	/**
+	 * @return array{
+	 *     cart_item_key: string,
+	 *     product_id: int,
+	 *     variation_id: int,
+	 *     quantity: int,
+	 *     campaign_product_id: int,
+	 * }
+	 */
+	public function add( int $campaignId, int $campaignProductId, int $quantity ): array {
 		$prepared = $this->prepareItem( $campaignId, $campaignProductId, max( 1, $quantity ) );
 		return $this->addPreparedItem( $prepared );
 	}
@@ -27,6 +36,14 @@ final class CartService {
 	/**
 	 * Add multiple CampaignProducts in one request. All items are validated first;
 	 * if a later Woo add fails, lines added by this call are rolled back.
+	 *
+	 * @return list<array{
+	 *     cart_item_key: string,
+	 *     product_id: int,
+	 *     variation_id: int,
+	 *     quantity: int,
+	 *     campaign_product_id: int,
+	 * }>
 	 */
 	public function addMany( int $campaignId, array $items ): array {
 		$prepared = [];
@@ -52,13 +69,14 @@ final class CartService {
 			$initialQuantities[ $key ] = (int) ( $cartItem['quantity'] ?? 0 );
 		}
 
-		$addedKeys = [];
+		$addedItems = [];
 		try {
 			foreach ( $prepared as $item ) {
-				$addedKeys[] = $this->addPreparedItem( $item );
+				$addedItems[] = $this->addPreparedItem( $item );
 			}
 		} catch ( \Throwable $e ) {
-			foreach ( array_unique( $addedKeys ) as $key ) {
+			foreach ( $addedItems as $added ) {
+				$key     = $added['cart_item_key'];
 				$prevQty = $initialQuantities[ $key ] ?? 0;
 				if ( $prevQty > 0 ) {
 					WC()->cart->set_quantity( $key, $prevQty, true );
@@ -69,7 +87,7 @@ final class CartService {
 			WC()->cart->calculate_totals();
 			throw $e;
 		}
-		return $addedKeys;
+		return $addedItems;
 	}
 
 	public function update( string $key, int $quantity ): void {
@@ -134,13 +152,23 @@ final class CartService {
 		return [ 'campaign_id' => $campaignId, 'campaign_product_id' => $campaignProductId, 'quantity' => $quantity, 'item' => $item, 'product' => $product ];
 	}
 
-	private function addPreparedItem( array $prepared ): string {
-		$item = $prepared['item'];
-		$product = $prepared['product'];
-		$campaignId = (int) $prepared['campaign_id'];
+	/**
+	 * @return array{
+	 *     cart_item_key: string,
+	 *     product_id: int,
+	 *     variation_id: int,
+	 *     quantity: int,
+	 *     campaign_product_id: int,
+	 * }
+	 */
+	private function addPreparedItem( array $prepared ): array {
+		$item              = $prepared['item'];
+		$product           = $prepared['product'];
+		$campaignId        = (int) $prepared['campaign_id'];
 		$campaignProductId = (int) $prepared['campaign_product_id'];
-		$variation = $item->variationId > 0 && $product instanceof \WC_Product_Variation ? $product->get_variation_attributes() : [];
-		$cartItemData = [
+		$quantity          = (int) $prepared['quantity'];
+		$variation         = $item->variationId > 0 && $product instanceof \WC_Product_Variation ? $product->get_variation_attributes() : [];
+		$cartItemData      = [
 			'_woo_campaign_id'         => $campaignId,
 			'_woo_campaign_product_id' => $campaignProductId,
 			'_woo_campaign_price'      => wc_format_decimal( $item->campaignPrice ),
@@ -148,10 +176,16 @@ final class CartService {
 			'_woo_campaign_title'      => $this->campaigns->title( $campaignId ),
 			'_woo_campaign_slug'       => $this->campaigns->slug( $campaignId ),
 		];
-		$key = WC()->cart->add_to_cart( $item->productId, (int) $prepared['quantity'], $item->variationId, $variation, $cartItemData );
+		$key = WC()->cart->add_to_cart( $item->productId, $quantity, $item->variationId, $variation, $cartItemData );
 		if ( ! $key ) {
 			throw new \RuntimeException( __( 'Unable to add this campaign product to the cart.', 'now-campaign-storefronts' ) );
 		}
-		return $key;
+		return [
+			'cart_item_key'       => (string) $key,
+			'product_id'          => (int) $item->productId,
+			'variation_id'        => (int) $item->variationId,
+			'quantity'            => $quantity,
+			'campaign_product_id' => $campaignProductId,
+		];
 	}
 }

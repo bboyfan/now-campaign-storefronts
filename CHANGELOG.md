@@ -2,6 +2,28 @@
 
 All notable changes to NOW Campaign Storefronts for WooCommerce are documented here. Historical entries retain their release-time names.
 
+## 1.4.3 — 2026-08-17
+
+### Fixed
+
+- Restored WooCommerce standard AJAX Add to Cart extension lifecycle compatibility for Campaign storefront purchases.
+- Campaign Add to Cart responses now expose WooCommerce fragments and cart hashes so analytics and commerce integrations can react to successful cart additions.
+- Added standard WooCommerce product, variation, and quantity request context for third-party Add to Cart integrations.
+- Variable Campaign products now preserve the expected WooCommerce parent-product and variation identities throughout the AJAX lifecycle.
+- Campaign bulk Add selected requests preserve transactional rollback behavior without emitting successful frontend lifecycle events after failed batches.
+
+### Changed
+
+- Campaign storefronts now apply WooCommerce fragments and emit the standard frontend `added_to_cart` event after a successful custom AJAX cart request.
+- Removed the redundant `wc_fragment_refresh` call after Campaign cart mutations, avoiding an unnecessary second cart-fragment HTTP request.
+- Added WooCommerce storefront jQuery dependency for standard frontend lifecycle compatibility while retaining defensive behavior if jQuery is unavailable.
+
+### Compatibility / architecture
+
+- Campaign Add to Cart remains a single-request custom AJAX flow; the existing fast Campaign product, variation, quantity, Mini Cart, and toast UX is unchanged.
+- WooCommerce remains authoritative for cart mutations and continues to emit the native `woocommerce_add_to_cart` lifecycle; NOW Campaign Storefronts does not duplicate that action.
+- No direct Meta Pixel or Facebook for WooCommerce dependency was added. Compatibility is provided through WooCommerce's standard extension lifecycle.
+
 ## 1.4.2 — 2026-08-14
 
 ### Changed

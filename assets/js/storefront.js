@@ -67,8 +67,24 @@
       if (list) list.innerHTML = snapshot.items && snapshot.items.length ? snapshot.items.map(itemMarkup).join('') : emptyMarkup();
     });
     if (window.jQuery) {
-      window.jQuery(document.body).trigger('wc_fragment_refresh');
       window.jQuery(document.body).trigger('updated_cart_totals');
+    }
+  }
+
+  function applyWooAddToCart(data, button) {
+    if (!data) return;
+    var fragments = data.fragments || null;
+    var cartHash = data.cart_hash || '';
+
+    if (window.jQuery) {
+      var $ = window.jQuery;
+      if (fragments) {
+        $.each(fragments, function (key, value) {
+          $(key).replaceWith(value);
+        });
+      }
+      var $button = button ? $(button) : false;
+      $(document.body).trigger('added_to_cart', [fragments, cartHash, $button]);
     }
   }
 
@@ -153,8 +169,13 @@
       });
       if (!items.length) return;
       setBusy(addSelected, true); setProductFeedback(group, '');
-      post('woo_campaign_add_many_cart', { campaign_id: addSelected.getAttribute('data-campaign-id'), items: JSON.stringify(items) }).then(function (snapshot) {
-        renderMiniCart(snapshot); resetDirectGroup(group); setProductFeedback(group, i18n.added || 'Added to cart'); showToast(i18n.added || 'Added to cart');
+      post('woo_campaign_add_many_cart', { campaign_id: addSelected.getAttribute('data-campaign-id'), items: JSON.stringify(items) }).then(function (data) {
+        var snapshot = data && data.snapshot ? data.snapshot : data;
+        renderMiniCart(snapshot);
+        applyWooAddToCart(data, addSelected);
+        resetDirectGroup(group);
+        setProductFeedback(group, i18n.added || 'Added to cart');
+        showToast(i18n.added || 'Added to cart');
       }).catch(function (error) { setProductFeedback(group, error.message); showToast(error.message); }).finally(function () { setBusy(addSelected, false); updateDirectGroup(group); });
       return;
     }
@@ -172,8 +193,12 @@
       event.preventDefault();
       var card = add.closest('[data-campaign-product-card], [data-campaign-product-option]'); var select = card && card.querySelector('[data-woo-campaign-variation]'); var qty = card && card.querySelector('[data-woo-campaign-qty]'); var campaignProductId = add.getAttribute('data-campaign-product-id') || (select ? select.value : '');
       setBusy(add, true); setProductFeedback(card, '');
-      post('woo_campaign_add_cart', { campaign_id: add.getAttribute('data-campaign-id'), campaign_product_id: campaignProductId, quantity: qty ? clampInput(qty, 1) : 1 }).then(function (snapshot) {
-        renderMiniCart(snapshot); setProductFeedback(card, i18n.added || 'Added to cart'); showToast(i18n.added || 'Added to cart');
+      post('woo_campaign_add_cart', { campaign_id: add.getAttribute('data-campaign-id'), campaign_product_id: campaignProductId, quantity: qty ? clampInput(qty, 1) : 1 }).then(function (data) {
+        var snapshot = data && data.snapshot ? data.snapshot : data;
+        renderMiniCart(snapshot);
+        applyWooAddToCart(data, add);
+        setProductFeedback(card, i18n.added || 'Added to cart');
+        showToast(i18n.added || 'Added to cart');
       }).catch(function (error) { setProductFeedback(card, error.message); showToast(error.message); }).finally(function () { setBusy(add, false); });
       return;
     }

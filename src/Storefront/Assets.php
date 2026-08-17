@@ -59,7 +59,7 @@ final class Assets {
 		wp_enqueue_style( 'woo-campaign-quick-order-v2', WOO_CAMPAIGN_URL . 'assets/css/quick-order-v2.css', [ 'woo-campaign-sections' ], WOO_CAMPAIGN_VERSION );
 		wp_enqueue_style( 'woo-campaign-presentation-v2', WOO_CAMPAIGN_URL . 'assets/css/presentation-v2-storefront.css', [ 'woo-campaign-quick-order-v2' ], WOO_CAMPAIGN_VERSION );
 		wp_enqueue_style( 'woo-campaign-bulk-pricing', WOO_CAMPAIGN_URL . 'assets/css/campaign-bulk-pricing-storefront.css', [ 'woo-campaign-presentation-v2' ], WOO_CAMPAIGN_VERSION );
-		wp_enqueue_script( 'woo-campaign-storefront', WOO_CAMPAIGN_URL . 'assets/js/storefront.js', [], WOO_CAMPAIGN_VERSION, true );
+		wp_enqueue_script( 'woo-campaign-storefront', WOO_CAMPAIGN_URL . 'assets/js/storefront.js', [ 'jquery' ], WOO_CAMPAIGN_VERSION, true );
 		wp_enqueue_script( 'woo-campaign-presentation-v2', WOO_CAMPAIGN_URL . 'assets/js/presentation-v2-storefront.js', [ 'woo-campaign-storefront' ], WOO_CAMPAIGN_VERSION, true );
 		if ( ! $this->localized ) {
 			wp_localize_script(
