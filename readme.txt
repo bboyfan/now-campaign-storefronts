@@ -3,7 +3,7 @@ Contributors: bboyfan
 Tags: woocommerce, campaigns, group buying, reporting, storefront
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.4.3
+Stable tag: 1.4.4
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -95,6 +95,11 @@ No. External reports are designed around aggregate sales metrics and product per
 
 == Changelog ==
 
+= 1.4.4 =
+* Addressed WordPress.org manual review requirements with unified canonical prefixing and hardened sanitization.
+* Updated storefront product media display to cover framing across all section layouts.
+* Refined Campaign Report typography, card heights, and responsive metric hierarchy.
+
 = 1.4.3 =
 * Restored WooCommerce standard AJAX Add to Cart lifecycle compatibility for Campaign storefront purchases.
 * Added WooCommerce fragments, cart hashes, and frontend added_to_cart events for third-party commerce and analytics integrations.
@@ -119,7 +124,7 @@ No. External reports are designed around aggregate sales metrics and product per
 * Campaign Products Query Loop: render Campaign products with Bricks query loops while keeping Campaign, section, product, and variation context.
 * WC Campaign dynamic data tags for Campaign and Campaign Product values (title, product name, variation, image, reference price, Campaign price, savings, copy, stock note).
 * Campaign-aware element conditions: show or hide shared Bricks elements by current Campaign (is / is not, multiple selection).
-* The native storefront remains fully available when no Bricks template is assigned, and [woo_campaign_products] still renders the complete purchase UI inside Bricks templates.
+* The native storefront remains fully available when no Bricks template is assigned, and [nowcastf_products] still renders the complete purchase UI inside Bricks templates.
 
 = 1.3.0 =
 * Added a Duplicate action to every Campaign row in the Campaign list.

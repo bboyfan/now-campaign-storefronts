@@ -1,13 +1,13 @@
 <?php
 
-namespace WooCampaign\Storefront;
+namespace NowCampaignStorefronts\Storefront;
 
-use WooCampaign\CampaignProduct\CampaignProduct;
-use WooCampaign\CampaignProduct\CampaignProductPresentationResolver;
-use WooCampaign\CampaignProduct\Repository as CampaignProductRepository;
-use WooCampaign\CampaignSection\CampaignSection;
-use WooCampaign\CampaignSection\Repository as CampaignSectionRepository;
-use WooCampaign\Product\ProductAdapter;
+use NowCampaignStorefronts\CampaignProduct\CampaignProduct;
+use NowCampaignStorefronts\CampaignProduct\CampaignProductPresentationResolver;
+use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use NowCampaignStorefronts\CampaignSection\CampaignSection;
+use NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
+use NowCampaignStorefronts\Product\ProductAdapter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -45,7 +45,7 @@ final class CampaignSectionRenderer {
 
 		ob_start();
 		?>
-		<div class="woo-campaign-sections" data-campaign-id="<?php echo esc_attr( (string) $campaignId ); ?>">
+		<div class="nowcastf-sections" data-campaign-id="<?php echo esc_attr( (string) $campaignId ); ?>">
 			<?php foreach ( $sections as $section ) : ?>
 				<?php $this->renderSection( $campaignId, $section, $bySection[ $section->id ] ?? [] ); ?>
 			<?php endforeach; ?>
@@ -57,27 +57,27 @@ final class CampaignSectionRenderer {
 	private function renderSection( int $campaignId, CampaignSection $section, array $rows ): void {
 		$layout = in_array( $section->layout, CampaignSection::layouts(), true ) ? $section->layout : CampaignSection::LAYOUT_QUICK_ORDER;
 		$style = $this->sectionStyle( $section );
-		$sectionImage = $section->imageId > 0 ? $this->attachmentImage( $section->imageId, 'large', 'woo-campaign-section-image' ) : '';
+		$sectionImage = $section->imageId > 0 ? $this->attachmentImage( $section->imageId, 'large', 'nowcastf-section-image' ) : '';
 		?>
-		<section class="woo-campaign-section layout-<?php echo esc_attr( $layout ); ?>" data-campaign-section="<?php echo esc_attr( (string) $section->id ); ?>" data-campaign-layout="<?php echo esc_attr( $layout ); ?>"<?php echo '' !== $style ? ' style="' . esc_attr( $style ) . '"' : ''; ?>>
-			<?php if ( '' !== $sectionImage ) : ?><div class="woo-campaign-section-media"><?php echo $sectionImage; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div><?php endif; ?>
+		<section class="nowcastf-section layout-<?php echo esc_attr( $layout ); ?>" data-campaign-section="<?php echo esc_attr( (string) $section->id ); ?>" data-campaign-layout="<?php echo esc_attr( $layout ); ?>"<?php echo '' !== $style ? ' style="' . esc_attr( $style ) . '"' : ''; ?>>
+			<?php if ( '' !== $sectionImage ) : ?><div class="nowcastf-section-media"><?php echo $sectionImage; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div><?php endif; ?>
 			<?php if ( '' !== $section->title || '' !== $section->description ) : ?>
-				<header class="woo-campaign-section-heading">
+				<header class="nowcastf-section-heading">
 					<?php if ( '' !== $section->title ) : ?><h2><?php echo esc_html( $section->title ); ?></h2><?php endif; ?>
-					<?php if ( '' !== $section->description ) : ?><div class="woo-campaign-section-description"><?php echo wp_kses_post( wpautop( $section->description ) ); ?></div><?php endif; ?>
+					<?php if ( '' !== $section->description ) : ?><div class="nowcastf-section-description"><?php echo wp_kses_post( wpautop( $section->description ) ); ?></div><?php endif; ?>
 				</header>
 			<?php endif; ?>
 			<?php if ( $rows ) : ?>
 				<?php if ( CampaignSection::LAYOUT_QUICK_ORDER === $layout ) : ?>
-					<div class="woo-campaign-purchase-list">
+					<div class="nowcastf-purchase-list">
 						<?php foreach ( $rows as $row ) : $this->renderQuickOrderRow( $campaignId, $row ); endforeach; ?>
 					</div>
 				<?php elseif ( CampaignSection::LAYOUT_EDITORIAL === $layout ) : ?>
-					<div class="woo-campaign-editorial-list">
+					<div class="nowcastf-editorial-list">
 						<?php foreach ( $rows as $row ) : $this->renderEditorialItem( $campaignId, $row ); endforeach; ?>
 					</div>
 				<?php else : ?>
-					<div class="woo-campaign-compact-grid">
+					<div class="nowcastf-compact-grid">
 						<?php foreach ( $rows as $row ) : $this->renderCompactItem( $campaignId, $row ); endforeach; ?>
 					</div>
 				<?php endif; ?>
@@ -91,36 +91,36 @@ final class CampaignSectionRenderer {
 		if ( null === $context ) {
 			return;
 		}
-		$image = $context['image_id'] > 0 ? $this->attachmentImage( $context['image_id'], 'woocommerce_thumbnail', 'woo-campaign-purchase-row-image' ) : '';
+		$image = $context['image_id'] > 0 ? $this->attachmentImage( $context['image_id'], 'woocommerce_thumbnail', 'nowcastf-purchase-row-image' ) : '';
 		?>
-		<article class="woo-campaign-purchase-row<?php echo '' === $image ? ' has-no-image' : ''; ?><?php echo $context['available'] ? '' : ' is-unavailable'; ?>" data-campaign-product-option data-campaign-product-id="<?php echo esc_attr( (string) $row->id ); ?>" data-campaign-price="<?php echo esc_attr( (string) $context['campaign'] ); ?>">
-			<?php if ( '' !== $image ) : ?><div class="woo-campaign-purchase-row-media"><?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div><?php endif; ?>
-			<div class="woo-campaign-purchase-row-content">
-				<div class="woo-campaign-purchase-row-identity">
+		<article class="nowcastf-purchase-row<?php echo '' === $image ? ' has-no-image' : ''; ?><?php echo $context['available'] ? '' : ' is-unavailable'; ?>" data-campaign-product-option data-campaign-product-id="<?php echo esc_attr( (string) $row->id ); ?>" data-campaign-price="<?php echo esc_attr( (string) $context['campaign'] ); ?>">
+			<?php if ( '' !== $image ) : ?><div class="nowcastf-purchase-row-media"><?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div><?php endif; ?>
+			<div class="nowcastf-purchase-row-content">
+				<div class="nowcastf-purchase-row-identity">
 					<h3><?php echo esc_html( $context['display_title'] ); ?></h3>
-					<?php if ( '' !== $context['copy'] ) : ?><div class="woo-campaign-row-copy"><?php echo esc_html( $context['copy'] ); ?></div><?php endif; ?>
-					<?php if ( '' !== $context['stock_note'] ) : ?><div class="woo-campaign-stock-note"><?php echo esc_html( $context['stock_note'] ); ?></div><?php endif; ?>
+					<?php if ( '' !== $context['copy'] ) : ?><div class="nowcastf-row-copy"><?php echo esc_html( $context['copy'] ); ?></div><?php endif; ?>
+					<?php if ( '' !== $context['stock_note'] ) : ?><div class="nowcastf-stock-note"><?php echo esc_html( $context['stock_note'] ); ?></div><?php endif; ?>
 				</div>
-				<?php $this->renderPrice( $context['base'], $context['campaign'], 'woo-campaign-purchase-row-price' ); ?>
+				<?php $this->renderPrice( $context['base'], $context['campaign'], 'nowcastf-purchase-row-price' ); ?>
 			</div>
-			<div class="woo-campaign-purchase-row-actions">
+			<div class="nowcastf-purchase-row-actions">
 				<?php if ( $context['available'] ) : ?>
-					<div class="woo-campaign-purchase-row-quantity">
+					<div class="nowcastf-purchase-row-quantity">
 						<span><?php esc_html_e( 'Quantity', 'now-campaign-storefronts' ); ?></span>
-						<div class="woo-campaign-quantity">
+						<div class="nowcastf-quantity">
 							<button type="button" data-woo-campaign-product-step="-1" aria-label="<?php esc_attr_e( 'Decrease quantity', 'now-campaign-storefronts' ); ?>">−</button>
 							<input type="number" min="1" step="1" value="1" inputmode="numeric" data-woo-campaign-qty aria-label="<?php esc_attr_e( 'Quantity', 'now-campaign-storefronts' ); ?>">
 							<button type="button" data-woo-campaign-product-step="1" aria-label="<?php esc_attr_e( 'Increase quantity', 'now-campaign-storefronts' ); ?>">+</button>
 						</div>
 					</div>
 					<button type="button" class="button alt woo-campaign-add-to-cart" data-campaign-id="<?php echo esc_attr( (string) $campaignId ); ?>" data-campaign-product-id="<?php echo esc_attr( (string) $row->id ); ?>">
-						<span class="woo-campaign-button-label"><?php esc_html_e( 'Add to cart', 'now-campaign-storefronts' ); ?></span>
-						<span class="woo-campaign-button-spinner" aria-hidden="true"></span>
+						<span class="nowcastf-button-label"><?php esc_html_e( 'Add to cart', 'now-campaign-storefronts' ); ?></span>
+						<span class="nowcastf-button-spinner" aria-hidden="true"></span>
 					</button>
 				<?php else : ?>
-					<span class="woo-campaign-sold-out"><?php esc_html_e( 'Sold out', 'now-campaign-storefronts' ); ?></span>
+					<span class="nowcastf-sold-out"><?php esc_html_e( 'Sold out', 'now-campaign-storefronts' ); ?></span>
 				<?php endif; ?>
-				<div class="woo-campaign-product-feedback" role="status" aria-live="polite" data-woo-campaign-product-feedback></div>
+				<div class="nowcastf-product-feedback" role="status" aria-live="polite" data-woo-campaign-product-feedback></div>
 			</div>
 		</article>
 		<?php
@@ -131,18 +131,18 @@ final class CampaignSectionRenderer {
 		if ( null === $context ) {
 			return;
 		}
-		$image = $context['image_id'] > 0 ? $this->attachmentImage( $context['image_id'], 'woocommerce_single', 'woo-campaign-editorial-image' ) : '';
+		$image = $context['image_id'] > 0 ? $this->attachmentImage( $context['image_id'], 'woocommerce_single', 'nowcastf-editorial-image' ) : '';
 		?>
-		<article class="woo-campaign-editorial-item<?php echo '' === $image ? ' has-no-image' : ''; ?><?php echo $context['available'] ? '' : ' is-unavailable'; ?>" data-campaign-product-option data-campaign-product-id="<?php echo esc_attr( (string) $row->id ); ?>" data-campaign-price="<?php echo esc_attr( (string) $context['campaign'] ); ?>">
-			<?php if ( '' !== $image ) : ?><div class="woo-campaign-editorial-media"><?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div><?php endif; ?>
-			<div class="woo-campaign-editorial-content">
-				<div class="woo-campaign-editorial-copy">
+		<article class="nowcastf-editorial-item<?php echo '' === $image ? ' has-no-image' : ''; ?><?php echo $context['available'] ? '' : ' is-unavailable'; ?>" data-campaign-product-option data-campaign-product-id="<?php echo esc_attr( (string) $row->id ); ?>" data-campaign-price="<?php echo esc_attr( (string) $context['campaign'] ); ?>">
+			<?php if ( '' !== $image ) : ?><div class="nowcastf-editorial-media"><?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div><?php endif; ?>
+			<div class="nowcastf-editorial-content">
+				<div class="nowcastf-editorial-copy">
 					<h3><?php echo esc_html( $context['display_title'] ); ?></h3>
-					<?php if ( '' !== $context['copy'] ) : ?><div class="woo-campaign-editorial-description"><?php echo wp_kses_post( wpautop( $row->campaignCopy ) ); ?></div><?php endif; ?>
-					<?php if ( '' !== $context['stock_note'] ) : ?><div class="woo-campaign-stock-note"><?php echo esc_html( $context['stock_note'] ); ?></div><?php endif; ?>
+					<?php if ( '' !== $context['copy'] ) : ?><div class="nowcastf-editorial-description"><?php echo wp_kses_post( wpautop( $row->campaignCopy ) ); ?></div><?php endif; ?>
+					<?php if ( '' !== $context['stock_note'] ) : ?><div class="nowcastf-stock-note"><?php echo esc_html( $context['stock_note'] ); ?></div><?php endif; ?>
 				</div>
-				<?php $this->renderPrice( $context['base'], $context['campaign'], 'woo-campaign-editorial-price' ); ?>
-				<div class="woo-campaign-editorial-actions"><?php $this->renderPurchaseActions( $campaignId, $row->id, $context['available'], true ); ?></div>
+				<?php $this->renderPrice( $context['base'], $context['campaign'], 'nowcastf-editorial-price' ); ?>
+				<div class="nowcastf-editorial-actions"><?php $this->renderPurchaseActions( $campaignId, $row->id, $context['available'], true ); ?></div>
 			</div>
 		</article>
 		<?php
@@ -153,16 +153,16 @@ final class CampaignSectionRenderer {
 		if ( null === $context ) {
 			return;
 		}
-		$image = $context['image_id'] > 0 ? $this->attachmentImage( $context['image_id'], 'woocommerce_thumbnail', 'woo-campaign-compact-image' ) : '';
+		$image = $context['image_id'] > 0 ? $this->attachmentImage( $context['image_id'], 'woocommerce_thumbnail', 'nowcastf-compact-image' ) : '';
 		?>
-		<article class="woo-campaign-compact-card<?php echo '' === $image ? ' has-no-image' : ''; ?><?php echo $context['available'] ? '' : ' is-unavailable'; ?>" data-campaign-product-option data-campaign-product-id="<?php echo esc_attr( (string) $row->id ); ?>" data-campaign-price="<?php echo esc_attr( (string) $context['campaign'] ); ?>">
-			<?php if ( '' !== $image ) : ?><div class="woo-campaign-compact-card-media"><?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div><?php endif; ?>
-			<div class="woo-campaign-compact-card-content">
+		<article class="nowcastf-compact-card<?php echo '' === $image ? ' has-no-image' : ''; ?><?php echo $context['available'] ? '' : ' is-unavailable'; ?>" data-campaign-product-option data-campaign-product-id="<?php echo esc_attr( (string) $row->id ); ?>" data-campaign-price="<?php echo esc_attr( (string) $context['campaign'] ); ?>">
+			<?php if ( '' !== $image ) : ?><div class="nowcastf-compact-card-media"><?php echo $image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div><?php endif; ?>
+			<div class="nowcastf-compact-card-content">
 				<h3><?php echo esc_html( $context['display_title'] ); ?></h3>
-				<?php if ( '' !== $context['copy'] ) : ?><p class="woo-campaign-compact-copy"><?php echo esc_html( $context['copy'] ); ?></p><?php endif; ?>
-				<?php if ( '' !== $context['stock_note'] ) : ?><div class="woo-campaign-stock-note"><?php echo esc_html( $context['stock_note'] ); ?></div><?php endif; ?>
-				<?php $this->renderPrice( $context['base'], $context['campaign'], 'woo-campaign-compact-price' ); ?>
-				<div class="woo-campaign-compact-actions"><?php $this->renderPurchaseActions( $campaignId, $row->id, $context['available'], true ); ?></div>
+				<?php if ( '' !== $context['copy'] ) : ?><p class="nowcastf-compact-copy"><?php echo esc_html( $context['copy'] ); ?></p><?php endif; ?>
+				<?php if ( '' !== $context['stock_note'] ) : ?><div class="nowcastf-stock-note"><?php echo esc_html( $context['stock_note'] ); ?></div><?php endif; ?>
+				<?php $this->renderPrice( $context['base'], $context['campaign'], 'nowcastf-compact-price' ); ?>
+				<div class="nowcastf-compact-actions"><?php $this->renderPurchaseActions( $campaignId, $row->id, $context['available'], true ); ?></div>
 			</div>
 		</article>
 		<?php
@@ -170,22 +170,22 @@ final class CampaignSectionRenderer {
 
 	private function renderPurchaseActions( int $campaignId, int $campaignProductId, bool $available, bool $compact = false ): void {
 		if ( ! $available ) {
-			echo '<span class="woo-campaign-sold-out">' . esc_html__( 'Sold out', 'now-campaign-storefronts' ) . '</span>';
+			echo '<span class="nowcastf-sold-out">' . esc_html__( 'Sold out', 'now-campaign-storefronts' ) . '</span>';
 			return;
 		}
 		?>
-		<div class="woo-campaign-purchase-controls<?php echo $compact ? ' is-compact' : ''; ?>">
-			<div class="woo-campaign-quantity">
+		<div class="nowcastf-purchase-controls<?php echo $compact ? ' is-compact' : ''; ?>">
+			<div class="nowcastf-quantity">
 				<button type="button" data-woo-campaign-product-step="-1" aria-label="<?php esc_attr_e( 'Decrease quantity', 'now-campaign-storefronts' ); ?>">−</button>
 				<input type="number" min="1" step="1" value="1" inputmode="numeric" data-woo-campaign-qty aria-label="<?php esc_attr_e( 'Quantity', 'now-campaign-storefronts' ); ?>">
 				<button type="button" data-woo-campaign-product-step="1" aria-label="<?php esc_attr_e( 'Increase quantity', 'now-campaign-storefronts' ); ?>">+</button>
 			</div>
 			<button type="button" class="button alt woo-campaign-add-to-cart" data-campaign-id="<?php echo esc_attr( (string) $campaignId ); ?>" data-campaign-product-id="<?php echo esc_attr( (string) $campaignProductId ); ?>">
-				<span class="woo-campaign-button-label"><?php esc_html_e( 'Add to cart', 'now-campaign-storefronts' ); ?></span>
-				<span class="woo-campaign-button-spinner" aria-hidden="true"></span>
+				<span class="nowcastf-button-label"><?php esc_html_e( 'Add to cart', 'now-campaign-storefronts' ); ?></span>
+				<span class="nowcastf-button-spinner" aria-hidden="true"></span>
 			</button>
 		</div>
-		<div class="woo-campaign-product-feedback" role="status" aria-live="polite" data-woo-campaign-product-feedback></div>
+		<div class="nowcastf-product-feedback" role="status" aria-live="polite" data-woo-campaign-product-feedback></div>
 		<?php
 	}
 

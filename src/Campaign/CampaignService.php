@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCampaign\Campaign;
+namespace NowCampaignStorefronts\Campaign;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

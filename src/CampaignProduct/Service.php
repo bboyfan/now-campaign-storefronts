@@ -1,9 +1,9 @@
 <?php
 
-namespace WooCampaign\CampaignProduct;
+namespace NowCampaignStorefronts\CampaignProduct;
 
-use WooCampaign\Campaign\CampaignRepository;
-use WooCampaign\Product\ProductAdapter;
+use NowCampaignStorefronts\Campaign\CampaignRepository;
+use NowCampaignStorefronts\Product\ProductAdapter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -50,7 +50,7 @@ final class Service {
 		$this->repository->replaceForCampaign( $campaignId, $rows );
 		clean_post_cache( $campaignId );
 		if ( $notify ) {
-			do_action( 'woo_campaign_updated', $campaignId );
+			do_action( 'nowcastf_updated', $campaignId );
 		}
 		return $rows;
 	}

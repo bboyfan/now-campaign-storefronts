@@ -1,20 +1,20 @@
 <?php
 
-namespace WooCampaign\Cart;
+namespace NowCampaignStorefronts\Cart;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 final class AjaxController {
-	private const NONCE_ACTION = 'woo_campaign_cart';
+	private const NONCE_ACTION = 'nowcastf_cart';
 
 	public function __construct( private CartService $cart ) {}
 
 	public function register(): void {
 		foreach ( [ 'add', 'add_many', 'update', 'remove', 'get' ] as $action ) {
-			add_action( 'wp_ajax_woo_campaign_' . $action . '_cart', [ $this, $action ] );
-			add_action( 'wp_ajax_nopriv_woo_campaign_' . $action . '_cart', [ $this, $action ] );
+			add_action( 'wp_ajax_nowcastf_' . $action . '_cart', [ $this, $action ] );
+			add_action( 'wp_ajax_nopriv_nowcastf_' . $action . '_cart', [ $this, $action ] );
 		}
 	}
 
@@ -23,11 +23,13 @@ final class AjaxController {
 	}
 
 	public function add(): void {
-		$this->guard();
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
+		$this->guardCart();
+
 		try {
 			$campaignId        = absint( $_POST['campaign_id'] ?? 0 );
 			$campaignProductId = absint( $_POST['campaign_product_id'] ?? 0 );
-			$quantity          = absint( $_POST['quantity'] ?? 1 );
+			$quantity          = max( 1, absint( $_POST['quantity'] ?? 1 ) );
 
 			$addedItem = $this->cart->add( $campaignId, $campaignProductId, $quantity );
 			$compat    = $this->emitSingleCompatibility( $addedItem );
@@ -47,15 +49,38 @@ final class AjaxController {
 	}
 
 	public function add_many(): void {
-		$this->guard();
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
+		$this->guardCart();
+
 		try {
-			$raw   = wp_unslash( $_POST['items'] ?? '[]' );
-			$items = json_decode( is_string( $raw ) ? $raw : '[]', true );
+			$campaignId = absint( $_POST['campaign_id'] ?? 0 );
+			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$raw        = wp_unslash( $_POST['items'] ?? '[]' );
+			$items      = json_decode( is_string( $raw ) ? $raw : '[]', true );
 			if ( ! is_array( $items ) ) {
 				throw new \RuntimeException( __( 'Invalid campaign items.', 'now-campaign-storefronts' ) );
 			}
 
-			$addedItems = $this->cart->addMany( absint( $_POST['campaign_id'] ?? 0 ), $items );
+			$sanitizedItems = [];
+			foreach ( $items as $rawItem ) {
+				if ( ! is_array( $rawItem ) ) {
+					continue;
+				}
+				$cpid = absint( $rawItem['campaign_product_id'] ?? 0 );
+				$qty  = absint( $rawItem['quantity'] ?? 0 );
+				if ( $cpid > 0 && $qty > 0 ) {
+					$sanitizedItems[] = [
+						'campaign_product_id' => $cpid,
+						'quantity'            => $qty,
+					];
+				}
+			}
+
+			if ( ! $sanitizedItems ) {
+				throw new \RuntimeException( __( 'Select at least one campaign item.', 'now-campaign-storefronts' ) );
+			}
+
+			$addedItems = $this->cart->addMany( $campaignId, $sanitizedItems );
 			$compat     = $this->emitBatchCompatibility( $addedItems );
 
 			$response = [
@@ -73,9 +98,11 @@ final class AjaxController {
 	}
 
 	public function update(): void {
-		$this->guard();
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
+		$this->guardCart();
+
 		try {
-			$key = wc_clean( wp_unslash( $_POST['cart_item_key'] ?? '' ) );
+			$key = sanitize_text_field( wp_unslash( $_POST['cart_item_key'] ?? '' ) );
 			$this->cart->update( $key, absint( $_POST['quantity'] ?? 0 ) );
 			$snapshot = $this->cart->snapshot();
 		} catch ( \Throwable $e ) {
@@ -87,9 +114,11 @@ final class AjaxController {
 	}
 
 	public function remove(): void {
-		$this->guard();
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
+		$this->guardCart();
+
 		try {
-			$key = wc_clean( wp_unslash( $_POST['cart_item_key'] ?? '' ) );
+			$key = sanitize_text_field( wp_unslash( $_POST['cart_item_key'] ?? '' ) );
 			$this->cart->remove( $key );
 			$snapshot = $this->cart->snapshot();
 		} catch ( \Throwable $e ) {
@@ -101,12 +130,13 @@ final class AjaxController {
 	}
 
 	public function get(): void {
-		$this->guard();
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
+		$this->guardCart();
+
 		wp_send_json_success( $this->cart->snapshot() );
 	}
 
-	private function guard(): void {
-		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
+	private function guardCart(): void {
 		if ( ! function_exists( 'WC' ) || ! WC()->cart ) {
 			wp_send_json_error( [ 'message' => __( 'Cart is unavailable.', 'now-campaign-storefronts' ) ], 503 );
 		}
@@ -119,6 +149,7 @@ final class AjaxController {
 	 * @return array{fragments: array<string, string>, cart_hash: string}
 	 */
 	private function emitSingleCompatibility( array $addedItem ): array {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$originalPost = $_POST;
 		$_POST['product_id'] = $addedItem['product_id'];
 		$_POST['quantity']   = $addedItem['quantity'];
@@ -132,7 +163,7 @@ final class AjaxController {
 			do_action( 'woocommerce_ajax_added_to_cart', $addedItem['product_id'] );
 
 			$effectiveId = ! empty( $addedItem['variation_id'] ) ? $addedItem['variation_id'] : $addedItem['product_id'];
-			do_action( 'internal_woocommerce_cart_item_added_from_user_request', $effectiveId, $addedItem['quantity'] );
+			do_action( 'nowcastf_cart_item_added_from_user_request', $effectiveId, $addedItem['quantity'] );
 
 			return $this->buildFragmentsData();
 		} finally {
@@ -147,6 +178,7 @@ final class AjaxController {
 	 * @return array{fragments: array<string, string>, cart_hash: string}
 	 */
 	private function emitBatchCompatibility( array $addedItems ): array {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$originalPost = $_POST;
 		try {
 			foreach ( $addedItems as $item ) {
@@ -161,7 +193,7 @@ final class AjaxController {
 				do_action( 'woocommerce_ajax_added_to_cart', $item['product_id'] );
 
 				$effectiveId = ! empty( $item['variation_id'] ) ? $item['variation_id'] : $item['product_id'];
-				do_action( 'internal_woocommerce_cart_item_added_from_user_request', $effectiveId, $item['quantity'] );
+				do_action( 'nowcastf_cart_item_added_from_user_request', $effectiveId, $item['quantity'] );
 			}
 
 			return $this->buildFragmentsData();

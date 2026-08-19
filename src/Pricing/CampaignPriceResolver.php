@@ -1,10 +1,10 @@
 <?php
 
-namespace WooCampaign\Pricing;
+namespace NowCampaignStorefronts\Pricing;
 
-use WooCampaign\Campaign\CampaignRepository;
-use WooCampaign\CampaignProduct\CampaignProduct;
-use WooCampaign\CampaignProduct\Repository;
+use NowCampaignStorefronts\Campaign\CampaignRepository;
+use NowCampaignStorefronts\CampaignProduct\CampaignProduct;
+use NowCampaignStorefronts\CampaignProduct\Repository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

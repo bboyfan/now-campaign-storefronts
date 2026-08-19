@@ -1,15 +1,15 @@
 <?php
 
-namespace WooCampaign\Storefront;
+namespace NowCampaignStorefronts\Storefront;
 
-use WooCampaign\Campaign\PostType;
+use NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 final class CampaignRenderer {
-	public const FILTER_PRESENTATION_OWNER = 'woo_campaign_storefront_presentation_owner';
+	public const FILTER_PRESENTATION_OWNER = 'nowcastf_storefront_presentation_owner';
 
 	private static bool $renderedProducts = false;
 	private static bool $renderedMiniCart = false;
@@ -52,7 +52,7 @@ final class CampaignRenderer {
 		if ( $this->isBricksOwned() ) {
 			return $template;
 		}
-		$native = WOO_CAMPAIGN_PATH . 'templates/single-woo_campaign.php';
+		$native = NOWCASTF_PATH . 'templates/single-nowcastf_campaign.php';
 		if ( ! is_readable( $native ) ) {
 			return $template;
 		}
@@ -68,11 +68,11 @@ final class CampaignRenderer {
 			return $content;
 		}
 
-		if ( ! self::$renderedProducts && ! has_shortcode( $content, 'woo_campaign_products' ) ) {
-			$content .= do_shortcode( '[woo_campaign_products]' );
+		if ( ! self::$renderedProducts && ! has_shortcode( $content, 'nowcastf_products' ) ) {
+			$content .= do_shortcode( '[nowcastf_products]' );
 		}
-		if ( ! self::$renderedMiniCart && ! has_shortcode( $content, 'woo_campaign_mini_cart' ) ) {
-			$content .= do_shortcode( '[woo_campaign_mini_cart]' );
+		if ( ! self::$renderedMiniCart && ! has_shortcode( $content, 'nowcastf_mini_cart' ) ) {
+			$content .= do_shortcode( '[nowcastf_mini_cart]' );
 		}
 		return $content;
 	}
@@ -82,10 +82,10 @@ final class CampaignRenderer {
 			return;
 		}
 		if ( ! self::$renderedProducts ) {
-			echo do_shortcode( '[woo_campaign_products]' );
+			echo do_shortcode( '[nowcastf_products]' );
 		}
 		if ( ! self::$renderedMiniCart ) {
-			echo do_shortcode( '[woo_campaign_mini_cart]' );
+			echo do_shortcode( '[nowcastf_mini_cart]' );
 		}
 	}
 
@@ -95,6 +95,6 @@ final class CampaignRenderer {
 	 * bricks/active_templates hook; core never imports Bricks classes.
 	 */
 	private function isBricksOwned(): bool {
-		return 'bricks' === apply_filters( self::FILTER_PRESENTATION_OWNER, 'native', (int) get_queried_object_id() );
+		return 'bricks' === apply_filters( 'nowcastf_storefront_presentation_owner', 'native', (int) get_queried_object_id() );
 	}
 }

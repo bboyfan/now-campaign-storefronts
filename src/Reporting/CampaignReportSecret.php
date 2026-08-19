@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCampaign\Reporting;
+namespace NowCampaignStorefronts\Reporting;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -20,7 +20,7 @@ final class CampaignReportSecret {
 	private const CIPHER = 'aes-256-gcm';
 	private const IV_BYTES = 12;
 	private const TAG_BYTES = 16;
-	private const AAD = 'woo-campaign-report-password';
+	private const AAD = 'nowcastf-report-password';
 
 	public function encrypt( string $password ): string|\WP_Error {
 		if ( '' === $password ) {

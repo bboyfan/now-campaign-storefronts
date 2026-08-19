@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCampaign\Order;
+namespace NowCampaignStorefronts\Order;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

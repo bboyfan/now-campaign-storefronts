@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCampaign\Pricing;
+namespace NowCampaignStorefronts\Pricing;
 
-use WooCampaign\Campaign\Meta;
+use NowCampaignStorefronts\Campaign\Meta;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

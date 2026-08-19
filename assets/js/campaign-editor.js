@@ -1,7 +1,7 @@
 (function ($) {
   'use strict';
 
-  var config = window.WooCampaignEditor || {};
+  var config = window.NowCastfEditor || {};
   if (!config.campaignId) return;
 
   var sections = Array.isArray(config.sections) ? config.sections.slice() : [];
@@ -54,9 +54,9 @@
     var layoutHtml = Object.keys(layouts).map(function (key) {
       var item = layouts[key];
       var checked = section.layout === key ? ' checked' : '';
-      return '<label class="woo-campaign-layout-choice' + (checked ? ' is-selected' : '') + '">' +
+      return '<label class="nowcastf-layout-choice' + (checked ? ' is-selected' : '') + '">' +
         '<input type="radio" name="layout-' + escapeHtml(section.clientKey) + '" value="' + escapeHtml(key) + '"' + checked + ' data-section-layout>' +
-        '<span class="woo-campaign-layout-icon is-' + escapeHtml(key) + '"><i></i><i></i><i></i></span>' +
+        '<span class="nowcastf-layout-icon is-' + escapeHtml(key) + '"><i></i><i></i><i></i></span>' +
         '<strong>' + escapeHtml(item.label) + '</strong>' +
         '<small>' + escapeHtml(item.description) + '</small>' +
       '</label>';
@@ -64,29 +64,29 @@
 
     var productsHtml = sectionProducts.length
       ? sectionProducts.map(function (product, productIndex) { return renderProduct(product, productIndex, sectionProducts.length); }).join('')
-      : '<div class="woo-campaign-section-empty"><span class="dashicons dashicons-products"></span><strong>' + escapeHtml(config.i18n.noProducts || 'No products') + '</strong><p>' + escapeHtml(config.i18n.chooseProductsHelp || 'Choose a simple or variable product from the WooCommerce product catalog.') + '</p></div>';
+      : '<div class="nowcastf-section-empty"><span class="dashicons dashicons-products"></span><strong>' + escapeHtml(config.i18n.noProducts || 'No products') + '</strong><p>' + escapeHtml(config.i18n.chooseProductsHelp || 'Choose a simple or variable product from the WooCommerce product catalog.') + '</p></div>';
 
-    return '<article class="woo-campaign-section-block" data-section-key="' + escapeHtml(section.clientKey) + '" draggable="true">' +
-      '<header class="woo-campaign-section-header">' +
-        '<div class="woo-campaign-section-drag"><span class="dashicons dashicons-menu"></span></div>' +
-        '<div class="woo-campaign-section-number">Section ' + (index + 1) + '</div>' +
-        '<div class="woo-campaign-section-header-title"><strong>' + escapeHtml(section.title || config.i18n.untitledSection || 'Section') + '</strong><span>' + sectionProducts.length + ' items · ' + escapeHtml((layouts[section.layout] || {}).label || section.layout) + '</span></div>' +
-        '<div class="woo-campaign-section-header-actions">' +
+    return '<article class="nowcastf-section-block" data-section-key="' + escapeHtml(section.clientKey) + '" draggable="true">' +
+      '<header class="nowcastf-section-header">' +
+        '<div class="nowcastf-section-drag"><span class="dashicons dashicons-menu"></span></div>' +
+        '<div class="nowcastf-section-number">Section ' + (index + 1) + '</div>' +
+        '<div class="nowcastf-section-header-title"><strong>' + escapeHtml(section.title || config.i18n.untitledSection || 'Section') + '</strong><span>' + sectionProducts.length + ' items · ' + escapeHtml((layouts[section.layout] || {}).label || section.layout) + '</span></div>' +
+        '<div class="nowcastf-section-header-actions">' +
           '<button type="button" class="button-link" data-section-move="up" title="' + escapeHtml(config.i18n.moveUp || 'Move up') + '"><span class="dashicons dashicons-arrow-up-alt2"></span></button>' +
           '<button type="button" class="button-link" data-section-move="down" title="' + escapeHtml(config.i18n.moveDown || 'Move down') + '"><span class="dashicons dashicons-arrow-down-alt2"></span></button>' +
           '<button type="button" class="button-link-delete" data-section-remove title="' + escapeHtml(config.i18n.deleteSection || 'Delete section') + '"><span class="dashicons dashicons-trash"></span></button>' +
         '</div>' +
       '</header>' +
-      '<div class="woo-campaign-section-body">' +
-        '<div class="woo-campaign-section-fields">' +
+      '<div class="nowcastf-section-body">' +
+        '<div class="nowcastf-section-fields">' +
           '<label><span>' + escapeHtml(config.i18n.sectionTitle || 'Section title') + '</span><input type="text" value="' + escapeHtml(section.title) + '" data-section-title placeholder="' + escapeHtml(config.i18n.sectionTitlePlaceholder || 'For example: Mix and match fragrances') + '"></label>' +
           '<label class="wide"><span>' + escapeHtml(config.i18n.sectionDescription || 'Section description') + '</span><textarea rows="3" data-section-description placeholder="' + escapeHtml(config.i18n.sectionDescriptionPlaceholder || 'Describe this product section, offer, or purchase guidance.') + '">' + escapeHtml(section.description) + '</textarea></label>' +
-          '<div class="woo-campaign-section-image-field"><span>' + escapeHtml(config.i18n.sectionImage || 'Section image') + '</span><div class="woo-campaign-section-image-preview" data-section-image-preview>' + image + '</div><div><button type="button" class="button" data-section-image-select>' + escapeHtml(config.i18n.selectImage || 'Select image') + '</button>' + (section.imageId ? ' <button type="button" class="button-link-delete" data-section-image-remove>' + escapeHtml(config.i18n.remove || 'Remove') + '</button>' : '') + '</div></div>' +
+          '<div class="nowcastf-section-image-field"><span>' + escapeHtml(config.i18n.sectionImage || 'Section image') + '</span><div class="nowcastf-section-image-preview" data-section-image-preview>' + image + '</div><div><button type="button" class="button" data-section-image-select>' + escapeHtml(config.i18n.selectImage || 'Select image') + '</button>' + (section.imageId ? ' <button type="button" class="button-link-delete" data-section-image-remove>' + escapeHtml(config.i18n.remove || 'Remove') + '</button>' : '') + '</div></div>' +
         '</div>' +
-        '<div class="woo-campaign-layout-picker"><div class="woo-campaign-subheading"><strong>' + escapeHtml(config.i18n.productLayout || 'Product layout') + '</strong><span>' + escapeHtml(config.i18n.productLayoutHelp || 'The layout applies to the entire section to keep its presentation consistent.') + '</span></div><div class="woo-campaign-layout-options">' + layoutHtml + '</div></div>' +
-        '<div class="woo-campaign-section-products">' +
-          '<div class="woo-campaign-subheading with-action"><div><strong>' + escapeHtml(config.i18n.products || 'Products') + '</strong><span>' + escapeHtml(config.i18n.productAuthorityHelp || 'Campaign items store only campaign price, campaign copy, and display status. WooCommerce remains authoritative for name, image, and stock.') + '</span></div><button type="button" class="button button-primary" data-section-add-product><span class="dashicons dashicons-plus-alt2"></span>' + escapeHtml(config.i18n.addProduct || 'Add product') + '</button></div>' +
-          '<div class="woo-campaign-section-product-list">' + productsHtml + '</div>' +
+        '<div class="nowcastf-layout-picker"><div class="nowcastf-subheading"><strong>' + escapeHtml(config.i18n.productLayout || 'Product layout') + '</strong><span>' + escapeHtml(config.i18n.productLayoutHelp || 'The layout applies to the entire section to keep its presentation consistent.') + '</span></div><div class="nowcastf-layout-options">' + layoutHtml + '</div></div>' +
+        '<div class="nowcastf-section-products">' +
+          '<div class="nowcastf-subheading with-action"><div><strong>' + escapeHtml(config.i18n.products || 'Products') + '</strong><span>' + escapeHtml(config.i18n.productAuthorityHelp || 'Campaign items store only campaign price, campaign copy, and display status. WooCommerce remains authoritative for name, image, and stock.') + '</span></div><button type="button" class="button button-primary" data-section-add-product><span class="dashicons dashicons-plus-alt2"></span>' + escapeHtml(config.i18n.addProduct || 'Add product') + '</button></div>' +
+          '<div class="nowcastf-section-product-list">' + productsHtml + '</div>' +
         '</div>' +
       '</div>' +
     '</article>';
@@ -97,20 +97,20 @@
       return '<option value="' + escapeHtml(section.clientKey) + '"' + (section.clientKey === product.sectionKey ? ' selected' : '') + '>' + escapeHtml(section.title || config.i18n.untitledSection || 'Section') + '</option>';
     }).join('');
     var image = product.image ? '<img src="' + escapeHtml(product.image) + '" alt="">' : '<span class="dashicons dashicons-format-image"></span>';
-    var variation = product.variationName ? '<span class="woo-campaign-product-variation">' + escapeHtml(product.variationName) + '</span>' : '<span class="woo-campaign-product-variation">Simple product</span>';
+    var variation = product.variationName ? '<span class="nowcastf-product-variation">' + escapeHtml(product.variationName) + '</span>' : '<span class="nowcastf-product-variation">Simple product</span>';
     var sku = product.sku ? '<code>SKU ' + escapeHtml(product.sku) + '</code>' : '';
-    return '<div class="woo-campaign-editor-product" data-saleable-id="' + Number(product.saleableId) + '">' +
-      '<div class="woo-campaign-editor-product-main">' +
-        '<div class="woo-campaign-editor-product-image">' + image + '</div>' +
-        '<div class="woo-campaign-editor-product-title"><strong>' + escapeHtml(product.productName) + '</strong>' + variation + sku + '</div>' +
-        '<div class="woo-campaign-editor-product-reference"><span>Woo price</span><strong>' + (product.wooPriceHtml || '') + '</strong><div class="woo-campaign-stock-html">' + (product.stockHtml || '') + '</div></div>' +
+    return '<div class="nowcastf-editor-product" data-saleable-id="' + Number(product.saleableId) + '">' +
+      '<div class="nowcastf-editor-product-main">' +
+        '<div class="nowcastf-editor-product-image">' + image + '</div>' +
+        '<div class="nowcastf-editor-product-title"><strong>' + escapeHtml(product.productName) + '</strong>' + variation + sku + '</div>' +
+        '<div class="nowcastf-editor-product-reference"><span>Woo price</span><strong>' + (product.wooPriceHtml || '') + '</strong><div class="nowcastf-stock-html">' + (product.stockHtml || '') + '</div></div>' +
       '</div>' +
-      '<div class="woo-campaign-editor-product-fields">' +
+      '<div class="nowcastf-editor-product-fields">' +
         '<label><span>Campaign Price</span><input type="text" class="wc_input_price" inputmode="decimal" value="' + escapeHtml(product.campaignPrice) + '" data-product-price required><small data-saving-preview>' + savingsText(product.wooPrice, product.campaignPrice) + '</small></label>' +
         '<label><span>' + escapeHtml(config.i18n.displayStatus || 'Display status') + '</span><select data-product-status><option value="active"' + (product.status === 'active' ? ' selected' : '') + '>' + escapeHtml(config.i18n.visible || 'Visible') + '</option><option value="paused"' + (product.status === 'paused' ? ' selected' : '') + '>' + escapeHtml(config.i18n.hidden || 'Hidden') + '</option></select></label>' +
         '<label class="wide"><span>' + escapeHtml(config.i18n.campaignProductCopy || 'Campaign product copy') + '</span><textarea rows="2" data-product-copy placeholder="' + escapeHtml(config.i18n.campaignProductCopyPlaceholder || 'Used only in this campaign and does not change the WooCommerce product description.') + '">' + escapeHtml(product.campaignCopy || '') + '</textarea></label>' +
       '</div>' +
-      '<div class="woo-campaign-editor-product-footer">' +
+      '<div class="nowcastf-editor-product-footer">' +
         '<label>' + escapeHtml(config.i18n.moveTo || 'Move to') + ' <select data-product-section>' + sectionOptions + '</select></label>' +
         '<div><button type="button" class="button-link" data-product-move="up"' + (index === 0 ? ' disabled' : '') + '><span class="dashicons dashicons-arrow-up-alt2"></span></button><button type="button" class="button-link" data-product-move="down"' + (index === total - 1 ? ' disabled' : '') + '><span class="dashicons dashicons-arrow-down-alt2"></span></button><button type="button" class="button-link-delete" data-product-remove><span class="dashicons dashicons-trash"></span> ' + escapeHtml(config.i18n.remove || 'Remove') + '</button></div>' +
       '</div>' +
@@ -170,25 +170,25 @@
     pickerItems = [];
     var $modal = $('[data-woo-campaign-product-modal]');
     $modal.prop('hidden', false);
-    $('body').addClass('woo-campaign-editor-modal-open');
+    $('body').addClass('nowcastf-editor-modal-open');
     var $search = $modal.find('[data-woo-campaign-product-search]');
     $search.empty().val(null).trigger('change');
-    $modal.find('[data-woo-campaign-product-picker-result]').html('<div class="woo-campaign-picker-placeholder"><span class="dashicons dashicons-search"></span><p>' + escapeHtml(config.i18n.searchProductHelp || 'Search for a WooCommerce product. Variable products list their variations.') + '</p></div>');
+    $modal.find('[data-woo-campaign-product-picker-result]').html('<div class="nowcastf-picker-placeholder"><span class="dashicons dashicons-search"></span><p>' + escapeHtml(config.i18n.searchProductHelp || 'Search for a WooCommerce product. Variable products list their variations.') + '</p></div>');
     $modal.find('[data-woo-campaign-product-confirm]').prop('disabled', true);
     $(document.body).trigger('wc-enhanced-select-init');
   }
 
   function closeProductModal() {
     $('[data-woo-campaign-product-modal]').prop('hidden', true);
-    $('body').removeClass('woo-campaign-editor-modal-open');
+    $('body').removeClass('nowcastf-editor-modal-open');
     targetSectionKey = null;
     pickerItems = [];
   }
 
   function fetchProductDetails(productId) {
     var $result = $('[data-woo-campaign-product-picker-result]');
-    $result.html('<div class="woo-campaign-picker-loading"><span class="spinner is-active"></span>' + escapeHtml(config.i18n.loadingProduct || 'Loading product data…') + '</div>');
-    $.post(config.ajaxUrl, { action: 'woo_campaign_editor_product_details', nonce: config.nonce, product_id: productId })
+    $result.html('<div class="nowcastf-picker-loading"><span class="spinner is-active"></span>' + escapeHtml(config.i18n.loadingProduct || 'Loading product data…') + '</div>');
+    $.post(config.ajaxUrl, { action: 'nowcastf_editor_product_details', nonce: config.nonce, product_id: productId })
       .done(function (response) {
         if (!response || !response.success) {
           $result.html('<div class="notice notice-error inline"><p>' + escapeHtml(response && response.data && response.data.message ? response.data.message : 'Unable to load product.') + '</p></div>');
@@ -205,19 +205,19 @@
     var items = (data.items || []).map(function (item) {
       var isExisting = existing.has(Number(item.saleableId));
       var disabled = isExisting ? ' disabled' : '';
-      return '<label class="woo-campaign-picker-item' + (isExisting ? ' is-existing' : '') + '">' +
+      return '<label class="nowcastf-picker-item' + (isExisting ? ' is-existing' : '') + '">' +
         '<input type="checkbox" data-picker-item value="' + Number(item.saleableId) + '"' + disabled + '>' +
-        '<span class="woo-campaign-picker-item-image">' + (item.image ? '<img src="' + escapeHtml(item.image) + '" alt="">' : '<span class="dashicons dashicons-format-image"></span>') + '</span>' +
-        '<span class="woo-campaign-picker-item-name"><strong>' + escapeHtml(item.variationName || item.productName) + '</strong><small>' + (item.sku ? 'SKU ' + escapeHtml(item.sku) : (data.type === 'simple' ? 'Simple product' : 'Variation')) + '</small></span>' +
-        '<span class="woo-campaign-picker-item-stock">' + (item.stockHtml || '') + '</span>' +
-        '<span class="woo-campaign-picker-item-price">' + (item.wooPriceHtml || '') + '</span>' +
-        '<label class="woo-campaign-picker-campaign-price">Campaign Price<input type="text" class="wc_input_price" inputmode="decimal" value="' + escapeHtml(item.wooPrice) + '" data-picker-price' + disabled + '></label>' +
-        (isExisting ? '<span class="woo-campaign-picker-existing">Already added</span>' : '') +
+        '<span class="nowcastf-picker-item-image">' + (item.image ? '<img src="' + escapeHtml(item.image) + '" alt="">' : '<span class="dashicons dashicons-format-image"></span>') + '</span>' +
+        '<span class="nowcastf-picker-item-name"><strong>' + escapeHtml(item.variationName || item.productName) + '</strong><small>' + (item.sku ? 'SKU ' + escapeHtml(item.sku) : (data.type === 'simple' ? 'Simple product' : 'Variation')) + '</small></span>' +
+        '<span class="nowcastf-picker-item-stock">' + (item.stockHtml || '') + '</span>' +
+        '<span class="nowcastf-picker-item-price">' + (item.wooPriceHtml || '') + '</span>' +
+        '<label class="nowcastf-picker-campaign-price">Campaign Price<input type="text" class="wc_input_price" inputmode="decimal" value="' + escapeHtml(item.wooPrice) + '" data-picker-price' + disabled + '></label>' +
+        (isExisting ? '<span class="nowcastf-picker-existing">Already added</span>' : '') +
       '</label>';
     }).join('');
     $('[data-woo-campaign-product-picker-result]').html(
-      '<div class="woo-campaign-picker-product-head"><div>' + (data.product.image ? '<img src="' + escapeHtml(data.product.image) + '" alt="">' : '') + '<div><span>' + (data.type === 'variable' ? 'Variable product' : 'Simple product') + '</span><h3>' + escapeHtml(data.product.name) + '</h3></div></div>' + (data.type === 'variable' ? '<button type="button" class="button-link" data-picker-select-all>' + escapeHtml(config.i18n.selectAllVariations || 'Select all available variations') + '</button>' : '') + '</div>' +
-      '<div class="woo-campaign-picker-items">' + items + '</div>'
+      '<div class="nowcastf-picker-product-head"><div>' + (data.product.image ? '<img src="' + escapeHtml(data.product.image) + '" alt="">' : '') + '<div><span>' + (data.type === 'variable' ? 'Variable product' : 'Simple product') + '</span><h3>' + escapeHtml(data.product.name) + '</h3></div></div>' + (data.type === 'variable' ? '<button type="button" class="button-link" data-picker-select-all>' + escapeHtml(config.i18n.selectAllVariations || 'Select all available variations') + '</button>' : '') + '</div>' +
+      '<div class="nowcastf-picker-items">' + items + '</div>'
     );
     if (data.type === 'simple') {
       var $single = $('[data-picker-item]:not(:disabled)').first();

@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var settings = window.WooCampaignLiveReport || {};
+  var settings = window.NowCastfLiveReport || {};
   if (!settings.dataUrl) return;
   var numberFormat = new Intl.NumberFormat();
 
@@ -21,7 +21,7 @@
     root.innerHTML = '';
     if (!products || !products.length) {
       var empty = document.createElement('p');
-      empty.className = 'woo-campaign-report-empty';
+      empty.className = 'nowcastf-report-empty';
       empty.textContent = (settings.i18n && settings.i18n.emptyProducts) || 'There are no paid campaign product results yet.';
       root.appendChild(empty);
       return;
@@ -29,7 +29,7 @@
 
     products.forEach(function (product) {
       var row = document.createElement('div');
-      row.className = 'woo-campaign-report-product-row';
+      row.className = 'nowcastf-report-product-row';
       var info = document.createElement('div');
       var name = document.createElement('strong');
       name.textContent = product.name || '';

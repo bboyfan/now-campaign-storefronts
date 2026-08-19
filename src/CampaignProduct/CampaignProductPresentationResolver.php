@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCampaign\CampaignProduct;
+namespace NowCampaignStorefronts\CampaignProduct;
 
-use WooCampaign\Product\ProductAdapter;
+use NowCampaignStorefronts\Product\ProductAdapter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

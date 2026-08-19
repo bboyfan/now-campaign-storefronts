@@ -36,7 +36,7 @@
   }
 
   function statusMarkup(isSet) {
-    return '<em class="woo-campaign-design-status" data-section-design-status>' + escapeHtml(isSet ? setLabel() : unsetLabel()) + '</em>';
+    return '<em class="nowcastf-design-status" data-section-design-status>' + escapeHtml(isSet ? setLabel() : unsetLabel()) + '</em>';
   }
 
   function ensurePageTitleControl() {
@@ -44,7 +44,7 @@
     if (!grid || grid.querySelector('[data-campaign-show-title]')) return;
     var checked = !state.design || state.design.show_title !== false;
     var control = document.createElement('div');
-    control.className = 'woo-campaign-design-control woo-campaign-design-toggle';
+    control.className = 'nowcastf-design-control woo-campaign-design-toggle';
     control.innerHTML = '<span>' + escapeHtml(state.i18n && state.i18n.showTitle ? state.i18n.showTitle : 'Show page title') + '</span>' +
       '<label><input type="checkbox" data-campaign-show-title' + (checked ? ' checked' : '') + '><span data-campaign-show-title-status>' + escapeHtml(checked ? setLabel() : unsetLabel()) + '</span></label>';
     grid.insertBefore(control, grid.firstChild);
@@ -65,10 +65,10 @@
     var clientKey = block.getAttribute('data-section-key');
     var actual = initialCopyColor(clientKey);
     var control = document.createElement('div');
-    control.className = 'woo-campaign-section-design-control';
+    control.className = 'nowcastf-section-design-control';
     control.setAttribute('data-section-copy-control', '');
     control.innerHTML = '<span>' + escapeHtml(state.i18n && state.i18n.copyColor ? state.i18n.copyColor : 'Campaign product copy color') + statusMarkup(!!actual) + '</span>' +
-      '<div class="woo-campaign-color-control' + (actual ? '' : ' is-inherit') + '">' +
+      '<div class="nowcastf-color-control' + (actual ? '' : ' is-inherit') + '">' +
         '<input type="color" aria-label="Campaign product copy color" value="' + escapeHtml(actual || '#555555') + '" data-section-copy-color>' +
         '<button type="button" class="button-link" data-section-copy-color-reset>' + escapeHtml(unsetLabel()) + '</button>' +
       '</div>';
@@ -91,7 +91,7 @@
 
   function serializeExtras() {
     var show = document.querySelector('[data-campaign-show-title]');
-    var designInput = document.getElementById('woo-campaign-design-json');
+    var designInput = document.getElementById('nowcastf-design-json');
     if (show && designInput) {
       var design = {};
       try { design = JSON.parse(designInput.value || '{}'); } catch (error) { design = {}; }
@@ -99,7 +99,7 @@
       designInput.value = JSON.stringify(design);
     }
 
-    var sectionsInput = document.getElementById('woo-campaign-sections-json');
+    var sectionsInput = document.getElementById('nowcastf-sections-json');
     if (!sectionsInput) return;
     var sections = [];
     try { sections = JSON.parse(sectionsInput.value || '[]'); } catch (error) { sections = []; }
@@ -114,7 +114,7 @@
   ensurePageTitleControl();
   ensureSectionControls();
 
-  var builder = document.getElementById('woo-campaign-sections-builder');
+  var builder = document.getElementById('nowcastf-sections-builder');
   if (builder && window.MutationObserver) {
     new MutationObserver(ensureSectionControls).observe(builder, { childList: true, subtree: true });
   }

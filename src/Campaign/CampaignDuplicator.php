@@ -1,13 +1,13 @@
 <?php
 
-namespace WooCampaign\Campaign;
+namespace NowCampaignStorefronts\Campaign;
 
-use WooCampaign\CampaignProduct\Repository as CampaignProductRepository;
-use WooCampaign\CampaignProduct\Table as CampaignProductTable;
-use WooCampaign\CampaignSection\Repository as CampaignSectionRepository;
-use WooCampaign\CampaignSection\Table as CampaignSectionTable;
-use WooCampaign\Reporting\CampaignReportPostType;
-use WooCampaign\Reporting\CampaignReportShare;
+use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use NowCampaignStorefronts\CampaignProduct\Table as CampaignProductTable;
+use NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
+use NowCampaignStorefronts\CampaignSection\Table as CampaignSectionTable;
+use NowCampaignStorefronts\Reporting\CampaignReportPostType;
+use NowCampaignStorefronts\Reporting\CampaignReportShare;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -66,7 +66,7 @@ final class CampaignDuplicator {
 		}
 
 		clean_post_cache( $newId );
-		do_action( 'woo_campaign_duplicated', $newId, $sourceId );
+		do_action( 'nowcastf_duplicated', $newId, $sourceId );
 		return $newId;
 	}
 
@@ -86,6 +86,7 @@ final class CampaignDuplicator {
 			true
 		);
 		if ( is_wp_error( $newId ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			throw new \RuntimeException( $newId->get_error_message() );
 		}
 		return (int) $newId;
@@ -202,6 +203,7 @@ final class CampaignDuplicator {
 
 		$result = $this->share->save( $newId, true, $password );
 		if ( is_wp_error( $result ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			throw new \RuntimeException( $result->get_error_message() );
 		}
 	}
@@ -225,6 +227,7 @@ final class CampaignDuplicator {
 	private function updateMetaChecked( int $newId, string $key, mixed $value ): void {
 		$result = update_post_meta( $newId, $key, $value );
 		if ( false === $result && ! $this->metaEqual( get_post_meta( $newId, $key, true ), $value ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			throw new \RuntimeException( 'Unable to duplicate Campaign metadata: ' . $key );
 		}
 	}

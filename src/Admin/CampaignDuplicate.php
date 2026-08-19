@@ -1,18 +1,18 @@
 <?php
 
-namespace WooCampaign\Admin;
+namespace NowCampaignStorefronts\Admin;
 
-use WooCampaign\Campaign\CampaignDuplicator;
-use WooCampaign\Campaign\PostType;
+use NowCampaignStorefronts\Campaign\CampaignDuplicator;
+use NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 final class CampaignDuplicate {
-	private const NONCE_ACTION = 'woo_campaign_duplicate';
-	private const ADMIN_POST_ACTION = 'woo_campaign_duplicate';
-	private const PAGE_SLUG = 'woo-campaign-editor';
+	private const NONCE_ACTION = 'nowcastf_duplicate';
+	private const ADMIN_POST_ACTION = 'nowcastf_duplicate';
+	private const PAGE_SLUG = 'nowcastf-editor';
 
 	public function __construct( private CampaignDuplicator $duplicator ) {}
 
@@ -64,7 +64,7 @@ final class CampaignDuplicate {
 				[
 					'page'                  => self::PAGE_SLUG,
 					'campaign_id'           => $newId,
-					'woo_campaign_duplicated' => '1',
+					'nowcastf_duplicated' => '1',
 				],
 				admin_url( 'admin.php' )
 			)
@@ -73,11 +73,11 @@ final class CampaignDuplicate {
 	}
 
 	public function notices(): void {
-		if ( ! empty( $_GET['woo_campaign_duplicated'] ) ) {
+		if ( ! empty( $_GET['nowcastf_duplicated'] ) ) {
 			printf( '<div class="notice notice-success is-dismissible"><p>%s</p></div>', esc_html__( 'Campaign duplicated.', 'now-campaign-storefronts' ) );
 		}
-		if ( ! empty( $_GET['woo_campaign_duplicate_error'] ) ) {
-			$message = sanitize_text_field( wp_unslash( $_GET['woo_campaign_duplicate_error'] ) );
+		if ( ! empty( $_GET['nowcastf_duplicate_error'] ) ) {
+			$message = sanitize_text_field( wp_unslash( $_GET['nowcastf_duplicate_error'] ) );
 			printf( '<div class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $message ) );
 		}
 	}
@@ -88,7 +88,7 @@ final class CampaignDuplicate {
 			add_query_arg(
 				[
 					'post_type'                     => PostType::TYPE,
-					'woo_campaign_duplicate_error'  => rawurlencode( $message ),
+					'nowcastf_duplicate_error'  => rawurlencode( $message ),
 				],
 				admin_url( 'edit.php' )
 			)

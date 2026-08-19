@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCampaign\Pricing;
+namespace NowCampaignStorefronts\Pricing;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

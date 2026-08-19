@@ -1,9 +1,9 @@
 <?php
 
-namespace WooCampaign\Integration\Bricks\Conditions;
+namespace NowCampaignStorefronts\Integration\Bricks\Conditions;
 
-use WooCampaign\Campaign\CampaignContext;
-use WooCampaign\Campaign\PostType;
+use NowCampaignStorefronts\Campaign\CampaignContext;
+use NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * false (safe, no exception).
  */
 final class CampaignCondition {
-	private const GROUP = 'woo_campaign';
+	private const GROUP = 'nowcastf';
 	private const KEY_CURRENT = 'campaign_current';
 
 	public function register(): void {

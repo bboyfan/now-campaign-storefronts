@@ -1,13 +1,13 @@
 <?php
 
-namespace WooCampaign\Campaign;
+namespace NowCampaignStorefronts\Campaign;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 final class PostType {
-	public const TYPE = 'woo_campaign';
+	public const TYPE = 'nowcastf_campaign';
 
 	public function register(): void {
 		add_action( 'init', [ $this, 'registerPostType' ] );

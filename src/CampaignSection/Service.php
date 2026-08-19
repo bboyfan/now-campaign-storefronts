@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCampaign\CampaignSection;
+namespace NowCampaignStorefronts\CampaignSection;
 
-use WooCampaign\Campaign\CampaignRepository;
+use NowCampaignStorefronts\Campaign\CampaignRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -55,7 +55,7 @@ final class Service {
 		$keyMap = $this->repository->saveForCampaign( $campaignId, $rows );
 		clean_post_cache( $campaignId );
 		if ( $notify ) {
-			do_action( 'woo_campaign_sections_updated', $campaignId );
+			do_action( 'nowcastf_sections_updated', $campaignId );
 		}
 		return $keyMap;
 	}

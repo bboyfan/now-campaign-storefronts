@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var settings = window.WooCampaignSettings || {};
+  var settings = window.NowCastfSettings || {};
   var i18n = settings.i18n || {};
   var toastTimer = null;
 
@@ -42,17 +42,17 @@
   }
 
   function itemMarkup(item) {
-    var image = item.image ? '<img src="' + escapeHtml(item.image) + '" alt="">' : '<span class="woo-campaign-mini-cart-image-placeholder" aria-hidden="true"></span>';
-    var badge = item.campaign ? '<span class="woo-campaign-badge">' + escapeHtml(i18n.campaign || 'Campaign') + '</span>' : '';
-    return '<div class="woo-campaign-mini-cart-item' + (item.campaign ? ' is-campaign' : '') + '" data-cart-item-key="' + escapeHtml(item.key) + '">' +
-      '<div class="woo-campaign-mini-cart-item-image">' + image + '</div>' +
-      '<div class="woo-campaign-mini-cart-item-main"><div class="woo-campaign-mini-cart-item-title"><strong>' + escapeHtml(item.name) + '</strong>' + badge + '</div>' +
-      '<div class="woo-campaign-mini-cart-item-controls"><div class="woo-campaign-cart-quantity"><button type="button" data-woo-campaign-cart-step="-1" aria-label="' + escapeHtml(i18n.decreaseQty || 'Decrease quantity') + '">−</button><input type="number" min="0" step="1" value="' + Number(item.quantity) + '" data-woo-campaign-cart-qty aria-label="' + escapeHtml(i18n.quantity || 'Quantity') + '"><button type="button" data-woo-campaign-cart-step="1" aria-label="' + escapeHtml(i18n.increaseQty || 'Increase quantity') + '">+</button></div><button type="button" class="woo-campaign-remove-link" data-woo-campaign-cart-remove>' + escapeHtml(i18n.remove || 'Remove') + '</button></div></div>' +
-      '<div class="woo-campaign-mini-cart-item-total">' + (item.lineTotal || '') + '</div></div>';
+    var image = item.image ? '<img src="' + escapeHtml(item.image) + '" alt="">' : '<span class="nowcastf-mini-cart-image-placeholder" aria-hidden="true"></span>';
+    var badge = item.campaign ? '<span class="nowcastf-badge">' + escapeHtml(i18n.campaign || 'Campaign') + '</span>' : '';
+    return '<div class="nowcastf-mini-cart-item' + (item.campaign ? ' is-campaign' : '') + '" data-cart-item-key="' + escapeHtml(item.key) + '">' +
+      '<div class="nowcastf-mini-cart-item-image">' + image + '</div>' +
+      '<div class="nowcastf-mini-cart-item-main"><div class="nowcastf-mini-cart-item-title"><strong>' + escapeHtml(item.name) + '</strong>' + badge + '</div>' +
+      '<div class="nowcastf-mini-cart-item-controls"><div class="nowcastf-cart-quantity"><button type="button" data-woo-campaign-cart-step="-1" aria-label="' + escapeHtml(i18n.decreaseQty || 'Decrease quantity') + '">−</button><input type="number" min="0" step="1" value="' + Number(item.quantity) + '" data-woo-campaign-cart-qty aria-label="' + escapeHtml(i18n.quantity || 'Quantity') + '"><button type="button" data-woo-campaign-cart-step="1" aria-label="' + escapeHtml(i18n.increaseQty || 'Increase quantity') + '">+</button></div><button type="button" class="nowcastf-remove-link" data-woo-campaign-cart-remove>' + escapeHtml(i18n.remove || 'Remove') + '</button></div></div>' +
+      '<div class="nowcastf-mini-cart-item-total">' + (item.lineTotal || '') + '</div></div>';
   }
 
   function emptyMarkup() {
-    return '<div class="woo-campaign-cart-empty"><span class="dashicons dashicons-cart"></span><strong>' + escapeHtml(i18n.empty || 'Your cart is empty') + '</strong><p>' + escapeHtml(i18n.emptyHelp || 'Add a campaign item to get started.') + '</p></div>';
+    return '<div class="nowcastf-cart-empty"><span class="dashicons dashicons-cart"></span><strong>' + escapeHtml(i18n.empty || 'Your cart is empty') + '</strong><p>' + escapeHtml(i18n.emptyHelp || 'Add a campaign item to get started.') + '</p></div>';
   }
 
   function renderMiniCart(snapshot) {
@@ -101,7 +101,7 @@
   function showToast(message) {
     var toast = document.querySelector('[data-woo-campaign-toast]');
     if (!toast) {
-      toast = document.createElement('div'); toast.className = 'woo-campaign-toast'; toast.setAttribute('data-woo-campaign-toast', ''); toast.setAttribute('role', 'status'); toast.setAttribute('aria-live', 'polite'); document.body.appendChild(toast);
+      toast = document.createElement('div'); toast.className = 'nowcastf-toast'; toast.setAttribute('data-woo-campaign-toast', ''); toast.setAttribute('role', 'status'); toast.setAttribute('aria-live', 'polite'); document.body.appendChild(toast);
     }
     toast.textContent = message; toast.classList.add('is-visible'); clearTimeout(toastTimer); toastTimer = setTimeout(function () { toast.classList.remove('is-visible'); }, 2200);
   }
@@ -144,7 +144,7 @@
   function updateCartQuantity(row, quantity, message) {
     if (!row) return;
     row.classList.add('is-updating');
-    post('woo_campaign_update_cart', { cart_item_key: row.getAttribute('data-cart-item-key'), quantity: quantity }).then(function (snapshot) {
+    post('nowcastf_update_cart', { cart_item_key: row.getAttribute('data-cart-item-key'), quantity: quantity }).then(function (snapshot) {
       renderMiniCart(snapshot); if (message) showToast(message);
     }).catch(function (error) { showToast(error.message); }).finally(function () { row.classList.remove('is-updating'); });
   }
@@ -169,7 +169,7 @@
       });
       if (!items.length) return;
       setBusy(addSelected, true); setProductFeedback(group, '');
-      post('woo_campaign_add_many_cart', { campaign_id: addSelected.getAttribute('data-campaign-id'), items: JSON.stringify(items) }).then(function (data) {
+      post('nowcastf_add_many_cart', { campaign_id: addSelected.getAttribute('data-campaign-id'), items: JSON.stringify(items) }).then(function (data) {
         var snapshot = data && data.snapshot ? data.snapshot : data;
         renderMiniCart(snapshot);
         applyWooAddToCart(data, addSelected);
@@ -193,7 +193,7 @@
       event.preventDefault();
       var card = add.closest('[data-campaign-product-card], [data-campaign-product-option]'); var select = card && card.querySelector('[data-woo-campaign-variation]'); var qty = card && card.querySelector('[data-woo-campaign-qty]'); var campaignProductId = add.getAttribute('data-campaign-product-id') || (select ? select.value : '');
       setBusy(add, true); setProductFeedback(card, '');
-      post('woo_campaign_add_cart', { campaign_id: add.getAttribute('data-campaign-id'), campaign_product_id: campaignProductId, quantity: qty ? clampInput(qty, 1) : 1 }).then(function (data) {
+      post('nowcastf_add_cart', { campaign_id: add.getAttribute('data-campaign-id'), campaign_product_id: campaignProductId, quantity: qty ? clampInput(qty, 1) : 1 }).then(function (data) {
         var snapshot = data && data.snapshot ? data.snapshot : data;
         renderMiniCart(snapshot);
         applyWooAddToCart(data, add);
@@ -216,7 +216,7 @@
     var remove = event.target.closest('[data-woo-campaign-cart-remove]');
     if (remove) {
       event.preventDefault(); var row = remove.closest('[data-cart-item-key]'); if (!row) return; row.classList.add('is-updating');
-      post('woo_campaign_remove_cart', { cart_item_key: row.getAttribute('data-cart-item-key') }).then(function (snapshot) { renderMiniCart(snapshot); showToast(i18n.removed || 'Item removed'); }).catch(function (error) { showToast(error.message); });
+      post('nowcastf_remove_cart', { cart_item_key: row.getAttribute('data-cart-item-key') }).then(function (snapshot) { renderMiniCart(snapshot); showToast(i18n.removed || 'Item removed'); }).catch(function (error) { showToast(error.message); });
     }
   });
 

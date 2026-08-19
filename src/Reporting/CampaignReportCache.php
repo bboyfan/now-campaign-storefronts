@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCampaign\Reporting;
+namespace NowCampaignStorefronts\Reporting;
 
-use WooCampaign\Order\OrderAttribution;
+use NowCampaignStorefronts\Order\OrderAttribution;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -77,6 +77,6 @@ final class CampaignReportCache {
 	}
 
 	private function cacheKey( int $campaignId ): string {
-		return 'woo_campaign_report_' . $campaignId;
+		return 'nowcastf_report_' . $campaignId;
 	}
 }

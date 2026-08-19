@@ -1,9 +1,9 @@
 <?php
 
-namespace WooCampaign\Install;
+namespace NowCampaignStorefronts\Install;
 
-use WooCampaign\Campaign\PostType;
-use WooCampaign\Reporting\CampaignReportController;
+use NowCampaignStorefronts\Campaign\PostType;
+use NowCampaignStorefronts\Reporting\CampaignReportController;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

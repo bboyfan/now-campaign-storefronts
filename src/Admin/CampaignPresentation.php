@@ -1,26 +1,26 @@
 <?php
 
-namespace WooCampaign\Admin;
+namespace NowCampaignStorefronts\Admin;
 
-use WooCampaign\Campaign\Meta;
-use WooCampaign\Campaign\PostType;
-use WooCampaign\CampaignSection\Repository as CampaignSectionRepository;
+use NowCampaignStorefronts\Campaign\Meta;
+use NowCampaignStorefronts\Campaign\PostType;
+use NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 final class CampaignPresentation {
-	private const PAGE_SLUG = 'woo-campaign-editor';
-	private const EDITOR_NONCE_ACTION = 'woo_campaign_editor_save';
+	private const PAGE_SLUG = 'nowcastf-editor';
+	private const EDITOR_NONCE_ACTION = 'nowcastf_save_editor';
 
 	public function __construct( private CampaignSectionRepository $sections ) {}
 
 	public function register(): void {
 		add_action( 'load-admin_page_' . self::PAGE_SLUG, [ $this, 'setAdminTitle' ] );
-		add_action( 'load-woo_campaign_page_' . self::PAGE_SLUG, [ $this, 'setAdminTitle' ] );
+		add_action( 'load-nowcastf_campaign_page_' . self::PAGE_SLUG, [ $this, 'setAdminTitle' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ], 20 );
-		add_action( 'woo_campaign_updated', [ $this, 'persistSectionDesign' ], 20, 1 );
+		add_action( 'nowcastf_updated', [ $this, 'persistSectionDesign' ], 20, 1 );
 	}
 
 	public function setAdminTitle(): void {
@@ -29,9 +29,11 @@ final class CampaignPresentation {
 	}
 
 	public function enqueue(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( self::PAGE_SLUG !== sanitize_key( (string) ( $_GET['page'] ?? '' ) ) ) {
 			return;
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
 		if ( $campaignId <= 0 || PostType::TYPE !== get_post_type( $campaignId ) ) {
 			return;
@@ -41,48 +43,48 @@ final class CampaignPresentation {
 		wp_enqueue_editor();
 		wp_enqueue_script( 'jquery-ui-sortable' );
 		wp_enqueue_style(
-			'woo-campaign-presentation-admin',
-			WOO_CAMPAIGN_URL . 'assets/css/presentation-v2-admin.css',
-			[ 'woo-campaign-editor' ],
-			WOO_CAMPAIGN_VERSION
+			'nowcastf-presentation-admin',
+			NOWCASTF_URL . 'assets/css/presentation-v2-admin.css',
+			[ 'nowcastf-editor' ],
+			NOWCASTF_VERSION
 		);
 		wp_enqueue_script(
-			'woo-campaign-presentation-admin',
-			WOO_CAMPAIGN_URL . 'assets/js/presentation-v2-admin.js',
-			[ 'jquery', 'jquery-ui-sortable', 'woo-campaign-editor' ],
-			WOO_CAMPAIGN_VERSION,
+			'nowcastf-presentation-admin',
+			NOWCASTF_URL . 'assets/js/presentation-v2-admin.js',
+			[ 'jquery', 'jquery-ui-sortable', 'nowcastf-editor' ],
+			NOWCASTF_VERSION,
 			true
 		);
 		wp_enqueue_style(
-			'woo-campaign-editor-ux-fix',
-			WOO_CAMPAIGN_URL . 'assets/css/campaign-editor-ux-fix.css',
-			[ 'woo-campaign-presentation-admin' ],
-			WOO_CAMPAIGN_VERSION
+			'nowcastf-editor-ux-fix',
+			NOWCASTF_URL . 'assets/css/campaign-editor-ux-fix.css',
+			[ 'nowcastf-presentation-admin' ],
+			NOWCASTF_VERSION
 		);
 		wp_enqueue_script(
-			'woo-campaign-editor-ux-fix',
-			WOO_CAMPAIGN_URL . 'assets/js/campaign-editor-ux-fix.js',
-			[ 'jquery', 'woo-campaign-presentation-admin' ],
-			WOO_CAMPAIGN_VERSION,
+			'nowcastf-editor-ux-fix',
+			NOWCASTF_URL . 'assets/js/campaign-editor-ux-fix.js',
+			[ 'jquery', 'nowcastf-presentation-admin' ],
+			NOWCASTF_VERSION,
 			true
 		);
 		wp_enqueue_style(
-			'woo-campaign-presentation-consistency-admin',
-			WOO_CAMPAIGN_URL . 'assets/css/presentation-v2-consistency-admin.css',
-			[ 'woo-campaign-editor-ux-fix' ],
-			WOO_CAMPAIGN_VERSION
+			'nowcastf-presentation-consistency-admin',
+			NOWCASTF_URL . 'assets/css/presentation-v2-consistency-admin.css',
+			[ 'nowcastf-editor-ux-fix' ],
+			NOWCASTF_VERSION
 		);
 		wp_enqueue_script(
-			'woo-campaign-presentation-consistency-admin',
-			WOO_CAMPAIGN_URL . 'assets/js/presentation-v2-consistency-admin.js',
-			[ 'jquery', 'woo-campaign-editor-ux-fix' ],
-			WOO_CAMPAIGN_VERSION,
+			'nowcastf-presentation-consistency-admin',
+			NOWCASTF_URL . 'assets/js/presentation-v2-consistency-admin.js',
+			[ 'jquery', 'nowcastf-editor-ux-fix' ],
+			NOWCASTF_VERSION,
 			true
 		);
 
 		wp_localize_script(
-			'woo-campaign-presentation-admin',
-			'WooCampaignPresentation',
+			'nowcastf-presentation-admin',
+			'NowCastfPresentation',
 			$this->state( $campaignId )
 		);
 	}
@@ -91,16 +93,20 @@ final class CampaignPresentation {
 		if ( ! isset( $_POST['section_design_json'], $_POST['sections_json'] ) || ! current_user_can( 'manage_woocommerce' ) ) {
 			return;
 		}
-		if ( 'woo_campaign_save_editor' !== sanitize_key( (string) ( $_POST['action'] ?? '' ) ) || $campaignId !== absint( $_POST['campaign_id'] ?? 0 ) ) {
+		if ( 'nowcastf_save_editor' !== sanitize_key( (string) ( $_POST['action'] ?? '' ) ) || $campaignId !== absint( $_POST['campaign_id'] ?? 0 ) ) {
 			return;
 		}
-		$nonce = sanitize_text_field( wp_unslash( $_POST['woo_campaign_editor_nonce'] ?? '' ) );
+		$nonce = sanitize_text_field( wp_unslash( $_POST['nowcastf_editor_nonce'] ?? '' ) );
 		if ( ! wp_verify_nonce( $nonce, self::EDITOR_NONCE_ACTION ) ) {
 			return;
 		}
 
-		$postedSections = json_decode( wp_unslash( (string) $_POST['sections_json'] ), true );
-		$designByKey = json_decode( wp_unslash( (string) $_POST['section_design_json'] ), true );
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$rawSections = wp_unslash( (string) ( $_POST['sections_json'] ?? '[]' ) );
+		$rawDesign   = wp_unslash( (string) ( $_POST['section_design_json'] ?? '{}' ) );
+		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$postedSections = json_decode( $rawSections, true );
+		$designByKey    = json_decode( $rawDesign, true );
 		if ( JSON_ERROR_NONE !== json_last_error() || ! is_array( $postedSections ) || ! is_array( $designByKey ) ) {
 			return;
 		}

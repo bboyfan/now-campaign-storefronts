@@ -1,9 +1,9 @@
 <?php
 
-namespace WooCampaign\Storefront;
+namespace NowCampaignStorefronts\Storefront;
 
-use WooCampaign\Campaign\CampaignContext;
-use WooCampaign\Campaign\CampaignRepository;
+use NowCampaignStorefronts\Campaign\CampaignContext;
+use NowCampaignStorefronts\Campaign\CampaignRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -19,8 +19,8 @@ final class Shortcodes {
 	) {}
 
 	public function register(): void {
-		add_shortcode( 'woo_campaign_products', [ $this, 'products' ] );
-		add_shortcode( 'woo_campaign_mini_cart', [ $this, 'miniCart' ] );
+		add_shortcode( 'nowcastf_products', [ $this, 'products' ] );
+		add_shortcode( 'nowcastf_mini_cart', [ $this, 'miniCart' ] );
 	}
 
 	public function products( array $atts = [] ): string {
@@ -28,7 +28,7 @@ final class Shortcodes {
 			CampaignRenderer::markProductsRendered();
 		}
 		$this->assets->enqueue();
-		$atts = shortcode_atts( [ 'campaign_id' => 0 ], $atts, 'woo_campaign_products' );
+		$atts = shortcode_atts( [ 'campaign_id' => 0 ], $atts, 'nowcastf_products' );
 		$campaignId = absint( $atts['campaign_id'] );
 		if ( $campaignId <= 0 ) {
 			// Shared context validates the candidate: inside a Bricks template

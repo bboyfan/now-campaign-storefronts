@@ -1,10 +1,10 @@
 <?php
 
-namespace WooCampaign\Integration\Bricks\DynamicData;
+namespace NowCampaignStorefronts\Integration\Bricks\DynamicData;
 
-use WooCampaign\Campaign\CampaignContext;
-use WooCampaign\CampaignProduct\CampaignProduct;
-use WooCampaign\CampaignProduct\CampaignProductPresentationResolver;
+use NowCampaignStorefronts\Campaign\CampaignContext;
+use NowCampaignStorefronts\CampaignProduct\CampaignProduct;
+use NowCampaignStorefronts\CampaignProduct\CampaignProductPresentationResolver;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Image tags return an attachment ID in image context (Bricks' own
  * featured_image contract) and a URL string in text/link context.
  */
-final class ProviderWooCampaign extends \Bricks\Integrations\Dynamic_Data\Providers\Base {
+final class ProviderNowCastf extends \Bricks\Integrations\Dynamic_Data\Providers\Base {
 	private const GROUP_CAMPAIGN = 'NOW Campaign Storefronts';
 	private const GROUP_PRODUCT = 'NOW Campaign Storefronts Product';
 

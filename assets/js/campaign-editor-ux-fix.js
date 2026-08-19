@@ -1,7 +1,7 @@
 (function ($) {
   'use strict';
 
-  var EDITOR_ID = 'woo-campaign-rich-editor';
+  var EDITOR_ID = 'nowcastf-rich-editor';
   var initialized = false;
 
   function movePublishActions() {
@@ -9,7 +9,7 @@
     var actions = document.querySelector('.woo-campaign-editor-topbar .woo-campaign-editor-actions');
     if (!publishCard || !actions) return;
 
-    actions.classList.add('woo-campaign-publish-actions');
+    actions.classList.add('nowcastf-publish-actions');
     publishCard.appendChild(actions);
   }
 
@@ -52,7 +52,7 @@
     var field = normalizeEditorField(textarea);
     if (field) {
       var label = field.querySelector(':scope > span');
-      if (label) label.textContent = (window.WooCampaignPresentation && WooCampaignPresentation.i18n && WooCampaignPresentation.i18n.introLabel) || 'Campaign introduction';
+      if (label) label.textContent = (window.NowCastfPresentation && NowCastfPresentation.i18n && NowCastfPresentation.i18n.introLabel) || 'Campaign introduction';
     }
 
     try {

@@ -1,10 +1,10 @@
 <?php
 
-namespace WooCampaign\Integration\Bricks\Query;
+namespace NowCampaignStorefronts\Integration\Bricks\Query;
 
-use WooCampaign\Campaign\CampaignContext;
-use WooCampaign\CampaignProduct\CampaignProduct;
-use WooCampaign\CampaignProduct\Repository as CampaignProductRepository;
+use NowCampaignStorefronts\Campaign\CampaignContext;
+use NowCampaignStorefronts\CampaignProduct\CampaignProduct;
+use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

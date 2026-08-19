@@ -1,9 +1,9 @@
 <?php
 
-namespace WooCampaign\Reporting;
+namespace NowCampaignStorefronts\Reporting;
 
-use WooCampaign\Campaign\Meta;
-use WooCampaign\Campaign\PostType;
+use NowCampaignStorefronts\Campaign\Meta;
+use NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

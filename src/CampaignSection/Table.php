@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCampaign\CampaignSection;
+namespace NowCampaignStorefronts\CampaignSection;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -9,6 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Table {
 	public static function name(): string {
 		global $wpdb;
-		return $wpdb->prefix . 'woo_campaign_sections';
+		return $wpdb->prefix . 'nowcastf_sections';
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCampaign\Reporting;
+namespace NowCampaignStorefronts\Reporting;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Campaign external report. It deliberately has no public URL or admin UI.
  */
 final class CampaignReportPostType {
-	public const TYPE = 'woo_campaign_report';
+	public const TYPE = 'nowcastf_report';
 
 	public function register(): void {
 		add_action( 'init', [ $this, 'registerPostType' ], 8 );

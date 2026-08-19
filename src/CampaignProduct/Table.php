@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCampaign\CampaignProduct;
+namespace NowCampaignStorefronts\CampaignProduct;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -9,6 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Table {
 	public static function name(): string {
 		global $wpdb;
-		return $wpdb->prefix . 'woo_campaign_products';
+		return $wpdb->prefix . 'nowcastf_products';
 	}
 }

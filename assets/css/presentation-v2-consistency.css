@@ -49,7 +49,10 @@
 
 .woo-campaign-page .woo-campaign-purchase-row-media,
 .woo-campaign-page .woo-campaign-editorial-media,
-.woo-campaign-page .woo-campaign-compact-card-media{
+.woo-campaign-page .woo-campaign-compact-card-media,
+.woo-campaign-purchase-row-media,
+.woo-campaign-editorial-media,
+.woo-campaign-compact-card-media{
 	display:flex;
 	align-items:center;
 	justify-content:center;
@@ -57,12 +60,15 @@
 }
 .woo-campaign-page .woo-campaign-purchase-row-media img,
 .woo-campaign-page .woo-campaign-editorial-media img,
-.woo-campaign-page .woo-campaign-compact-card-media img{
+.woo-campaign-page .woo-campaign-compact-card-media img,
+.woo-campaign-purchase-row-media img,
+.woo-campaign-editorial-media img,
+.woo-campaign-compact-card-media img{
 	display:block!important;
 	width:100%!important;
 	height:100%!important;
 	max-width:100%!important;
-	object-fit:contain!important;
+	object-fit:cover!important;
 	object-position:center!important;
 }
 .woo-campaign-page .woo-campaign-editorial-media{min-height:360px}

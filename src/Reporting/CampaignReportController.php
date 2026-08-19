@@ -1,13 +1,13 @@
 <?php
 
-namespace WooCampaign\Reporting;
+namespace NowCampaignStorefronts\Reporting;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 final class CampaignReportController {
-	private const REWRITE_VERSION = '1';
+	private const REWRITE_VERSION = '2';
 	private const REPORT_PATH = '/campaign-report/';
 
 	public function __construct(
@@ -29,22 +29,22 @@ final class CampaignReportController {
 	}
 
 	public static function registerRewriteRules(): void {
-		add_rewrite_rule( '^campaign-report/([^/]+)/data/?$', 'index.php?woo_campaign_report_key=$matches[1]&woo_campaign_report_data=1', 'top' );
-		add_rewrite_rule( '^campaign-report/([^/]+)/?$', 'index.php?woo_campaign_report_key=$matches[1]', 'top' );
+		add_rewrite_rule( '^campaign-report/([^/]+)/data/?$', 'index.php?nowcastf_report_key=$matches[1]&nowcastf_report_data=1', 'top' );
+		add_rewrite_rule( '^campaign-report/([^/]+)/?$', 'index.php?nowcastf_report_key=$matches[1]', 'top' );
 	}
 
 	public function queryVars( array $vars ): array {
-		$vars[] = 'woo_campaign_report_key';
-		$vars[] = 'woo_campaign_report_data';
+		$vars[] = 'nowcastf_report_key';
+		$vars[] = 'nowcastf_report_data';
 		return $vars;
 	}
 
 	public function maybeFlushRewriteRules(): void {
-		if ( get_option( 'woo_campaign_report_rewrite_version' ) === self::REWRITE_VERSION ) {
+		if ( get_option( 'nowcastf_report_rewrite_version' ) === self::REWRITE_VERSION ) {
 			return;
 		}
 		flush_rewrite_rules( false );
-		update_option( 'woo_campaign_report_rewrite_version', self::REWRITE_VERSION, false );
+		update_option( 'nowcastf_report_rewrite_version', self::REWRITE_VERSION, false );
 	}
 
 	public function sendDynamicHeaders(): void {
@@ -55,7 +55,7 @@ final class CampaignReportController {
 	}
 
 	public function dispatch(): void {
-		$key = sanitize_text_field( (string) get_query_var( 'woo_campaign_report_key' ) );
+		$key = sanitize_text_field( (string) get_query_var( 'nowcastf_report_key' ) );
 		if ( $key === '' ) {
 			return;
 		}
@@ -73,7 +73,7 @@ final class CampaignReportController {
 		$this->protectCurrentReportRequest();
 		$this->emitDynamicHeaders();
 
-		if ( (bool) get_query_var( 'woo_campaign_report_data' ) ) {
+		if ( (bool) get_query_var( 'nowcastf_report_data' ) ) {
 			$this->sendData( $campaignId, $reportPost );
 		}
 
@@ -106,18 +106,18 @@ final class CampaignReportController {
 			],
 		] : [];
 
-		wp_register_style( 'woo-campaign-report', WOO_CAMPAIGN_URL . 'assets/css/campaign-report.css', [], WOO_CAMPAIGN_VERSION );
-		wp_enqueue_style( 'woo-campaign-report' );
+		wp_register_style( 'nowcastf-report', NOWCASTF_URL . 'assets/css/campaign-report.css', [], NOWCASTF_VERSION );
+		wp_enqueue_style( 'nowcastf-report' );
 		if ( $authenticated ) {
-			wp_register_script( 'woo-campaign-report', WOO_CAMPAIGN_URL . 'assets/js/campaign-report.js', [], WOO_CAMPAIGN_VERSION, [ 'in_footer' => false, 'strategy' => 'defer' ] );
-			wp_enqueue_script( 'woo-campaign-report' );
+			wp_register_script( 'nowcastf-report', NOWCASTF_URL . 'assets/js/campaign-report.js', [], NOWCASTF_VERSION, [ 'in_footer' => false, 'strategy' => 'defer' ] );
+			wp_enqueue_script( 'nowcastf-report' );
 			wp_add_inline_script(
-				'woo-campaign-report',
-				'window.WooCampaignLiveReport=' . wp_json_encode( $scriptConfig ) . ';',
+				'nowcastf-report',
+				'window.NowCastfLiveReport=' . wp_json_encode( $scriptConfig ) . ';',
 				'before'
 			);
 		}
-		$template = WOO_CAMPAIGN_PATH . 'templates/campaign-report.php';
+		$template = NOWCASTF_PATH . 'templates/campaign-report.php';
 		if ( ! is_readable( $template ) ) {
 			wp_die( esc_html__( 'Campaign report template is unavailable.', 'now-campaign-storefronts' ), '', [ 'response' => 500 ] );
 		}
@@ -152,12 +152,12 @@ final class CampaignReportController {
 			return;
 		}
 		if ( ! defined( 'DONOTCACHEPAGE' ) ) {
-			define( 'DONOTCACHEPAGE', true );
+			define( 'DONOTCACHEPAGE', true ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 		}
 	}
 
 	private function isCurrentReportRequest(): bool {
-		$requestUri = (string) ( $_SERVER['REQUEST_URI'] ?? '' );
+		$requestUri = esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ?? '' ) );
 		if ( '' === $requestUri ) {
 			return false;
 		}

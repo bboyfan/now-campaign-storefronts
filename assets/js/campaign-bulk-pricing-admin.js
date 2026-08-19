@@ -1,7 +1,7 @@
 (function ($) {
   'use strict';
 
-  var state = window.WooCampaignBulkPricing || {};
+  var state = window.NowCastfBulkPricing || {};
   if (!state.config) return;
 
   var i18n = state.i18n || {};
@@ -24,13 +24,13 @@
   }
 
   function ensureHiddenInput() {
-    var form = document.getElementById('woo-campaign-editor-form');
+    var form = document.getElementById('nowcastf-editor-form');
     if (!form) return null;
-    var input = document.getElementById('woo-campaign-bulk-pricing-json');
+    var input = document.getElementById('nowcastf-bulk-pricing-json');
     if (!input) {
       input = document.createElement('input');
       input.type = 'hidden';
-      input.id = 'woo-campaign-bulk-pricing-json';
+      input.id = 'nowcastf-bulk-pricing-json';
       input.name = 'campaign_bulk_pricing_json';
       form.appendChild(input);
     }
@@ -38,8 +38,8 @@
   }
 
   function tierMarkup(tier, index) {
-    return '<div class="woo-campaign-bulk-tier" data-bulk-tier data-tier-index="' + index + '">' +
-      '<label><span>' + escapeHtml(i18n.quantity || 'Minimum quantity') + '</span><div class="woo-campaign-bulk-input-with-unit"><input type="number" min="2" step="1" value="' + Number(tier.min_qty || 2) + '" data-bulk-min-qty><small>' + escapeHtml(i18n.quantityUnit || 'or more') + '</small></div></label>' +
+    return '<div class="nowcastf-bulk-tier" data-bulk-tier data-tier-index="' + index + '">' +
+      '<label><span>' + escapeHtml(i18n.quantity || 'Minimum quantity') + '</span><div class="nowcastf-bulk-input-with-unit"><input type="number" min="2" step="1" value="' + Number(tier.min_qty || 2) + '" data-bulk-min-qty><small>' + escapeHtml(i18n.quantityUnit || 'or more') + '</small></div></label>' +
       '<label><span>' + escapeHtml(i18n.discount || 'Discount (%)') + '</span><input type="number" min="0.01" max="99.99" step="0.01" value="' + escapeHtml(tier.discount_percent || '') + '" data-bulk-discount></label>' +
       '<button type="button" class="button-link-delete woo-campaign-bulk-tier-remove" data-bulk-remove aria-label="' + escapeHtml(i18n.removeTier || 'Remove tier') + '"><span class="dashicons dashicons-trash"></span></button>' +
     '</div>';
@@ -47,7 +47,7 @@
 
   function tiersMarkup() {
     if (!config.tiers.length) {
-      return '<div class="woo-campaign-bulk-empty" data-bulk-empty>' + escapeHtml(i18n.empty || 'No pricing tiers yet.') + '</div>';
+      return '<div class="nowcastf-bulk-empty" data-bulk-empty>' + escapeHtml(i18n.empty || 'No pricing tiers yet.') + '</div>';
     }
     return config.tiers.map(tierMarkup).join('');
   }
@@ -73,19 +73,19 @@
     if (!sectionsCard || !main) return;
 
     var card = document.createElement('section');
-    card.className = 'woo-campaign-editor-card woo-campaign-bulk-pricing-card';
+    card.className = 'nowcastf-editor-card woo-campaign-bulk-pricing-card';
     card.setAttribute('data-campaign-bulk-pricing-card', '');
     card.innerHTML =
-      '<div class="woo-campaign-editor-card-heading"><div><span class="woo-campaign-editor-eyebrow">' + escapeHtml(i18n.eyebrow || 'Campaign pricing') + '</span><h2>' + escapeHtml(i18n.title || 'Campaign Bulk Pricing') + '</h2></div><p>' + escapeHtml(i18n.description || '') + '</p></div>' +
-      '<div class="woo-campaign-bulk-pricing-content">' +
-        '<label class="woo-campaign-bulk-toggle"><input type="checkbox" data-bulk-enabled' + (config.enabled ? ' checked' : '') + '><span><strong>' + escapeHtml(i18n.enable || 'Enable Campaign Bulk Pricing') + '</strong><small>' + escapeHtml(i18n.scope || '') + '</small></span></label>' +
-        '<div class="woo-campaign-bulk-body" data-bulk-body>' +
-          '<div class="woo-campaign-bulk-help">' + escapeHtml(i18n.baseHelp || '') + '</div>' +
-          '<div class="woo-campaign-bulk-copy-fields">' +
+      '<div class="nowcastf-editor-card-heading"><div><span class="nowcastf-editor-eyebrow">' + escapeHtml(i18n.eyebrow || 'Campaign pricing') + '</span><h2>' + escapeHtml(i18n.title || 'Campaign Bulk Pricing') + '</h2></div><p>' + escapeHtml(i18n.description || '') + '</p></div>' +
+      '<div class="nowcastf-bulk-pricing-content">' +
+        '<label class="nowcastf-bulk-toggle"><input type="checkbox" data-bulk-enabled' + (config.enabled ? ' checked' : '') + '><span><strong>' + escapeHtml(i18n.enable || 'Enable Campaign Bulk Pricing') + '</strong><small>' + escapeHtml(i18n.scope || '') + '</small></span></label>' +
+        '<div class="nowcastf-bulk-body" data-bulk-body>' +
+          '<div class="nowcastf-bulk-help">' + escapeHtml(i18n.baseHelp || '') + '</div>' +
+          '<div class="nowcastf-bulk-copy-fields">' +
             '<label><span>' + escapeHtml(i18n.noticeTitleLabel || 'Storefront offer title') + '</span><input type="text" value="' + escapeHtml(config.notice_title) + '" data-bulk-notice-title></label>' +
             '<label><span>' + escapeHtml(i18n.noticeDescriptionLabel || 'Storefront offer description') + '</span><textarea rows="2" data-bulk-notice-description>' + escapeHtml(config.notice_description) + '</textarea></label>' +
           '</div>' +
-          '<div class="woo-campaign-bulk-tier-list" data-bulk-tier-list>' + tiersMarkup() + '</div>' +
+          '<div class="nowcastf-bulk-tier-list" data-bulk-tier-list>' + tiersMarkup() + '</div>' +
           '<button type="button" class="button" data-bulk-add-tier><span class="dashicons dashicons-plus-alt2"></span>' + escapeHtml(i18n.addTier || 'Add tier') + '</button>' +
         '</div>' +
       '</div>';

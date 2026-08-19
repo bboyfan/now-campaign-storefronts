@@ -1,11 +1,11 @@
 {
-    "name": "wenszu/woo-campaign",
-    "description": "WooCommerce Campaign Plugin",
+    "name": "now-store/now-campaign-storefronts",
+    "description": "NOW Campaign Storefronts for WooCommerce",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
     "autoload": {
         "psr-4": {
-            "WooCampaign\\": "src/"
+            "NowCampaignStorefronts\\": "src/"
         }
     },
     "require": {

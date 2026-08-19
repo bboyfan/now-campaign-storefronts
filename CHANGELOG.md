@@ -2,6 +2,24 @@
 
 All notable changes to NOW Campaign Storefronts for WooCommerce are documented here. Historical entries retain their release-time names.
 
+## 1.4.4 — 2026-08-19
+
+### Added
+
+- Unique canonical `nowcastf_` prefix identity across all custom post types (`nowcastf_campaign`, `nowcastf_report`), custom database tables (`{$wpdb->prefix}nowcastf_products`, `{$wpdb->prefix}nowcastf_sections`), options, transients, actions, filters, nonces, and constants (`NOWCASTF_*`).
+- Dedicated Bricks Builder dynamic data provider (`ProviderNowCastf`) under the canonical namespace.
+
+### Changed
+
+- Addressed WordPress.org manual review feedback with hardened request parameter sanitization and escaping.
+- Storefront product media presentation updated to `object-fit: cover` with centered alignment across Quick Order, Editorial, and Compact layouts.
+- Campaign Report visual hierarchy refined with compact card heights, responsive typography, 4-column desktop KPI and breakdown grids, and 2-column mobile presentation.
+
+### Security
+
+- Hardened array sanitization and unslashing for campaign editor payloads and AJAX parameters.
+- Standardized report authentication redirect and cache control handling.
+
 ## 1.4.3 — 2026-08-17
 
 ### Fixed

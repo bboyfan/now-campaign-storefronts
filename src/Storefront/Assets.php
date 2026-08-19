@@ -1,9 +1,9 @@
 <?php
 
-namespace WooCampaign\Storefront;
+namespace NowCampaignStorefronts\Storefront;
 
-use WooCampaign\Cart\AjaxController;
-use WooCampaign\Campaign\PostType;
+use NowCampaignStorefronts\Cart\AjaxController;
+use NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -35,16 +35,16 @@ final class Assets {
 			return;
 		}
 		wp_enqueue_style(
-			'woo-campaign-commerce-isolation',
-			WOO_CAMPAIGN_URL . 'assets/css/commerce-isolation.css',
-			[ 'woo-campaign-presentation-v2' ],
-			WOO_CAMPAIGN_VERSION
+			'nowcastf-commerce-isolation',
+			NOWCASTF_URL . 'assets/css/commerce-isolation.css',
+			[ 'nowcastf-presentation-v2' ],
+			NOWCASTF_VERSION
 		);
 		wp_enqueue_style(
-			'woo-campaign-presentation-consistency',
-			WOO_CAMPAIGN_URL . 'assets/css/presentation-v2-consistency.css',
-			[ 'woo-campaign-commerce-isolation' ],
-			WOO_CAMPAIGN_VERSION
+			'nowcastf-presentation-consistency',
+			NOWCASTF_URL . 'assets/css/presentation-v2-consistency.css',
+			[ 'nowcastf-commerce-isolation' ],
+			NOWCASTF_VERSION
 		);
 	}
 
@@ -54,17 +54,17 @@ final class Assets {
 
 	public function enqueue(): void {
 		wp_enqueue_style( 'dashicons' );
-		wp_enqueue_style( 'woo-campaign-storefront', WOO_CAMPAIGN_URL . 'assets/css/storefront.css', [], WOO_CAMPAIGN_VERSION );
-		wp_enqueue_style( 'woo-campaign-sections', WOO_CAMPAIGN_URL . 'assets/css/campaign-sections.css', [ 'woo-campaign-storefront' ], WOO_CAMPAIGN_VERSION );
-		wp_enqueue_style( 'woo-campaign-quick-order-v2', WOO_CAMPAIGN_URL . 'assets/css/quick-order-v2.css', [ 'woo-campaign-sections' ], WOO_CAMPAIGN_VERSION );
-		wp_enqueue_style( 'woo-campaign-presentation-v2', WOO_CAMPAIGN_URL . 'assets/css/presentation-v2-storefront.css', [ 'woo-campaign-quick-order-v2' ], WOO_CAMPAIGN_VERSION );
-		wp_enqueue_style( 'woo-campaign-bulk-pricing', WOO_CAMPAIGN_URL . 'assets/css/campaign-bulk-pricing-storefront.css', [ 'woo-campaign-presentation-v2' ], WOO_CAMPAIGN_VERSION );
-		wp_enqueue_script( 'woo-campaign-storefront', WOO_CAMPAIGN_URL . 'assets/js/storefront.js', [ 'jquery' ], WOO_CAMPAIGN_VERSION, true );
-		wp_enqueue_script( 'woo-campaign-presentation-v2', WOO_CAMPAIGN_URL . 'assets/js/presentation-v2-storefront.js', [ 'woo-campaign-storefront' ], WOO_CAMPAIGN_VERSION, true );
+		wp_enqueue_style( 'nowcastf-storefront', NOWCASTF_URL . 'assets/css/storefront.css', [], NOWCASTF_VERSION );
+		wp_enqueue_style( 'nowcastf-sections', NOWCASTF_URL . 'assets/css/campaign-sections.css', [ 'nowcastf-storefront' ], NOWCASTF_VERSION );
+		wp_enqueue_style( 'nowcastf-quick-order-v2', NOWCASTF_URL . 'assets/css/quick-order-v2.css', [ 'nowcastf-sections' ], NOWCASTF_VERSION );
+		wp_enqueue_style( 'nowcastf-presentation-v2', NOWCASTF_URL . 'assets/css/presentation-v2-storefront.css', [ 'nowcastf-quick-order-v2' ], NOWCASTF_VERSION );
+		wp_enqueue_style( 'nowcastf-bulk-pricing', NOWCASTF_URL . 'assets/css/campaign-bulk-pricing-storefront.css', [ 'nowcastf-presentation-v2' ], NOWCASTF_VERSION );
+		wp_enqueue_script( 'nowcastf-storefront', NOWCASTF_URL . 'assets/js/storefront.js', [ 'jquery' ], NOWCASTF_VERSION, true );
+		wp_enqueue_script( 'nowcastf-presentation-v2', NOWCASTF_URL . 'assets/js/presentation-v2-storefront.js', [ 'nowcastf-storefront' ], NOWCASTF_VERSION, true );
 		if ( ! $this->localized ) {
 			wp_localize_script(
-				'woo-campaign-storefront',
-				'WooCampaignSettings',
+				'nowcastf-storefront',
+				'NowCastfSettings',
 				[
 					'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 					'nonce'   => AjaxController::nonce(),

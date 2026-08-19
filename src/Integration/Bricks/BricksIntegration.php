@@ -1,15 +1,15 @@
 <?php
 
-namespace WooCampaign\Integration\Bricks;
+namespace NowCampaignStorefronts\Integration\Bricks;
 
-use WooCampaign\Campaign\CampaignContext;
-use WooCampaign\Campaign\PostType;
-use WooCampaign\CampaignProduct\CampaignProductPresentationResolver;
-use WooCampaign\CampaignProduct\Repository as CampaignProductRepository;
-use WooCampaign\Integration\Bricks\Conditions\CampaignCondition;
-use WooCampaign\Integration\Bricks\DynamicData\CampaignDynamicData;
-use WooCampaign\Integration\Bricks\Query\CampaignProductsQuery;
-use WooCampaign\Storefront\CampaignRenderer;
+use NowCampaignStorefronts\Campaign\CampaignContext;
+use NowCampaignStorefronts\Campaign\PostType;
+use NowCampaignStorefronts\CampaignProduct\CampaignProductPresentationResolver;
+use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use NowCampaignStorefronts\Integration\Bricks\Conditions\CampaignCondition;
+use NowCampaignStorefronts\Integration\Bricks\DynamicData\CampaignDynamicData;
+use NowCampaignStorefronts\Integration\Bricks\Query\CampaignProductsQuery;
+use NowCampaignStorefronts\Storefront\CampaignRenderer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

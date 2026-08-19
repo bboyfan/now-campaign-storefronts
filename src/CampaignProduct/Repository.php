@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCampaign\CampaignProduct;
+namespace NowCampaignStorefronts\CampaignProduct;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -9,8 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Repository {
 	public function find( int $id ): ?CampaignProduct {
 		global $wpdb;
+		$table = Table::name();
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$row = $wpdb->get_row(
-			$wpdb->prepare( 'SELECT * FROM ' . Table::name() . ' WHERE id = %d LIMIT 1', $id ),
+			$wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d LIMIT 1", $id ), // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
 		);
 		return is_array( $row ) ? $this->hydrate( $row ) : null;
@@ -18,26 +20,30 @@ final class Repository {
 
 	public function forCampaign( int $campaignId, bool $activeOnly = false ): array {
 		global $wpdb;
-		$sql = 'SELECT * FROM ' . Table::name() . ' WHERE campaign_id = %d';
+		$table = Table::name();
+		$sql = "SELECT * FROM {$table} WHERE campaign_id = %d";
 		$args = [ $campaignId ];
 		if ( $activeOnly ) {
 			$sql .= ' AND status = %s';
 			$args[] = 'active';
 		}
 		$sql .= ' ORDER BY display_order ASC, id ASC';
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$rows = $wpdb->get_results( $wpdb->prepare( $sql, ...$args ), ARRAY_A );
 		return array_map( fn( array $row ): CampaignProduct => $this->hydrate( $row ), $rows ?: [] );
 	}
 
 	public function forSection( int $campaignId, int $sectionId, bool $activeOnly = false ): array {
 		global $wpdb;
-		$sql = 'SELECT * FROM ' . Table::name() . ' WHERE campaign_id = %d AND section_id = %d';
+		$table = Table::name();
+		$sql = "SELECT * FROM {$table} WHERE campaign_id = %d AND section_id = %d";
 		$args = [ $campaignId, $sectionId ];
 		if ( $activeOnly ) {
 			$sql .= ' AND status = %s';
 			$args[] = 'active';
 		}
 		$sql .= ' ORDER BY display_order ASC, id ASC';
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$rows = $wpdb->get_results( $wpdb->prepare( $sql, ...$args ), ARRAY_A );
 		return array_map( fn( array $row ): CampaignProduct => $this->hydrate( $row ), $rows ?: [] );
 	}
@@ -76,6 +82,7 @@ final class Repository {
 					[ '%d', '%d' ]
 				);
 				if ( false === $result ) {
+					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 					throw new \RuntimeException( 'Could not update campaign product: ' . $wpdb->last_error );
 				}
 				$keptIds[ $existingItem->id ] = true;
@@ -92,6 +99,7 @@ final class Repository {
 				[ '%d', '%s', '%s', '%s', '%d', '%s', '%d', '%d', '%d', '%s' ]
 			);
 			if ( false === $result || (int) $wpdb->insert_id <= 0 ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new \RuntimeException( 'Could not create campaign product: ' . $wpdb->last_error );
 			}
 			$keptIds[ (int) $wpdb->insert_id ] = true;
@@ -103,6 +111,7 @@ final class Repository {
 			}
 			$result = $wpdb->delete( $table, [ 'id' => $item->id, 'campaign_id' => $campaignId ], [ '%d', '%d' ] );
 			if ( false === $result ) {
+				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 				throw new \RuntimeException( 'Could not remove campaign product: ' . $wpdb->last_error );
 			}
 		}
@@ -112,6 +121,7 @@ final class Repository {
 		global $wpdb;
 		$result = $wpdb->delete( Table::name(), [ 'campaign_id' => $campaignId ], [ '%d' ] );
 		if ( false === $result ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
 			throw new \RuntimeException( 'Could not remove campaign products: ' . $wpdb->last_error );
 		}
 	}

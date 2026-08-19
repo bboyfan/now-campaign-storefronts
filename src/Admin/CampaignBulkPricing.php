@@ -1,27 +1,29 @@
 <?php
 
-namespace WooCampaign\Admin;
+namespace NowCampaignStorefronts\Admin;
 
-use WooCampaign\Campaign\Meta;
-use WooCampaign\Campaign\PostType;
+use NowCampaignStorefronts\Campaign\Meta;
+use NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 final class CampaignBulkPricing {
-	private const PAGE_SLUG = 'woo-campaign-editor';
-	private const EDITOR_NONCE_ACTION = 'woo_campaign_editor_save';
+	private const PAGE_SLUG = 'nowcastf-editor';
+	private const EDITOR_NONCE_ACTION = 'nowcastf_save_editor';
 
 	public function register(): void {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ], 30 );
-		add_action( 'woo_campaign_updated', [ $this, 'persistFromEditorRequest' ], 10, 1 );
+		add_action( 'nowcastf_updated', [ $this, 'persistFromEditorRequest' ], 10, 1 );
 	}
 
 	public function enqueue(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( self::PAGE_SLUG !== sanitize_key( (string) ( $_GET['page'] ?? '' ) ) ) {
 			return;
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
 		if ( $campaignId <= 0 || PostType::TYPE !== get_post_type( $campaignId ) ) {
 			return;
@@ -31,21 +33,21 @@ final class CampaignBulkPricing {
 		$config = Meta::sanitizeBulkPricing( is_array( $stored ) ? $stored : [] );
 
 		wp_enqueue_style(
-			'woo-campaign-bulk-pricing-admin',
-			WOO_CAMPAIGN_URL . 'assets/css/campaign-bulk-pricing-admin.css',
-			[ 'woo-campaign-editor' ],
-			WOO_CAMPAIGN_VERSION
+			'nowcastf-bulk-pricing-admin',
+			NOWCASTF_URL . 'assets/css/campaign-bulk-pricing-admin.css',
+			[ 'nowcastf-editor' ],
+			NOWCASTF_VERSION
 		);
 		wp_enqueue_script(
-			'woo-campaign-bulk-pricing-admin',
-			WOO_CAMPAIGN_URL . 'assets/js/campaign-bulk-pricing-admin.js',
-			[ 'jquery', 'woo-campaign-editor' ],
-			WOO_CAMPAIGN_VERSION,
+			'nowcastf-bulk-pricing-admin',
+			NOWCASTF_URL . 'assets/js/campaign-bulk-pricing-admin.js',
+			[ 'jquery', 'nowcastf-editor' ],
+			NOWCASTF_VERSION,
 			true
 		);
 		wp_localize_script(
-			'woo-campaign-bulk-pricing-admin',
-			'WooCampaignBulkPricing',
+			'nowcastf-bulk-pricing-admin',
+			'NowCastfBulkPricing',
 			[
 				'config' => $config,
 				'i18n'   => [
@@ -74,17 +76,18 @@ final class CampaignBulkPricing {
 		if ( ! isset( $_POST['campaign_bulk_pricing_json'] ) || ! current_user_can( 'manage_woocommerce' ) ) {
 			return;
 		}
-		if ( 'woo_campaign_save_editor' !== sanitize_key( (string) ( $_POST['action'] ?? '' ) ) ) {
+		if ( 'nowcastf_save_editor' !== sanitize_key( (string) ( $_POST['action'] ?? '' ) ) ) {
 			return;
 		}
 		if ( $campaignId !== absint( $_POST['campaign_id'] ?? 0 ) ) {
 			return;
 		}
-		$nonce = sanitize_text_field( wp_unslash( $_POST['woo_campaign_editor_nonce'] ?? '' ) );
+		$nonce = sanitize_text_field( wp_unslash( $_POST['nowcastf_editor_nonce'] ?? '' ) );
 		if ( ! wp_verify_nonce( $nonce, self::EDITOR_NONCE_ACTION ) ) {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$decoded = json_decode( wp_unslash( (string) $_POST['campaign_bulk_pricing_json'] ), true );
 		if ( JSON_ERROR_NONE !== json_last_error() || ! is_array( $decoded ) ) {
 			return;

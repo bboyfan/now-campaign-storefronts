@@ -1,6 +1,6 @@
 <?php
 
-namespace WooCampaign\CampaignSection;
+namespace NowCampaignStorefronts\CampaignSection;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -9,8 +9,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class Repository {
 	public function find( int $id ): ?CampaignSection {
 		global $wpdb;
+		$table = Table::name();
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$row = $wpdb->get_row(
-			$wpdb->prepare( 'SELECT * FROM ' . Table::name() . ' WHERE id = %d LIMIT 1', $id ),
+			$wpdb->prepare( "SELECT * FROM {$table} WHERE id = %d LIMIT 1", $id ), // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
 		);
 		return is_array( $row ) ? $this->hydrate( $row ) : null;
@@ -18,13 +20,15 @@ final class Repository {
 
 	public function forCampaign( int $campaignId, bool $activeOnly = false ): array {
 		global $wpdb;
-		$sql = 'SELECT * FROM ' . Table::name() . ' WHERE campaign_id = %d';
+		$table = Table::name();
+		$sql = "SELECT * FROM {$table} WHERE campaign_id = %d";
 		$args = [ $campaignId ];
 		if ( $activeOnly ) {
 			$sql .= ' AND status = %s';
 			$args[] = 'active';
 		}
 		$sql .= ' ORDER BY display_order ASC, id ASC';
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$rows = $wpdb->get_results( $wpdb->prepare( $sql, ...$args ), ARRAY_A );
 		return array_map( fn( array $row ): CampaignSection => $this->hydrate( $row ), $rows ?: [] );
 	}

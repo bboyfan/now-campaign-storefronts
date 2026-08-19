@@ -1,10 +1,10 @@
 <?php
 
-namespace WooCampaign\Install;
+namespace NowCampaignStorefronts\Install;
 
-use WooCampaign\CampaignProduct\Table as CampaignProductTable;
-use WooCampaign\CampaignSection\CampaignSection;
-use WooCampaign\CampaignSection\Table as CampaignSectionTable;
+use NowCampaignStorefronts\CampaignProduct\Table as CampaignProductTable;
+use NowCampaignStorefronts\CampaignSection\CampaignSection;
+use NowCampaignStorefronts\CampaignSection\Table as CampaignSectionTable;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 final class Migrator {
 	public const DB_VERSION = '4';
-	private const OPTION_KEY = 'woo_campaign_db_version';
+	private const OPTION_KEY = 'nowcastf_db_version';
 
 	public function maybeMigrate(): void {
 		if ( get_option( self::OPTION_KEY ) !== self::DB_VERSION ) {
@@ -79,7 +79,8 @@ final class Migrator {
 
 	private function backfillDefaultSections( string $productsTable, string $sectionsTable ): void {
 		global $wpdb;
-		$campaignIds = $wpdb->get_col( "SELECT DISTINCT campaign_id FROM {$productsTable} WHERE section_id = 0" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$campaignIds = $wpdb->get_col( "SELECT DISTINCT campaign_id FROM {$productsTable} WHERE section_id = 0" );
 		if ( ! $campaignIds ) {
 			return;
 		}
@@ -90,8 +91,9 @@ final class Migrator {
 			if ( $campaignId <= 0 ) {
 				continue;
 			}
+			// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$sectionId = (int) $wpdb->get_var(
-				$wpdb->prepare( "SELECT id FROM {$sectionsTable} WHERE campaign_id = %d ORDER BY display_order ASC, id ASC LIMIT 1", $campaignId ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$wpdb->prepare( "SELECT id FROM {$sectionsTable} WHERE campaign_id = %d ORDER BY display_order ASC, id ASC LIMIT 1", $campaignId ) // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			);
 			if ( $sectionId <= 0 ) {
 				$wpdb->insert(
@@ -112,8 +114,9 @@ final class Migrator {
 				$sectionId = (int) $wpdb->insert_id;
 			}
 			if ( $sectionId > 0 ) {
+				// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$wpdb->query(
-					$wpdb->prepare( "UPDATE {$productsTable} SET section_id = %d WHERE campaign_id = %d AND section_id = 0", $sectionId, $campaignId ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					$wpdb->prepare( "UPDATE {$productsTable} SET section_id = %d WHERE campaign_id = %d AND section_id = 0", $sectionId, $campaignId ) // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				);
 			}
 		}

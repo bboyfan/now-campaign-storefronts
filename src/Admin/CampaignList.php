@@ -1,11 +1,11 @@
 <?php
 
-namespace WooCampaign\Admin;
+namespace NowCampaignStorefronts\Admin;
 
-use WooCampaign\Campaign\CampaignService;
-use WooCampaign\Campaign\Meta;
-use WooCampaign\Campaign\PostType;
-use WooCampaign\CampaignProduct\Repository;
+use NowCampaignStorefronts\Campaign\CampaignService;
+use NowCampaignStorefronts\Campaign\Meta;
+use NowCampaignStorefronts\Campaign\PostType;
+use NowCampaignStorefronts\CampaignProduct\Repository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,38 +27,38 @@ final class CampaignList {
 		foreach ( $columns as $key => $label ) {
 			$result[ $key ] = $label;
 			if ( 'title' === $key ) {
-				$result['woo_campaign_status'] = __( 'Status', 'now-campaign-storefronts' );
-				$result['woo_campaign_schedule'] = __( 'Schedule', 'now-campaign-storefronts' );
-				$result['woo_campaign_products'] = __( 'Products', 'now-campaign-storefronts' );
+				$result['nowcastf_status'] = __( 'Status', 'now-campaign-storefronts' );
+				$result['nowcastf_schedule'] = __( 'Schedule', 'now-campaign-storefronts' );
+				$result['nowcastf_products'] = __( 'Products', 'now-campaign-storefronts' );
 			}
 		}
 		return $result;
 	}
 
 	public function renderColumn( string $column, int $postId ): void {
-		if ( 'woo_campaign_status' === $column ) {
+		if ( 'nowcastf_status' === $column ) {
 			$status = $this->campaigns->statusLabel( $postId );
-			echo '<span class="woo-campaign-list-status woo-campaign-list-status-' . esc_attr( sanitize_html_class( $status ) ) . '"><span aria-hidden="true"></span>' . esc_html( $this->statusText( $status ) ) . '</span>';
+			echo '<span class="nowcastf-list-status woo-campaign-list-status-' . esc_attr( sanitize_html_class( $status ) ) . '"><span aria-hidden="true"></span>' . esc_html( $this->statusText( $status ) ) . '</span>';
 			return;
 		}
 
-		if ( 'woo_campaign_schedule' === $column ) {
+		if ( 'nowcastf_schedule' === $column ) {
 			$start = (int) get_post_meta( $postId, Meta::START_AT, true );
 			$end = (int) get_post_meta( $postId, Meta::END_AT, true );
 			if ( ! $start && ! $end ) {
-				echo '<span class="woo-campaign-list-muted">' . esc_html__( 'Always available', 'now-campaign-storefronts' ) . '</span>';
+				echo '<span class="nowcastf-list-muted">' . esc_html__( 'Always available', 'now-campaign-storefronts' ) . '</span>';
 				return;
 			}
 			if ( $start ) {
-				echo '<span class="woo-campaign-list-date"><small>' . esc_html__( 'Start', 'now-campaign-storefronts' ) . '</small>' . esc_html( wp_date( 'M j, Y H:i', $start, wp_timezone() ) ) . '</span>';
+				echo '<span class="nowcastf-list-date"><small>' . esc_html__( 'Start', 'now-campaign-storefronts' ) . '</small>' . esc_html( wp_date( 'M j, Y H:i', $start, wp_timezone() ) ) . '</span>';
 			}
 			if ( $end ) {
-				echo '<span class="woo-campaign-list-date"><small>' . esc_html__( 'End', 'now-campaign-storefronts' ) . '</small>' . esc_html( wp_date( 'M j, Y H:i', $end, wp_timezone() ) ) . '</span>';
+				echo '<span class="nowcastf-list-date"><small>' . esc_html__( 'End', 'now-campaign-storefronts' ) . '</small>' . esc_html( wp_date( 'M j, Y H:i', $end, wp_timezone() ) ) . '</span>';
 			}
 			return;
 		}
 
-		if ( 'woo_campaign_products' === $column ) {
+		if ( 'nowcastf_products' === $column ) {
 			$rows = $this->products->forCampaign( $postId );
 			$active = 0;
 			foreach ( $rows as $row ) {
@@ -66,7 +66,7 @@ final class CampaignList {
 			}
 			echo '<strong>' . esc_html( number_format_i18n( count( $rows ) ) ) . '</strong>';
 			if ( count( $rows ) !== $active ) {
-				echo '<small class="woo-campaign-list-product-detail">' . esc_html( sprintf( __( '%d active', 'now-campaign-storefronts' ), $active ) ) . '</small>';
+				echo '<small class="nowcastf-list-product-detail">' . esc_html( sprintf( __( '%d active', 'now-campaign-storefronts' ), $active ) ) . '</small>';
 			}
 		}
 	}

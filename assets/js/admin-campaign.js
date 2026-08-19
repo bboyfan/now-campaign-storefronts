@@ -1,7 +1,7 @@
 (function ($) {
   'use strict';
 
-  var settings = window.WooCampaignAdminSettings || {};
+  var settings = window.NowCastfAdminSettings || {};
   var activeModal = null;
 
   function initProductSearch() {
@@ -13,8 +13,8 @@
     $panel.find('[data-woo-campaign-product-count]').text(count);
     $panel.find('[data-woo-campaign-products-empty]').prop('hidden', count > 0);
     $panel.find('.woo-campaign-products-table').toggleClass('is-empty', count === 0);
-    $panel.find('.woo-campaign-product-row').each(function (index) {
-      $(this).find('input[name="woo_campaign_display_order[]"]').val(index);
+    $panel.find('.woo-campaign-product-row, .nowcastf-product-row').each(function (index) {
+      $(this).find('input[name="nowcastf_display_order[]"]').val(index);
     });
     $panel.attr('data-next-order', String(count));
   }
@@ -54,7 +54,7 @@
     if (!activeModal) return;
     activeModal.remove();
     activeModal = null;
-    $('body').removeClass('woo-campaign-modal-open');
+    $('body').removeClass('nowcastf-modal-open');
   }
 
   function escapeHtml(str) {
@@ -80,45 +80,45 @@
   function openVariationPicker(data, $targetRow, $panel) {
     closeModal();
 
-    var html = '<div class="woo-campaign-variation-modal-overlay" role="presentation">';
-    html += '<div class="woo-campaign-variation-modal" role="dialog" aria-modal="true" aria-labelledby="woo-campaign-variation-modal-title">';
-    html += '<div class="woo-campaign-modal-header">';
-    html += '<div><span class="woo-campaign-modal-eyebrow">' + escapeHtml(settings.i18n && settings.i18n.variableProduct ? settings.i18n.variableProduct : 'Variable product') + '</span>';
-    html += '<h2 id="woo-campaign-variation-modal-title">' + escapeHtml(data.parent_name) + '</h2>';
+    var html = '<div class="nowcastf-variation-modal-overlay" role="presentation">';
+    html += '<div class="nowcastf-variation-modal" role="dialog" aria-modal="true" aria-labelledby="nowcastf-variation-modal-title">';
+    html += '<div class="nowcastf-modal-header">';
+    html += '<div><span class="nowcastf-modal-eyebrow">' + escapeHtml(settings.i18n && settings.i18n.variableProduct ? settings.i18n.variableProduct : 'Variable product') + '</span>';
+    html += '<h2 id="nowcastf-variation-modal-title">' + escapeHtml(data.parent_name) + '</h2>';
     html += '<p>' + escapeHtml(settings.i18n && settings.i18n.chooseVariationsHelp ? settings.i18n.chooseVariationsHelp : 'Choose the variations you want to sell in this campaign and set their Campaign Prices.') + '</p></div>';
-    html += '<button type="button" class="woo-campaign-modal-close" aria-label="' + escapeAttr(settings.i18n && settings.i18n.cancel ? settings.i18n.cancel : 'Close') + '"><span class="dashicons dashicons-no-alt"></span></button>';
+    html += '<button type="button" class="nowcastf-modal-close" aria-label="' + escapeAttr(settings.i18n && settings.i18n.cancel ? settings.i18n.cancel : 'Close') + '"><span class="dashicons dashicons-no-alt"></span></button>';
     html += '</div>';
 
     if (!data.variations || !data.variations.length) {
-      html += '<div class="woo-campaign-modal-empty"><span class="dashicons dashicons-info-outline"></span><p>' + escapeHtml(settings.i18n && settings.i18n.noVariationsFound ? settings.i18n.noVariationsFound : 'No variations found.') + '</p></div>';
+      html += '<div class="nowcastf-modal-empty"><span class="dashicons dashicons-info-outline"></span><p>' + escapeHtml(settings.i18n && settings.i18n.noVariationsFound ? settings.i18n.noVariationsFound : 'No variations found.') + '</p></div>';
     } else {
-      html += '<div class="woo-campaign-modal-selection-bar">';
-      html += '<label><input type="checkbox" class="woo-campaign-modal-select-all"> ' + escapeHtml(settings.i18n && settings.i18n.selectAll ? settings.i18n.selectAll : 'Select all') + '</label>';
+      html += '<div class="nowcastf-modal-selection-bar">';
+      html += '<label><input type="checkbox" class="nowcastf-modal-select-all"> ' + escapeHtml(settings.i18n && settings.i18n.selectAll ? settings.i18n.selectAll : 'Select all') + '</label>';
       html += '<span><strong data-woo-campaign-selected-count>0</strong> ' + escapeHtml(settings.i18n && settings.i18n.selected ? settings.i18n.selected : 'selected') + '</span>';
       html += '</div>';
-      html += '<div class="woo-campaign-modal-table-wrap"><table class="widefat woo-campaign-modal-table">';
+      html += '<div class="nowcastf-modal-table-wrap"><table class="widefat woo-campaign-modal-table">';
       html += '<thead><tr><th></th><th>' + escapeHtml(settings.i18n && settings.i18n.variation ? settings.i18n.variation : 'Variation') + '</th><th>' + escapeHtml(settings.i18n && settings.i18n.wooPrice ? settings.i18n.wooPrice : 'Woo price') + '</th><th>' + escapeHtml(settings.i18n && settings.i18n.stock ? settings.i18n.stock : 'Stock') + '</th><th>' + escapeHtml(settings.i18n && settings.i18n.campaignPrice ? settings.i18n.campaignPrice : 'Campaign price') + '</th></tr></thead>';
       html += '<tbody>';
       $.each(data.variations, function (i, v) {
         var duplicate = rowExists($panel, v.variation_id, $targetRow);
         html += '<tr class="' + (duplicate ? 'is-existing' : '') + '" data-variation-id="' + v.variation_id + '" data-label="' + escapeAttr(data.parent_name + ' - ' + v.label) + '" data-woo-price="' + escapeAttr(v.woo_price) + '" data-raw-price="' + escapeAttr(v.raw_price) + '" data-stock="' + escapeAttr(v.stock) + '">';
-        html += '<td><input type="checkbox" class="woo-campaign-var-check" ' + (duplicate ? 'disabled' : '') + '></td>';
-        html += '<td><strong>' + escapeHtml(v.label) + '</strong>' + (v.sku ? '<small>SKU: ' + escapeHtml(v.sku) + '</small>' : '') + (duplicate ? '<span class="woo-campaign-existing-badge">' + escapeHtml(settings.i18n && settings.i18n.alreadyAdded ? settings.i18n.alreadyAdded : 'Already added') + '</span>' : '') + '</td>';
+        html += '<td><input type="checkbox" class="nowcastf-var-check" ' + (duplicate ? 'disabled' : '') + '></td>';
+        html += '<td><strong>' + escapeHtml(v.label) + '</strong>' + (v.sku ? '<small>SKU: ' + escapeHtml(v.sku) + '</small>' : '') + (duplicate ? '<span class="nowcastf-existing-badge">' + escapeHtml(settings.i18n && settings.i18n.alreadyAdded ? settings.i18n.alreadyAdded : 'Already added') + '</span>' : '') + '</td>';
         html += '<td>' + v.woo_price + '</td>';
         html += '<td>' + v.stock + '</td>';
-        html += '<td><input type="number" min="0.01" step="0.01" value="' + (v.raw_price || '') + '" class="woo-campaign-modal-price" ' + (duplicate ? 'disabled' : '') + '></td>';
+        html += '<td><input type="number" min="0.01" step="0.01" value="' + (v.raw_price || '') + '" class="nowcastf-modal-price" ' + (duplicate ? 'disabled' : '') + '></td>';
         html += '</tr>';
       });
       html += '</tbody></table></div>';
     }
 
-    html += '<div class="woo-campaign-modal-actions">';
+    html += '<div class="nowcastf-modal-actions">';
     html += '<button type="button" class="button woo-campaign-modal-cancel">' + escapeHtml(settings.i18n && settings.i18n.cancel ? settings.i18n.cancel : 'Cancel') + '</button>';
     html += '<button type="button" class="button button-primary woo-campaign-modal-add" disabled>' + escapeHtml(settings.i18n && settings.i18n.addVariations ? settings.i18n.addVariations : 'Add selected variations') + '</button>';
     html += '</div></div></div>';
 
     activeModal = $(html);
-    $('body').addClass('woo-campaign-modal-open').append(activeModal);
+    $('body').addClass('nowcastf-modal-open').append(activeModal);
 
     var $modal = activeModal;
     $modal.find('.woo-campaign-var-check').on('change', function () {
@@ -167,8 +167,8 @@
         $newRow.find('.woo-campaign-woo-price').html(item.wooPrice);
         $newRow.find('[data-woo-base-price]').attr('data-woo-base-price', item.rawPrice);
         $newRow.find('.woo-campaign-stock').html(item.stock);
-        $newRow.find('input[name="woo_campaign_price[]"]').val(item.price);
-        $newRow.find('.woo-campaign-product-search-wrap').append('<span class="woo-campaign-product-type">' + escapeHtml(settings.i18n && settings.i18n.variation ? settings.i18n.variation : 'Variation') + '</span>');
+        $newRow.find('input[name="nowcastf_price[]"]').val(item.price);
+        $newRow.find('.woo-campaign-product-search-wrap').append('<span class="nowcastf-product-type">' + escapeHtml(settings.i18n && settings.i18n.variation ? settings.i18n.variation : 'Variation') + '</span>');
 
         $panel.find('.woo-campaign-product-rows').append($newRow);
         initProductSearch();
@@ -205,7 +205,7 @@
       url: settings.ajaxUrl,
       type: 'POST',
       data: {
-        action: 'woo_campaign_get_product_variations',
+        action: 'nowcastf_get_product_variations',
         nonce: settings.nonce,
         product_id: productId
       }

@@ -1,11 +1,11 @@
 <?php
 
-namespace WooCampaign\Cart;
+namespace NowCampaignStorefronts\Cart;
 
-use WooCampaign\Campaign\CampaignRepository;
-use WooCampaign\CampaignProduct\Repository as CampaignProductRepository;
-use WooCampaign\Pricing\CampaignPriceResolver;
-use WooCampaign\Product\ProductAdapter;
+use NowCampaignStorefronts\Campaign\CampaignRepository;
+use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use NowCampaignStorefronts\Pricing\CampaignPriceResolver;
+use NowCampaignStorefronts\Product\ProductAdapter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -55,13 +55,13 @@ final class CartService {
 				continue;
 			}
 			if ( isset( $seen[ $campaignProductId ] ) ) {
-				throw new \RuntimeException( __( 'A campaign item was submitted more than once.', 'now-campaign-storefronts' ) );
+				throw new \RuntimeException( esc_html__( 'A campaign item was submitted more than once.', 'now-campaign-storefronts' ) );
 			}
 			$seen[ $campaignProductId ] = true;
 			$prepared[] = $this->prepareItem( $campaignId, $campaignProductId, $quantity );
 		}
 		if ( ! $prepared ) {
-			throw new \RuntimeException( __( 'Select at least one campaign item.', 'now-campaign-storefronts' ) );
+			throw new \RuntimeException( esc_html__( 'Select at least one campaign item.', 'now-campaign-storefronts' ) );
 		}
 
 		$initialQuantities = [];
@@ -92,13 +92,13 @@ final class CartService {
 
 	public function update( string $key, int $quantity ): void {
 		if ( ! WC()->cart->set_quantity( $key, max( 0, $quantity ), true ) ) {
-			throw new \RuntimeException( __( 'Unable to update the cart item.', 'now-campaign-storefronts' ) );
+			throw new \RuntimeException( esc_html__( 'Unable to update the cart item.', 'now-campaign-storefronts' ) );
 		}
 	}
 
 	public function remove( string $key ): void {
 		if ( ! WC()->cart->remove_cart_item( $key ) ) {
-			throw new \RuntimeException( __( 'Unable to remove the cart item.', 'now-campaign-storefronts' ) );
+			throw new \RuntimeException( esc_html__( 'Unable to remove the cart item.', 'now-campaign-storefronts' ) );
 		}
 	}
 
@@ -139,15 +139,15 @@ final class CartService {
 	private function prepareItem( int $campaignId, int $campaignProductId, int $quantity ): array {
 		$stored = $this->campaignProducts->find( $campaignProductId );
 		if ( ! $stored ) {
-			throw new \RuntimeException( __( 'This campaign item is no longer available.', 'now-campaign-storefronts' ) );
+			throw new \RuntimeException( esc_html__( 'This campaign item is no longer available.', 'now-campaign-storefronts' ) );
 		}
 		$item = $this->resolver->resolve( $campaignId, $campaignProductId, $stored->productId, $stored->variationId );
 		if ( ! $item ) {
-			throw new \RuntimeException( __( 'This campaign item is no longer available.', 'now-campaign-storefronts' ) );
+			throw new \RuntimeException( esc_html__( 'This campaign item is no longer available.', 'now-campaign-storefronts' ) );
 		}
 		$product = $this->products->get( $item->saleableId() );
 		if ( ! $product || ! $this->products->isPurchasable( $product ) ) {
-			throw new \RuntimeException( __( 'This product is not currently purchasable.', 'now-campaign-storefronts' ) );
+			throw new \RuntimeException( esc_html__( 'This product is not currently purchasable.', 'now-campaign-storefronts' ) );
 		}
 		return [ 'campaign_id' => $campaignId, 'campaign_product_id' => $campaignProductId, 'quantity' => $quantity, 'item' => $item, 'product' => $product ];
 	}
@@ -178,7 +178,7 @@ final class CartService {
 		];
 		$key = WC()->cart->add_to_cart( $item->productId, $quantity, $item->variationId, $variation, $cartItemData );
 		if ( ! $key ) {
-			throw new \RuntimeException( __( 'Unable to add this campaign product to the cart.', 'now-campaign-storefronts' ) );
+			throw new \RuntimeException( esc_html__( 'Unable to add this campaign product to the cart.', 'now-campaign-storefronts' ) );
 		}
 		return [
 			'cart_item_key'       => (string) $key,

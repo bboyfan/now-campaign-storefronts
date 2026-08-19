@@ -1,18 +1,18 @@
 <?php
 
-namespace WooCampaign\Admin;
+namespace NowCampaignStorefronts\Admin;
 
-use WooCampaign\Campaign\PostType;
-use WooCampaign\Reporting\CampaignReportShare;
-use WooCampaign\Reporting\CampaignReportService;
+use NowCampaignStorefronts\Campaign\PostType;
+use NowCampaignStorefronts\Reporting\CampaignReportShare;
+use NowCampaignStorefronts\Reporting\CampaignReportService;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 final class CampaignReportAdmin {
-	private const PAGE_SLUG = 'woo-campaign-editor';
-	private const NONCE_ACTION = 'woo_campaign_report_admin';
+	private const PAGE_SLUG = 'nowcastf-editor';
+	private const NONCE_ACTION = 'nowcastf_report_admin';
 
 	public function __construct(
 		private CampaignReportShare $share,
@@ -21,14 +21,16 @@ final class CampaignReportAdmin {
 
 	public function register(): void {
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ], 30 );
-		add_action( 'wp_ajax_woo_campaign_report_save', [ $this, 'ajaxSave' ] );
-		add_action( 'wp_ajax_woo_campaign_report_regenerate', [ $this, 'ajaxRegenerate' ] );
+		add_action( 'wp_ajax_nowcastf_report_save', [ $this, 'ajaxSave' ] );
+		add_action( 'wp_ajax_nowcastf_report_regenerate', [ $this, 'ajaxRegenerate' ] );
 	}
 
 	public function enqueue(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		if ( self::PAGE_SLUG !== sanitize_key( (string) ( $_GET['page'] ?? '' ) ) ) {
 			return;
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
 		if ( $campaignId <= 0 || PostType::TYPE !== get_post_type( $campaignId ) ) {
 			return;
@@ -38,11 +40,11 @@ final class CampaignReportAdmin {
 		$orders = max( 0, (int) ( $summary['orders'] ?? 0 ) );
 		$averageOrder = $orders > 0 ? (float) ( $summary['net_sales'] ?? 0 ) / $orders : 0.0;
 
-		wp_enqueue_style( 'woo-campaign-report-admin', WOO_CAMPAIGN_URL . 'assets/css/campaign-report-admin.css', [ 'woo-campaign-editor' ], WOO_CAMPAIGN_VERSION );
-		wp_enqueue_script( 'woo-campaign-report-admin', WOO_CAMPAIGN_URL . 'assets/js/campaign-report-admin.js', [ 'jquery', 'woo-campaign-editor' ], WOO_CAMPAIGN_VERSION, true );
+		wp_enqueue_style( 'nowcastf-report-admin', NOWCASTF_URL . 'assets/css/campaign-report-admin.css', [ 'nowcastf-editor' ], NOWCASTF_VERSION );
+		wp_enqueue_script( 'nowcastf-report-admin', NOWCASTF_URL . 'assets/js/campaign-report-admin.js', [ 'jquery', 'nowcastf-editor' ], NOWCASTF_VERSION, true );
 		wp_localize_script(
-			'woo-campaign-report-admin',
-			'WooCampaignReportAdmin',
+			'nowcastf-report-admin',
+			'NowCastfReportAdmin',
 			[
 				'campaignId' => $campaignId,
 				'nonce'      => wp_create_nonce( self::NONCE_ACTION ),
@@ -77,9 +79,11 @@ final class CampaignReportAdmin {
 	}
 
 	public function ajaxSave(): void {
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
 		$this->guard();
 		$campaignId = absint( $_POST['campaign_id'] ?? 0 );
 		$enabled = ! empty( $_POST['enabled'] );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$password = isset( $_POST['password'] ) ? (string) wp_unslash( $_POST['password'] ) : '';
 		$result = $this->share->save( $campaignId, $enabled, $password );
 		if ( is_wp_error( $result ) ) {
@@ -89,6 +93,7 @@ final class CampaignReportAdmin {
 	}
 
 	public function ajaxRegenerate(): void {
+		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
 		$this->guard();
 		$campaignId = absint( $_POST['campaign_id'] ?? 0 );
 		$result = $this->share->regenerate( $campaignId );
@@ -99,7 +104,6 @@ final class CampaignReportAdmin {
 	}
 
 	private function guard(): void {
-		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_send_json_error( [ 'message' => __( 'Unauthorized', 'now-campaign-storefronts' ) ], 403 );
 		}

@@ -1,47 +1,47 @@
 <?php
 
-namespace WooCampaign;
+namespace NowCampaignStorefronts;
 
-use WooCampaign\Admin\CampaignBulkPricing as CampaignBulkPricingAdmin;
-use WooCampaign\Admin\CampaignDuplicate as CampaignDuplicateAdmin;
-use WooCampaign\Admin\CampaignEditor;
-use WooCampaign\Admin\CampaignList;
-use WooCampaign\Admin\CampaignPresentation;
-use WooCampaign\Admin\CampaignReportAdmin;
-use WooCampaign\Campaign\CampaignDuplicator;
-use WooCampaign\Campaign\CampaignRepository;
-use WooCampaign\Campaign\CampaignService;
-use WooCampaign\Campaign\Meta;
-use WooCampaign\Campaign\PostType;
-use WooCampaign\CampaignProduct\CampaignProductPresentationResolver;
-use WooCampaign\CampaignProduct\Repository as CampaignProductRepository;
-use WooCampaign\CampaignProduct\Service as CampaignProductService;
-use WooCampaign\CampaignSection\Repository as CampaignSectionRepository;
-use WooCampaign\CampaignSection\Service as CampaignSectionService;
-use WooCampaign\Cart\AjaxController;
-use WooCampaign\Cart\CartService;
-use WooCampaign\Cart\CartValidator;
-use WooCampaign\Install\Migrator;
-use WooCampaign\Integration\Bricks\BricksIntegration;
-use WooCampaign\Order\OrderAttribution;
-use WooCampaign\Order\OrderCampaignIndex;
-use WooCampaign\Pricing\CampaignBulkPricing;
-use WooCampaign\Pricing\CampaignPriceResolver;
-use WooCampaign\Pricing\CartPriceApplier;
-use WooCampaign\Product\ProductAdapter;
-use WooCampaign\Reporting\CampaignDetailedReportService;
-use WooCampaign\Reporting\CampaignReportCache;
-use WooCampaign\Reporting\CampaignReportController;
-use WooCampaign\Reporting\CampaignReportPostType;
-use WooCampaign\Reporting\CampaignReportSecret;
-use WooCampaign\Reporting\CampaignReportService;
-use WooCampaign\Reporting\CampaignReportShare;
-use WooCampaign\Storefront\Assets as StorefrontAssets;
-use WooCampaign\Storefront\BulkPricingNotice;
-use WooCampaign\Storefront\CampaignRenderer;
-use WooCampaign\Storefront\CampaignSectionRenderer;
-use WooCampaign\Storefront\MiniCart;
-use WooCampaign\Storefront\Shortcodes;
+use NowCampaignStorefronts\Admin\CampaignBulkPricing as CampaignBulkPricingAdmin;
+use NowCampaignStorefronts\Admin\CampaignDuplicate as CampaignDuplicateAdmin;
+use NowCampaignStorefronts\Admin\CampaignEditor;
+use NowCampaignStorefronts\Admin\CampaignList;
+use NowCampaignStorefronts\Admin\CampaignPresentation;
+use NowCampaignStorefronts\Admin\CampaignReportAdmin;
+use NowCampaignStorefronts\Campaign\CampaignDuplicator;
+use NowCampaignStorefronts\Campaign\CampaignRepository;
+use NowCampaignStorefronts\Campaign\CampaignService;
+use NowCampaignStorefronts\Campaign\Meta;
+use NowCampaignStorefronts\Campaign\PostType;
+use NowCampaignStorefronts\CampaignProduct\CampaignProductPresentationResolver;
+use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use NowCampaignStorefronts\CampaignProduct\Service as CampaignProductService;
+use NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
+use NowCampaignStorefronts\CampaignSection\Service as CampaignSectionService;
+use NowCampaignStorefronts\Cart\AjaxController;
+use NowCampaignStorefronts\Cart\CartService;
+use NowCampaignStorefronts\Cart\CartValidator;
+use NowCampaignStorefronts\Install\Migrator;
+use NowCampaignStorefronts\Integration\Bricks\BricksIntegration;
+use NowCampaignStorefronts\Order\OrderAttribution;
+use NowCampaignStorefronts\Order\OrderCampaignIndex;
+use NowCampaignStorefronts\Pricing\CampaignBulkPricing;
+use NowCampaignStorefronts\Pricing\CampaignPriceResolver;
+use NowCampaignStorefronts\Pricing\CartPriceApplier;
+use NowCampaignStorefronts\Product\ProductAdapter;
+use NowCampaignStorefronts\Reporting\CampaignDetailedReportService;
+use NowCampaignStorefronts\Reporting\CampaignReportCache;
+use NowCampaignStorefronts\Reporting\CampaignReportController;
+use NowCampaignStorefronts\Reporting\CampaignReportPostType;
+use NowCampaignStorefronts\Reporting\CampaignReportSecret;
+use NowCampaignStorefronts\Reporting\CampaignReportService;
+use NowCampaignStorefronts\Reporting\CampaignReportShare;
+use NowCampaignStorefronts\Storefront\Assets as StorefrontAssets;
+use NowCampaignStorefronts\Storefront\BulkPricingNotice;
+use NowCampaignStorefronts\Storefront\CampaignRenderer;
+use NowCampaignStorefronts\Storefront\CampaignSectionRenderer;
+use NowCampaignStorefronts\Storefront\MiniCart;
+use NowCampaignStorefronts\Storefront\Shortcodes;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -112,8 +112,8 @@ final class Plugin {
 		// bricks/dynamic_data/register_providers during its load, before init.
 		// Register the NOW Campaign Storefronts provider key here so Bricks picks it up.
 		add_filter( 'bricks/dynamic_data/register_providers', static function ( array $providers ): array {
-			if ( ! in_array( 'woo_campaign', $providers, true ) ) {
-				$providers[] = 'woo_campaign';
+			if ( ! in_array( 'nowcastf', $providers, true ) ) {
+				$providers[] = 'nowcastf';
 			}
 			return $providers;
 		} );
@@ -164,6 +164,6 @@ final class Plugin {
 			}
 		}, 10, 2 );
 
-		do_action( 'woo_campaign_loaded', $campaignService, $campaignProducts, $reports );
+		do_action( 'nowcastf_loaded', $campaignService, $campaignProducts, $reports );
 	}
 }

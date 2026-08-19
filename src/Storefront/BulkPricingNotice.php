@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCampaign\Storefront;
+namespace NowCampaignStorefronts\Storefront;
 
-use WooCampaign\Pricing\CampaignBulkPricing;
+use NowCampaignStorefronts\Pricing\CampaignBulkPricing;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -25,14 +25,14 @@ final class BulkPricingNotice {
 
 		ob_start();
 		?>
-		<div class="woo-campaign-bulk-pricing-notice" data-woo-campaign-bulk-pricing>
-			<div class="woo-campaign-bulk-pricing-copy">
+		<div class="nowcastf-bulk-pricing-notice" data-woo-campaign-bulk-pricing>
+			<div class="nowcastf-bulk-pricing-copy">
 				<strong><?php echo esc_html( $title ); ?></strong>
 				<span><?php echo esc_html( $description ); ?></span>
 			</div>
-			<div class="woo-campaign-bulk-pricing-tiers">
+			<div class="nowcastf-bulk-pricing-tiers">
 				<?php foreach ( $tiers as $tier ) : ?>
-					<span class="woo-campaign-bulk-pricing-tier">
+					<span class="nowcastf-bulk-pricing-tier">
 						<strong><?php echo esc_html( sprintf( __( '%d items or more', 'now-campaign-storefronts' ), absint( $tier['min_qty'] ?? 0 ) ) ); ?></strong>
 						<small><?php echo esc_html( sprintf( __( 'Save %s%%', 'now-campaign-storefronts' ), wc_format_localized_decimal( (float) ( $tier['discount_percent'] ?? 0 ) ) ) ); ?></small>
 					</span>

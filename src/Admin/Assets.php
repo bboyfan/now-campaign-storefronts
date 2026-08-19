@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCampaign\Admin;
+namespace NowCampaignStorefronts\Admin;
 
-use WooCampaign\Campaign\PostType;
+use NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -18,14 +18,14 @@ final class Assets {
 		if ( ! $screen || PostType::TYPE !== $screen->post_type ) {
 			return;
 		}
-		wp_enqueue_style( 'woo-campaign-admin-list', WOO_CAMPAIGN_URL . 'assets/css/admin-list.css', [], WOO_CAMPAIGN_VERSION );
+		wp_enqueue_style( 'nowcastf-admin-list', NOWCASTF_URL . 'assets/css/admin-list.css', [], NOWCASTF_VERSION );
 		wp_enqueue_script( 'wc-enhanced-select' );
 		wp_enqueue_style( 'woocommerce_admin_styles' );
-		wp_enqueue_style( 'woo-campaign-admin', WOO_CAMPAIGN_URL . 'assets/css/admin.css', [], WOO_CAMPAIGN_VERSION );
-		wp_enqueue_script( 'woo-campaign-admin', WOO_CAMPAIGN_URL . 'assets/js/admin-campaign.js', [ 'jquery', 'wc-enhanced-select' ], WOO_CAMPAIGN_VERSION, true );
-		wp_localize_script( 'woo-campaign-admin', 'WooCampaignAdminSettings', [
+		wp_enqueue_style( 'nowcastf-admin', NOWCASTF_URL . 'assets/css/admin.css', [], NOWCASTF_VERSION );
+		wp_enqueue_script( 'nowcastf-admin', NOWCASTF_URL . 'assets/js/admin-campaign.js', [ 'jquery', 'wc-enhanced-select' ], NOWCASTF_VERSION, true );
+		wp_localize_script( 'nowcastf-admin', 'NowCastfAdminSettings', [
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-			'nonce'   => wp_create_nonce( 'woo_campaign_admin' ),
+			'nonce'   => wp_create_nonce( 'nowcastf_admin' ),
 			'i18n'    => [
 				'selectVariations'     => __( 'Select Variations', 'now-campaign-storefronts' ),
 				'addVariations'        => __( 'Add Selected Variations', 'now-campaign-storefronts' ),

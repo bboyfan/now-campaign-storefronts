@@ -87,9 +87,9 @@ NOW Campaign Storefronts = Campaign Context + Campaign Price + Attribution + Rep
 
 ## 下載
 
-請從 [GitHub 最新版本](https://github.com/bboyfan/now-campaign-storefronts/releases/latest) 下載 [NOW Campaign Storefronts 1.4.2](https://github.com/bboyfan/now-campaign-storefronts/releases/download/v1.4.2/now-campaign-storefronts-1.4.2.zip)。
+請從 [GitHub 最新版本](https://github.com/bboyfan/now-campaign-storefronts/releases/latest) 下載 [NOW Campaign Storefronts 1.4.4](https://github.com/bboyfan/now-campaign-storefronts/releases/download/v1.4.4/now-campaign-storefronts-1.4.4.zip)。
 
-SHA256：[`now-campaign-storefronts-1.4.2.sha256`](https://github.com/bboyfan/now-campaign-storefronts/raw/main/releases/now-campaign-storefronts-1.4.2.sha256)
+SHA256：[`now-campaign-storefronts-1.4.4.sha256`](https://github.com/bboyfan/now-campaign-storefronts/raw/main/releases/now-campaign-storefronts-1.4.4.sha256)
 
 ## 活動介紹與 Shortcode
 
@@ -122,7 +122,7 @@ WordPress.org 上架後，可透過 translate.wordpress.org 維護其他語言�
 
 ## 開發
 
-此外掛使用 `WooCampaign\\` PHP namespace，並保留 fallback autoloader。`composer.json` 會保留在公開 source 中，方便檢視與開發。
+此外掛使用 `NowCampaignStorefronts\` PHP namespace，並保留 fallback autoloader。`composer.json` 會保留在公開 source 中，方便檢視與開發。
 
 提交修改前應至少確認：
 

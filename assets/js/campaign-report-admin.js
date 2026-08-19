@@ -1,7 +1,7 @@
 (function ($) {
   'use strict';
 
-  var cfg = window.WooCampaignReportAdmin || {};
+  var cfg = window.NowCastfReportAdmin || {};
   if (!cfg.campaignId) return;
 
   function el(tag, className, text) {
@@ -58,17 +58,17 @@
 
     var state = $.extend({}, cfg.share || {});
     var passwordDirty = false;
-    var card = el('section', 'woo-campaign-editor-card woo-campaign-report-admin-card');
+    var card = el('section', 'nowcastf-editor-card woo-campaign-report-admin-card');
     card.setAttribute('data-woo-campaign-report-admin', '1');
 
-    var heading = el('div', 'woo-campaign-editor-card-heading compact');
+    var heading = el('div', 'nowcastf-editor-card-heading compact');
     var headingInner = el('div');
-    headingInner.appendChild(el('span', 'woo-campaign-editor-eyebrow', cfg.i18n.eyebrow));
+    headingInner.appendChild(el('span', 'nowcastf-editor-eyebrow', cfg.i18n.eyebrow));
     headingInner.appendChild(el('h2', '', cfg.i18n.title));
     heading.appendChild(headingInner);
     card.appendChild(heading);
 
-    var enabledLabel = el('label', 'woo-campaign-report-toggle');
+    var enabledLabel = el('label', 'nowcastf-report-toggle');
     var enabled = document.createElement('input');
     enabled.type = 'checkbox';
     enabled.checked = !!state.enabled;
@@ -76,9 +76,9 @@
     enabledLabel.appendChild(el('span', '', cfg.i18n.enabled));
     card.appendChild(enabledLabel);
 
-    var linkWrap = el('div', 'woo-campaign-report-admin-field');
+    var linkWrap = el('div', 'nowcastf-report-admin-field');
     linkWrap.appendChild(el('span', '', cfg.i18n.link));
-    var linkRow = el('div', 'woo-campaign-report-link-row');
+    var linkRow = el('div', 'nowcastf-report-link-row');
     var linkInput = document.createElement('input');
     linkInput.type = 'text';
     linkInput.readOnly = true;
@@ -93,9 +93,9 @@
     linkWrap.appendChild(linkRow);
     card.appendChild(linkWrap);
 
-    var passwordWrap = el('div', 'woo-campaign-report-admin-field');
+    var passwordWrap = el('div', 'nowcastf-report-admin-field');
     passwordWrap.appendChild(el('span', '', cfg.i18n.password));
-    var passwordRow = el('div', 'woo-campaign-report-password-row');
+    var passwordRow = el('div', 'nowcastf-report-password-row');
     var password = document.createElement('input');
     password.type = 'text';
     password.autocomplete = 'off';
@@ -110,11 +110,11 @@
     passwordWrap.appendChild(passwordHelp);
     card.appendChild(passwordWrap);
 
-    var notice = el('div', 'woo-campaign-report-admin-notice');
+    var notice = el('div', 'nowcastf-report-admin-notice');
     notice.hidden = true;
     card.appendChild(notice);
 
-    var actions = el('div', 'woo-campaign-report-admin-actions');
+    var actions = el('div', 'nowcastf-report-admin-actions');
     var save = el('button', 'button button-primary', cfg.i18n.save);
     save.type = 'button';
     var regenerate = el('button', 'button', cfg.i18n.regenerate);
@@ -160,7 +160,7 @@
     save.addEventListener('click', function () {
       save.disabled = true;
       showNotice('', false);
-      post('woo_campaign_report_save', {
+      post('nowcastf_report_save', {
         enabled: enabled.checked ? 1 : 0,
         password: passwordDirty ? password.value : ''
       })
@@ -182,7 +182,7 @@
     regenerate.addEventListener('click', function () {
       regenerate.disabled = true;
       showNotice('', false);
-      post('woo_campaign_report_regenerate')
+      post('nowcastf_report_regenerate')
         .done(function (response) {
           if (response && response.success) {
             applyState(response.data);

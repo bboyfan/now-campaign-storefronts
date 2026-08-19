@@ -1,8 +1,8 @@
 <?php
 
-namespace WooCampaign\Reporting;
+namespace NowCampaignStorefronts\Reporting;
 
-use WooCampaign\Order\OrderAttribution;
+use NowCampaignStorefronts\Order\OrderAttribution;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

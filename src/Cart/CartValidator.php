@@ -1,9 +1,9 @@
 <?php
 
-namespace WooCampaign\Cart;
+namespace NowCampaignStorefronts\Cart;
 
-use WooCampaign\Pricing\CampaignPriceResolver;
-use WooCampaign\Product\ProductAdapter;
+use NowCampaignStorefronts\Pricing\CampaignPriceResolver;
+use NowCampaignStorefronts\Product\ProductAdapter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

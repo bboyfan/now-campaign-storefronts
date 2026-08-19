@@ -1,28 +1,28 @@
 <?php
 
-namespace WooCampaign\Admin;
+namespace NowCampaignStorefronts\Admin;
 
-use WooCampaign\Campaign\CampaignRepository;
-use WooCampaign\Campaign\CampaignService;
-use WooCampaign\Campaign\Meta;
-use WooCampaign\Campaign\PostType;
-use WooCampaign\CampaignProduct\Repository as CampaignProductRepository;
-use WooCampaign\CampaignProduct\Service as CampaignProductService;
-use WooCampaign\CampaignSection\CampaignSection;
-use WooCampaign\CampaignSection\Repository as CampaignSectionRepository;
-use WooCampaign\CampaignSection\Service as CampaignSectionService;
-use WooCampaign\Product\ProductAdapter;
-use WooCampaign\Reporting\CampaignReportService;
+use NowCampaignStorefronts\Campaign\CampaignRepository;
+use NowCampaignStorefronts\Campaign\CampaignService;
+use NowCampaignStorefronts\Campaign\Meta;
+use NowCampaignStorefronts\Campaign\PostType;
+use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use NowCampaignStorefronts\CampaignProduct\Service as CampaignProductService;
+use NowCampaignStorefronts\CampaignSection\CampaignSection;
+use NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
+use NowCampaignStorefronts\CampaignSection\Service as CampaignSectionService;
+use NowCampaignStorefronts\Product\ProductAdapter;
+use NowCampaignStorefronts\Reporting\CampaignReportService;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 final class CampaignEditor {
-	private const PAGE_SLUG = 'woo-campaign-editor';
-	private const NONCE_ACTION = 'woo_campaign_editor_save';
-	private const AJAX_NONCE_ACTION = 'woo_campaign_editor_ajax';
-	private const CREATE_ACTION = 'woo_campaign_create_editor';
+	private const PAGE_SLUG = 'nowcastf-editor';
+	private const NONCE_ACTION = 'nowcastf_save_editor';
+	private const AJAX_NONCE_ACTION = 'nowcastf_editor_ajax';
+	private const CREATE_ACTION = 'nowcastf_create_editor';
 
 	public function __construct(
 		private CampaignRepository $campaigns,
@@ -39,9 +39,9 @@ final class CampaignEditor {
 		add_action( 'admin_menu', [ $this, 'registerPage' ] );
 		add_action( 'admin_init', [ $this, 'redirectNativeEditor' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
-		add_action( 'admin_post_woo_campaign_save_editor', [ $this, 'save' ] );
+		add_action( 'admin_post_nowcastf_save_editor', [ $this, 'save' ] );
 		add_action( 'admin_post_' . self::CREATE_ACTION, [ $this, 'create' ] );
-		add_action( 'wp_ajax_woo_campaign_editor_product_details', [ $this, 'ajaxProductDetails' ] );
+		add_action( 'wp_ajax_nowcastf_editor_product_details', [ $this, 'ajaxProductDetails' ] );
 		add_filter( 'get_edit_post_link', [ $this, 'filterEditLink' ], 10, 3 );
 		add_filter( 'post_row_actions', [ $this, 'filterRowActions' ], 10, 2 );
 		add_filter( 'use_block_editor_for_post_type', [ $this, 'disableBlockEditor' ], 10, 2 );
@@ -102,21 +102,21 @@ final class CampaignEditor {
 
 	public function enqueue( string $hook ): void {
 		$page = sanitize_key( (string) ( $_GET['page'] ?? '' ) );
-		if ( self::PAGE_SLUG !== $page && 'woo_campaign_page_' . self::PAGE_SLUG !== $hook ) {
+		if ( self::PAGE_SLUG !== $page && 'nowcastf_campaign_page_' . self::PAGE_SLUG !== $hook ) {
 			return;
 		}
 		wp_enqueue_media();
 		wp_enqueue_script( 'wc-enhanced-select' );
 		wp_enqueue_style( 'woocommerce_admin_styles' );
 		wp_enqueue_style( 'dashicons' );
-		wp_enqueue_style( 'woo-campaign-editor', WOO_CAMPAIGN_URL . 'assets/css/campaign-editor.css', [], WOO_CAMPAIGN_VERSION );
-		wp_enqueue_script( 'woo-campaign-editor', WOO_CAMPAIGN_URL . 'assets/js/campaign-editor.js', [ 'jquery', 'wc-enhanced-select' ], WOO_CAMPAIGN_VERSION, true );
+		wp_enqueue_style( 'nowcastf-editor', NOWCASTF_URL . 'assets/css/campaign-editor.css', [], NOWCASTF_VERSION );
+		wp_enqueue_script( 'nowcastf-editor', NOWCASTF_URL . 'assets/js/campaign-editor.js', [ 'jquery', 'wc-enhanced-select' ], NOWCASTF_VERSION, true );
 
 		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
 		if ( $campaignId <= 0 ) {
 			return;
 		}
-		wp_localize_script( 'woo-campaign-editor', 'WooCampaignEditor', $this->editorState( $campaignId ) );
+		wp_localize_script( 'nowcastf-editor', 'NowCastfEditor', $this->editorState( $campaignId ) );
 	}
 
 	public function render(): void {
@@ -140,25 +140,25 @@ final class CampaignEditor {
 		$archived = (bool) get_post_meta( $campaignId, Meta::ARCHIVED, true );
 		?>
 		<div class="wrap woo-campaign-editor-shell">
-			<form id="woo-campaign-editor-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-				<input type="hidden" name="action" value="woo_campaign_save_editor">
+			<form id="nowcastf-editor-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="nowcastf_save_editor">
 				<input type="hidden" name="campaign_id" value="<?php echo esc_attr( (string) $campaignId ); ?>">
 				<input type="hidden" name="campaign_revision" value="<?php echo esc_attr( (string) absint( get_post_meta( $campaignId, Meta::EDITOR_REVISION, true ) ) ); ?>">
 				<input type="hidden" name="campaign_modified_gmt" value="<?php echo esc_attr( $campaign->post_modified_gmt ); ?>">
-				<input type="hidden" name="sections_json" id="woo-campaign-sections-json" value="">
-				<input type="hidden" name="products_json" id="woo-campaign-products-json" value="">
-				<?php wp_nonce_field( self::NONCE_ACTION, 'woo_campaign_editor_nonce' ); ?>
+				<input type="hidden" name="sections_json" id="nowcastf-sections-json" value="">
+				<input type="hidden" name="products_json" id="nowcastf-products-json" value="">
+				<?php wp_nonce_field( self::NONCE_ACTION, 'nowcastf_editor_nonce' ); ?>
 
-				<header class="woo-campaign-editor-topbar">
-					<div class="woo-campaign-editor-titlebar">
-						<a class="woo-campaign-editor-back" href="<?php echo esc_url( admin_url( 'edit.php?post_type=' . PostType::TYPE ) ); ?>"><span class="dashicons dashicons-arrow-left-alt2"></span><?php esc_html_e( 'Campaigns', 'now-campaign-storefronts' ); ?></a>
+				<header class="nowcastf-editor-topbar">
+					<div class="nowcastf-editor-titlebar">
+						<a class="nowcastf-editor-back" href="<?php echo esc_url( admin_url( 'edit.php?post_type=' . PostType::TYPE ) ); ?>"><span class="dashicons dashicons-arrow-left-alt2"></span><?php esc_html_e( 'Campaigns', 'now-campaign-storefronts' ); ?></a>
 						<div>
-							<div class="woo-campaign-editor-kicker"><?php esc_html_e( 'Campaign', 'now-campaign-storefronts' ); ?> · #<?php echo esc_html( (string) $campaignId ); ?></div>
+							<div class="nowcastf-editor-kicker"><?php esc_html_e( 'Campaign', 'now-campaign-storefronts' ); ?> · #<?php echo esc_html( (string) $campaignId ); ?></div>
 							<h1><?php echo esc_html( $campaign->post_title ); ?></h1>
 						</div>
-						<span class="woo-campaign-editor-status is-<?php echo esc_attr( $status ); ?>"><span></span><?php echo esc_html( ucfirst( $status ) ); ?></span>
+						<span class="nowcastf-editor-status is-<?php echo esc_attr( $status ); ?>"><span></span><?php echo esc_html( ucfirst( $status ) ); ?></span>
 					</div>
-					<div class="woo-campaign-editor-actions">
+					<div class="nowcastf-editor-actions">
 						<?php if ( 'publish' === $campaign->post_status && ! $archived ) : ?><a class="button" target="_blank" rel="noopener" href="<?php echo esc_url( get_permalink( $campaignId ) ); ?>"><?php esc_html_e( 'Preview', 'now-campaign-storefronts' ); ?></a><?php endif; ?>
 						<button type="submit" class="button button-primary button-large"><?php esc_html_e( 'Save Campaign', 'now-campaign-storefronts' ); ?></button>
 					</div>
@@ -166,57 +166,57 @@ final class CampaignEditor {
 
 				<?php if ( isset( $_GET['updated'] ) ) : ?><div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Campaign saved.', 'now-campaign-storefronts' ); ?></p></div><?php endif; ?>
 
-				<div class="woo-campaign-editor-layout">
-					<main class="woo-campaign-editor-main">
-						<section class="woo-campaign-editor-card">
-							<div class="woo-campaign-editor-card-heading">
-								<div><span class="woo-campaign-editor-eyebrow"><?php esc_html_e( 'Campaign information', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Basic information', 'now-campaign-storefronts' ); ?></h2></div>
+				<div class="nowcastf-editor-layout">
+					<main class="nowcastf-editor-main">
+						<section class="nowcastf-editor-card">
+							<div class="nowcastf-editor-card-heading">
+								<div><span class="nowcastf-editor-eyebrow"><?php esc_html_e( 'Campaign information', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Basic information', 'now-campaign-storefronts' ); ?></h2></div>
 								<p><?php esc_html_e( 'Set the campaign name and URL. Product content is managed in the Section Builder below.', 'now-campaign-storefronts' ); ?></p>
 							</div>
-							<div class="woo-campaign-editor-fields two-col">
+							<div class="nowcastf-editor-fields two-col">
 								<label><span><?php esc_html_e( 'Campaign name', 'now-campaign-storefronts' ); ?></span><input type="text" name="campaign_title" value="<?php echo esc_attr( $campaign->post_title ); ?>" required></label>
-								<label><span><?php esc_html_e( 'URL slug', 'now-campaign-storefronts' ); ?></span><div class="woo-campaign-slug-field"><code>/campaign/</code><input type="text" name="campaign_slug" value="<?php echo esc_attr( $campaign->post_name ); ?>"></div></label>
+								<label><span><?php esc_html_e( 'URL slug', 'now-campaign-storefronts' ); ?></span><div class="nowcastf-slug-field"><code>/campaign/</code><input type="text" name="campaign_slug" value="<?php echo esc_attr( $campaign->post_name ); ?>"></div></label>
 							</div>
 						</section>
 
-						<section class="woo-campaign-editor-card woo-campaign-content-card" data-campaign-content-card>
-							<div class="woo-campaign-editor-card-heading">
-								<div><span class="woo-campaign-editor-eyebrow"><?php esc_html_e( 'Campaign content', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Campaign content', 'now-campaign-storefronts' ); ?></h2></div>
+						<section class="nowcastf-editor-card woo-campaign-content-card" data-campaign-content-card>
+							<div class="nowcastf-editor-card-heading">
+								<div><span class="nowcastf-editor-eyebrow"><?php esc_html_e( 'Campaign content', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Campaign content', 'now-campaign-storefronts' ); ?></h2></div>
 								<p><?php esc_html_e( 'Set campaign images and introduction content.', 'now-campaign-storefronts' ); ?></p>
 							</div>
-							<label class="woo-campaign-editor-field"><span><?php esc_html_e( 'Campaign introduction', 'now-campaign-storefronts' ); ?></span><textarea name="campaign_description" rows="5" placeholder="<?php esc_attr_e( 'Describe this campaign, its offer, or important purchase notes.', 'now-campaign-storefronts' ); ?>"><?php echo esc_textarea( $campaign->post_content ); ?></textarea></label>
+							<label class="nowcastf-editor-field"><span><?php esc_html_e( 'Campaign introduction', 'now-campaign-storefronts' ); ?></span><textarea name="campaign_description" rows="5" placeholder="<?php esc_attr_e( 'Describe this campaign, its offer, or important purchase notes.', 'now-campaign-storefronts' ); ?>"><?php echo esc_textarea( $campaign->post_content ); ?></textarea></label>
 						</section>
 
-						<section class="woo-campaign-editor-card woo-campaign-design-card" data-campaign-design-card>
-							<div class="woo-campaign-editor-card-heading">
-								<div><span class="woo-campaign-editor-eyebrow"><?php esc_html_e( 'Page display', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Campaign Design', 'now-campaign-storefronts' ); ?></h2></div>
+						<section class="nowcastf-editor-card woo-campaign-design-card" data-campaign-design-card>
+							<div class="nowcastf-editor-card-heading">
+								<div><span class="nowcastf-editor-eyebrow"><?php esc_html_e( 'Page display', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Campaign Design', 'now-campaign-storefronts' ); ?></h2></div>
 								<p><?php esc_html_e( 'Fields that are not set inherit from the active theme.', 'now-campaign-storefronts' ); ?></p>
 							</div>
 							<div data-campaign-design-content></div>
 						</section>
 
-						<section class="woo-campaign-editor-card woo-campaign-sections-card">
-							<div class="woo-campaign-editor-card-heading with-action">
-								<div><span class="woo-campaign-editor-eyebrow"><?php esc_html_e( 'Page builder', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Product sections', 'now-campaign-storefronts' ); ?></h2><p><?php esc_html_e( 'Build the campaign page with sections. Each section can have its own layout, image, copy, and products.', 'now-campaign-storefronts' ); ?></p></div>
+						<section class="nowcastf-editor-card woo-campaign-sections-card">
+							<div class="nowcastf-editor-card-heading with-action">
+								<div><span class="nowcastf-editor-eyebrow"><?php esc_html_e( 'Page builder', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Product sections', 'now-campaign-storefronts' ); ?></h2><p><?php esc_html_e( 'Build the campaign page with sections. Each section can have its own layout, image, copy, and products.', 'now-campaign-storefronts' ); ?></p></div>
 								<button type="button" class="button button-primary" data-woo-campaign-add-section><span class="dashicons dashicons-plus-alt2"></span><?php esc_html_e( 'Add product section', 'now-campaign-storefronts' ); ?></button>
 							</div>
-							<div id="woo-campaign-sections-builder" class="woo-campaign-sections-builder"></div>
+							<div id="nowcastf-sections-builder" class="nowcastf-sections-builder"></div>
 						</section>
 					</main>
 
-					<aside class="woo-campaign-editor-sidebar">
-						<section class="woo-campaign-editor-card sticky-card">
-							<div class="woo-campaign-editor-card-heading compact"><div><span class="woo-campaign-editor-eyebrow"><?php esc_html_e( 'Lifecycle', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Publish settings', 'now-campaign-storefronts' ); ?></h2></div></div>
-							<label class="woo-campaign-editor-field"><span><?php esc_html_e( 'Status', 'now-campaign-storefronts' ); ?></span><select name="campaign_post_status"><option value="draft" <?php selected( $campaign->post_status, 'draft' ); ?>><?php esc_html_e( 'Draft', 'now-campaign-storefronts' ); ?></option><option value="publish" <?php selected( $campaign->post_status, 'publish' ); ?>><?php esc_html_e( 'Published', 'now-campaign-storefronts' ); ?></option></select></label>
-							<label class="woo-campaign-editor-field"><span><?php esc_html_e( 'Start time', 'now-campaign-storefronts' ); ?></span><input type="datetime-local" name="campaign_start_at" value="<?php echo esc_attr( $this->formatTimestamp( $start ) ); ?>"></label>
-							<label class="woo-campaign-editor-field"><span><?php esc_html_e( 'End time', 'now-campaign-storefronts' ); ?></span><input type="datetime-local" name="campaign_end_at" value="<?php echo esc_attr( $this->formatTimestamp( $end ) ); ?>"></label>
-							<label class="woo-campaign-editor-archive"><input type="checkbox" name="campaign_archived" value="1" <?php checked( $archived ); ?>><span><strong><?php esc_html_e( 'Archive campaign', 'now-campaign-storefronts' ); ?></strong><small><?php esc_html_e( 'Archived campaigns no longer allow checkout at campaign prices, while historical order attribution is preserved.', 'now-campaign-storefronts' ); ?></small></span></label>
+					<aside class="nowcastf-editor-sidebar">
+						<section class="nowcastf-editor-card sticky-card">
+							<div class="nowcastf-editor-card-heading compact"><div><span class="nowcastf-editor-eyebrow"><?php esc_html_e( 'Lifecycle', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Publish settings', 'now-campaign-storefronts' ); ?></h2></div></div>
+							<label class="nowcastf-editor-field"><span><?php esc_html_e( 'Status', 'now-campaign-storefronts' ); ?></span><select name="campaign_post_status"><option value="draft" <?php selected( $campaign->post_status, 'draft' ); ?>><?php esc_html_e( 'Draft', 'now-campaign-storefronts' ); ?></option><option value="publish" <?php selected( $campaign->post_status, 'publish' ); ?>><?php esc_html_e( 'Published', 'now-campaign-storefronts' ); ?></option></select></label>
+							<label class="nowcastf-editor-field"><span><?php esc_html_e( 'Start time', 'now-campaign-storefronts' ); ?></span><input type="datetime-local" name="campaign_start_at" value="<?php echo esc_attr( $this->formatTimestamp( $start ) ); ?>"></label>
+							<label class="nowcastf-editor-field"><span><?php esc_html_e( 'End time', 'now-campaign-storefronts' ); ?></span><input type="datetime-local" name="campaign_end_at" value="<?php echo esc_attr( $this->formatTimestamp( $end ) ); ?>"></label>
+							<label class="nowcastf-editor-archive"><input type="checkbox" name="campaign_archived" value="1" <?php checked( $archived ); ?>><span><strong><?php esc_html_e( 'Archive campaign', 'now-campaign-storefronts' ); ?></strong><small><?php esc_html_e( 'Archived campaigns no longer allow checkout at campaign prices, while historical order attribution is preserved.', 'now-campaign-storefronts' ); ?></small></span></label>
 						</section>
 
-						<section class="woo-campaign-editor-card">
-							<div class="woo-campaign-editor-card-heading compact"><div><span class="woo-campaign-editor-eyebrow"><?php esc_html_e( 'Performance', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Campaign performance', 'now-campaign-storefronts' ); ?></h2></div></div>
-							<div class="woo-campaign-editor-net-sales"><span><?php esc_html_e( 'Net sales', 'now-campaign-storefronts' ); ?></span><strong><?php echo wp_kses_post( wc_price( $report['net_sales'] ) ); ?></strong></div>
-							<div class="woo-campaign-editor-metrics">
+						<section class="nowcastf-editor-card">
+							<div class="nowcastf-editor-card-heading compact"><div><span class="nowcastf-editor-eyebrow"><?php esc_html_e( 'Performance', 'now-campaign-storefronts' ); ?></span><h2><?php esc_html_e( 'Campaign performance', 'now-campaign-storefronts' ); ?></h2></div></div>
+							<div class="nowcastf-editor-net-sales"><span><?php esc_html_e( 'Net sales', 'now-campaign-storefronts' ); ?></span><strong><?php echo wp_kses_post( wc_price( $report['net_sales'] ) ); ?></strong></div>
+							<div class="nowcastf-editor-metrics">
 								<div><span><?php esc_html_e( 'Paid orders', 'now-campaign-storefronts' ); ?></span><strong><?php echo esc_html( number_format_i18n( $report['orders'] ) ); ?></strong></div>
 								<div><span><?php esc_html_e( 'Units', 'now-campaign-storefronts' ); ?></span><strong><?php echo esc_html( number_format_i18n( $report['units'] ) ); ?></strong></div>
 								<div><span><?php esc_html_e( 'Discount', 'now-campaign-storefronts' ); ?></span><strong><?php echo wp_kses_post( wc_price( $report['discount'] ) ); ?></strong></div>
@@ -227,13 +227,13 @@ final class CampaignEditor {
 				</div>
 			</form>
 
-			<div class="woo-campaign-product-modal" data-woo-campaign-product-modal hidden>
-				<div class="woo-campaign-product-modal-backdrop" data-woo-campaign-product-modal-close></div>
-				<div class="woo-campaign-product-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="woo-campaign-product-modal-title">
-					<header><div><span class="woo-campaign-editor-eyebrow"><?php esc_html_e( 'Add product', 'now-campaign-storefronts' ); ?></span><h2 id="woo-campaign-product-modal-title"><?php esc_html_e( 'Select WooCommerce products', 'now-campaign-storefronts' ); ?></h2></div><button type="button" class="button-link" data-woo-campaign-product-modal-close aria-label="<?php esc_attr_e( 'Close', 'now-campaign-storefronts' ); ?>"><span class="dashicons dashicons-no-alt"></span></button></header>
-					<div class="woo-campaign-product-modal-body">
-						<label class="woo-campaign-editor-field"><span><?php esc_html_e( 'Search products', 'now-campaign-storefronts' ); ?></span><select class="wc-product-search" style="width:100%" data-placeholder="<?php esc_attr_e( 'Search products…', 'now-campaign-storefronts' ); ?>" data-action="woocommerce_json_search_products" data-allow_clear="true" data-woo-campaign-product-search></select></label>
-						<div data-woo-campaign-product-picker-result class="woo-campaign-product-picker-result"></div>
+			<div class="nowcastf-product-modal" data-woo-campaign-product-modal hidden>
+				<div class="nowcastf-product-modal-backdrop" data-woo-campaign-product-modal-close></div>
+				<div class="nowcastf-product-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="nowcastf-product-modal-title">
+					<header><div><span class="nowcastf-editor-eyebrow"><?php esc_html_e( 'Add product', 'now-campaign-storefronts' ); ?></span><h2 id="nowcastf-product-modal-title"><?php esc_html_e( 'Select WooCommerce products', 'now-campaign-storefronts' ); ?></h2></div><button type="button" class="button-link" data-woo-campaign-product-modal-close aria-label="<?php esc_attr_e( 'Close', 'now-campaign-storefronts' ); ?>"><span class="dashicons dashicons-no-alt"></span></button></header>
+					<div class="nowcastf-product-modal-body">
+						<label class="nowcastf-editor-field"><span><?php esc_html_e( 'Search products', 'now-campaign-storefronts' ); ?></span><select class="wc-product-search" style="width:100%" data-placeholder="<?php esc_attr_e( 'Search products…', 'now-campaign-storefronts' ); ?>" data-action="woocommerce_json_search_products" data-allow_clear="true" data-woo-campaign-product-search></select></label>
+						<div data-woo-campaign-product-picker-result class="nowcastf-product-picker-result"></div>
 					</div>
 					<footer><button type="button" class="button" data-woo-campaign-product-modal-close><?php esc_html_e( 'Cancel', 'now-campaign-storefronts' ); ?></button><button type="button" class="button button-primary" data-woo-campaign-product-confirm disabled><?php esc_html_e( 'Add selected', 'now-campaign-storefronts' ); ?></button></footer>
 				</div>
@@ -246,7 +246,7 @@ final class CampaignEditor {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_die( esc_html__( 'You do not have permission to manage campaigns.', 'now-campaign-storefronts' ) );
 		}
-		check_admin_referer( self::CREATE_ACTION, 'woo_campaign_create_nonce' );
+		check_admin_referer( self::CREATE_ACTION, 'nowcastf_create_nonce' );
 		$campaignId = wp_insert_post(
 			[
 				'post_type'   => PostType::TYPE,
@@ -268,7 +268,7 @@ final class CampaignEditor {
 			<h1><?php esc_html_e( 'Create Campaign', 'now-campaign-storefronts' ); ?></h1>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="<?php echo esc_attr( self::CREATE_ACTION ); ?>">
-				<?php wp_nonce_field( self::CREATE_ACTION, 'woo_campaign_create_nonce' ); ?>
+				<?php wp_nonce_field( self::CREATE_ACTION, 'nowcastf_create_nonce' ); ?>
 				<?php submit_button( __( 'Create Campaign', 'now-campaign-storefronts' ) ); ?>
 			</form>
 		</div>
@@ -279,7 +279,7 @@ final class CampaignEditor {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_die( esc_html__( 'You do not have permission to manage campaigns.', 'now-campaign-storefronts' ) );
 		}
-		check_admin_referer( self::NONCE_ACTION, 'woo_campaign_editor_nonce' );
+		check_admin_referer( self::NONCE_ACTION, 'nowcastf_editor_nonce' );
 		$campaignId = absint( $_POST['campaign_id'] ?? 0 );
 		$campaign = $this->campaigns->find( $campaignId );
 		if ( ! $campaign ) {
@@ -382,8 +382,8 @@ final class CampaignEditor {
 		}
 
 		clean_post_cache( $campaignId );
-		do_action( 'woo_campaign_sections_updated', $campaignId );
-		do_action( 'woo_campaign_updated', $campaignId );
+		do_action( 'nowcastf_sections_updated', $campaignId );
+		do_action( 'nowcastf_updated', $campaignId );
 
 		wp_safe_redirect( add_query_arg( 'updated', '1', $this->editorUrl( $campaignId ) ) );
 		exit;
