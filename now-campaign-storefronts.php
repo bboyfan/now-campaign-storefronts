@@ -3,7 +3,7 @@
  * Plugin Name:       NOW Campaign Storefronts for WooCommerce
  * Plugin URI:        https://github.com/bboyfan/now-campaign-storefronts
  * Description:       Build campaign storefronts for WooCommerce with campaign pricing, layouts, attribution, live reports, and protected sharing.
- * Version:           1.4.4
+ * Version:           1.4.5
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOWCASTF_VERSION', '1.4.4' );
+define( 'NOWCASTF_VERSION', '1.4.5' );
 define( 'NOWCASTF_FILE', __FILE__ );
 define( 'NOWCASTF_PATH', plugin_dir_path( __FILE__ ) );
 define( 'NOWCASTF_URL', plugin_dir_url( __FILE__ ) );
@@ -44,7 +44,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 } else {
 	spl_autoload_register( static function( string $class ): void {
-		$prefix = 'NowCampaignStorefronts\\';
+		$prefix = 'Bboyfan\NowCampaignStorefronts\\';
 		if ( 0 !== strncmp( $class, $prefix, strlen( $prefix ) ) ) {
 			return;
 		}
@@ -56,7 +56,7 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 	} );
 }
 
-register_activation_hook( __FILE__, [ 'NowCampaignStorefronts\\Install\\Activator', 'activate' ] );
+register_activation_hook( __FILE__, [ 'Bboyfan\NowCampaignStorefronts\\Install\\Activator', 'activate' ] );
 
 add_action( 'plugins_loaded', static function(): void {
 	if ( ! class_exists( 'WooCommerce' ) ) {
@@ -65,5 +65,5 @@ add_action( 'plugins_loaded', static function(): void {
 		} );
 		return;
 	}
-	NowCampaignStorefronts\Plugin::instance()->init();
+	Bboyfan\NowCampaignStorefronts\Plugin::instance()->init();
 } );

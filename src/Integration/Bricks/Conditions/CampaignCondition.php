@@ -1,9 +1,9 @@
 <?php
 
-namespace NowCampaignStorefronts\Integration\Bricks\Conditions;
+namespace Bboyfan\NowCampaignStorefronts\Integration\Bricks\Conditions;
 
-use NowCampaignStorefronts\Campaign\CampaignContext;
-use NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignContext;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

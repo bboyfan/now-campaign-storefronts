@@ -1,6 +1,6 @@
 <?php
 
-namespace NowCampaignStorefronts\Campaign;
+namespace Bboyfan\NowCampaignStorefronts\Campaign;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

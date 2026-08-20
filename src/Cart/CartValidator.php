@@ -1,9 +1,9 @@
 <?php
 
-namespace NowCampaignStorefronts\Cart;
+namespace Bboyfan\NowCampaignStorefronts\Cart;
 
-use NowCampaignStorefronts\Pricing\CampaignPriceResolver;
-use NowCampaignStorefronts\Product\ProductAdapter;
+use Bboyfan\NowCampaignStorefronts\Pricing\CampaignPriceResolver;
+use Bboyfan\NowCampaignStorefronts\Product\ProductAdapter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

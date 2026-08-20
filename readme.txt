@@ -3,7 +3,7 @@ Contributors: bboyfan
 Tags: woocommerce, campaigns, group buying, reporting, storefront
 Requires at least: 6.5
 Tested up to: 7.0
-Stable tag: 1.4.4
+Stable tag: 1.4.5
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -59,7 +59,7 @@ No. Campaign items use the WooCommerce cart, WooCommerce session, and normal che
 
 = How does Campaign Bulk Pricing work? =
 
-Bulk Pricing counts eligible products and variations from the same campaign together. The highest reached quantity tier adjusts each eligible line from its own Campaign Price. Coupons and other WooCommerce discount integrations can still run afterward through the normal WooCommerce pricing flow.
+Bulk Pricing counts the total quantity across all products and variations purchased inside the same Campaign. When a threshold is met, each product's Campaign Price receives the percentage discount before WooCommerce handles standard coupons or downstream calculations.
 
 = Can I customize the Campaign Bulk Pricing message? =
 
@@ -94,6 +94,11 @@ No. NOW Campaign Storefronts does not make external service requests for campaig
 No. External reports are designed around aggregate sales metrics and product performance and do not expose customer names, email addresses, phone numbers, addresses, or order numbers.
 
 == Changelog ==
+
+= 1.4.5 =
+* Addressed second-round WordPress.org manual review feedback with vendor-scoped PHP namespace and JavaScript globals.
+* Replaced raw $_POST exposure in cart compatibility actions with minimal sanitized context parameters.
+* Hardened request boundary sanitization for all scalar and JSON data structures across editor, bulk pricing, and AJAX endpoints.
 
 = 1.4.4 =
 * Addressed WordPress.org manual review requirements with unified canonical prefixing and hardened sanitization.

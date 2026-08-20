@@ -1,8 +1,8 @@
 <?php
 
-namespace NowCampaignStorefronts\Storefront;
+namespace Bboyfan\NowCampaignStorefronts\Storefront;
 
-use NowCampaignStorefronts\Cart\CartService;
+use Bboyfan\NowCampaignStorefronts\Cart\CartService;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

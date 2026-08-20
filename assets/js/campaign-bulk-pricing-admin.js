@@ -1,7 +1,7 @@
 (function ($) {
   'use strict';
 
-  var state = window.NowCastfBulkPricing || {};
+  var state = window.BboyfanNowCastfBulkPricing || {};
   if (!state.config) return;
 
   var i18n = state.i18n || {};

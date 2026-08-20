@@ -1,8 +1,8 @@
 (function ($) {
   'use strict';
 
-  var state = window.NowCastfPresentation || {};
-  var editorState = window.NowCastfEditor || {};
+  var state = window.BboyfanNowCastfPresentation || {};
+  var editorState = window.BboyfanNowCastfEditor || {};
   if (!state.campaignId) return;
 
   var media = Array.isArray(state.media) ? state.media.slice() : [];

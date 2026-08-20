@@ -2,6 +2,20 @@
 
 All notable changes to NOW Campaign Storefronts for WooCommerce are documented here. Historical entries retain their release-time names.
 
+## 1.4.5 — 2026-08-20
+
+### Changed
+
+- Addressed second-round WordPress.org manual review requirements.
+- Scoped PHP namespace to vendor prefix `Bboyfan\NowCampaignStorefronts\`.
+- Scoped all localized JavaScript globals to `BboyfanNowCastf*` (`BboyfanNowCastfSettings`, `BboyfanNowCastfPresentation`, `BboyfanNowCastfEditor`, `BboyfanNowCastfReportAdmin`, `BboyfanNowCastfBulkPricing`, `BboyfanNowCastfAdminSettings`, `BboyfanNowCastfLiveReport`).
+- Updated PSR-4 autoloading configurations in `composer.json` and bootstrap autoloader.
+
+### Security
+
+- Replaced raw `$_POST` backup and restoration in Cart AJAX lifecycle compatibility hooks with minimal sanitized context parameters containing only `product_id`, `quantity`, and `variation_id`.
+- Hardened request boundary input handling across editor, bulk pricing, report administration, and cart endpoints with explicit sanitization and strict schema validation.
+
 ## 1.4.4 — 2026-08-19
 
 ### Added

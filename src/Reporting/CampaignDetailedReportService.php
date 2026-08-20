@@ -1,8 +1,8 @@
 <?php
 
-namespace NowCampaignStorefronts\Reporting;
+namespace Bboyfan\NowCampaignStorefronts\Reporting;
 
-use NowCampaignStorefronts\Order\OrderAttribution;
+use Bboyfan\NowCampaignStorefronts\Order\OrderAttribution;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

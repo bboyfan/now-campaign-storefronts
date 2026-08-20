@@ -1,10 +1,10 @@
 <?php
 
-namespace NowCampaignStorefronts\Admin;
+namespace Bboyfan\NowCampaignStorefronts\Admin;
 
-use NowCampaignStorefronts\Campaign\PostType;
-use NowCampaignStorefronts\Reporting\CampaignReportShare;
-use NowCampaignStorefronts\Reporting\CampaignReportService;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\Reporting\CampaignReportShare;
+use Bboyfan\NowCampaignStorefronts\Reporting\CampaignReportService;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,11 +27,11 @@ final class CampaignReportAdmin {
 
 	public function enqueue(): void {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( self::PAGE_SLUG !== sanitize_key( (string) ( $_GET['page'] ?? '' ) ) ) {
+		if ( self::PAGE_SLUG !== sanitize_key( wp_unslash( (string) ( $_GET['page'] ?? '' ) ) ) ) {
 			return;
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
+		$campaignId = absint( wp_unslash( $_GET['campaign_id'] ?? 0 ) );
 		if ( $campaignId <= 0 || PostType::TYPE !== get_post_type( $campaignId ) ) {
 			return;
 		}
@@ -44,7 +44,7 @@ final class CampaignReportAdmin {
 		wp_enqueue_script( 'nowcastf-report-admin', NOWCASTF_URL . 'assets/js/campaign-report-admin.js', [ 'jquery', 'nowcastf-editor' ], NOWCASTF_VERSION, true );
 		wp_localize_script(
 			'nowcastf-report-admin',
-			'NowCastfReportAdmin',
+			'BboyfanNowCastfReportAdmin',
 			[
 				'campaignId' => $campaignId,
 				'nonce'      => wp_create_nonce( self::NONCE_ACTION ),
@@ -81,10 +81,9 @@ final class CampaignReportAdmin {
 	public function ajaxSave(): void {
 		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
 		$this->guard();
-		$campaignId = absint( $_POST['campaign_id'] ?? 0 );
+		$campaignId = absint( wp_unslash( $_POST['campaign_id'] ?? 0 ) );
 		$enabled = ! empty( $_POST['enabled'] );
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$password = isset( $_POST['password'] ) ? (string) wp_unslash( $_POST['password'] ) : '';
+		$password = isset( $_POST['password'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['password'] ) ) : '';
 		$result = $this->share->save( $campaignId, $enabled, $password );
 		if ( is_wp_error( $result ) ) {
 			wp_send_json_error( [ 'message' => $result->get_error_message() ], 400 );
@@ -95,7 +94,7 @@ final class CampaignReportAdmin {
 	public function ajaxRegenerate(): void {
 		check_ajax_referer( self::NONCE_ACTION, 'nonce' );
 		$this->guard();
-		$campaignId = absint( $_POST['campaign_id'] ?? 0 );
+		$campaignId = absint( wp_unslash( $_POST['campaign_id'] ?? 0 ) );
 		$result = $this->share->regenerate( $campaignId );
 		if ( is_wp_error( $result ) ) {
 			wp_send_json_error( [ 'message' => $result->get_error_message() ], 400 );

@@ -1,8 +1,8 @@
 <?php
 
-namespace NowCampaignStorefronts\Pricing;
+namespace Bboyfan\NowCampaignStorefronts\Pricing;
 
-use NowCampaignStorefronts\Campaign\Meta;
+use Bboyfan\NowCampaignStorefronts\Campaign\Meta;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

@@ -1,11 +1,11 @@
 <?php
 
-namespace NowCampaignStorefronts\Admin;
+namespace Bboyfan\NowCampaignStorefronts\Admin;
 
-use NowCampaignStorefronts\Campaign\PostType;
-use NowCampaignStorefronts\CampaignProduct\Repository;
-use NowCampaignStorefronts\CampaignProduct\Service;
-use NowCampaignStorefronts\Product\ProductAdapter;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\Repository;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\Service;
+use Bboyfan\NowCampaignStorefronts\Product\ProductAdapter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -87,12 +87,10 @@ final class CampaignProductsPanel {
 			return;
 		}
 
-		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$rawSaleableIds = isset( $_POST['nowcastf_saleable_id'] ) ? (array) wp_unslash( $_POST['nowcastf_saleable_id'] ) : [];
 		$rawPrices      = isset( $_POST['nowcastf_price'] ) ? (array) wp_unslash( $_POST['nowcastf_price'] ) : [];
 		$rawStatuses    = isset( $_POST['nowcastf_product_status'] ) ? (array) wp_unslash( $_POST['nowcastf_product_status'] ) : [];
 		$rawOrders      = isset( $_POST['nowcastf_display_order'] ) ? (array) wp_unslash( $_POST['nowcastf_display_order'] ) : [];
-		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		$saleableIds = array_map( 'absint', $rawSaleableIds );
 		$prices      = array_map( 'wc_format_decimal', $rawPrices );
@@ -118,26 +116,22 @@ final class CampaignProductsPanel {
 		$label = $product ? wp_strip_all_tags( $product->get_formatted_name() ) : '';
 		$rawPrice = $product ? (float) $product->get_price( 'edit' ) : 0.0;
 		$wooPrice = $product ? wc_price( $rawPrice ) : '—';
-		$stock = $product ? wc_get_stock_html( $product ) : '—';
-		$typeLabel = '';
-		if ( $product ) {
-			$typeLabel = $product instanceof \WC_Product_Variation ? __( 'Variation', 'now-campaign-storefronts' ) : __( 'Simple', 'now-campaign-storefronts' );
-		}
+		$sku = $product ? (string) $product->get_sku() : '';
+		$stock = $product ? wc_get_stock_html( $product ) : '';
 		?>
-		<tr class="nowcastf-product-row" data-saleable-id="<?php echo esc_attr( (string) $saleableId ); ?>">
-			<td class="nowcastf-product-cell">
-				<div class="nowcastf-product-search-wrap">
-					<select class="wc-product-search" style="width:100%" name="nowcastf_saleable_id[]" data-placeholder="<?php esc_attr_e( 'Search products or variations…', 'now-campaign-storefronts' ); ?>" data-action="woocommerce_json_search_products_and_variations" data-allow_clear="true">
-						<?php if ( $saleableId > 0 ) : ?><option value="<?php echo esc_attr( (string) $saleableId ); ?>" selected><?php echo esc_html( $label ); ?></option><?php endif; ?>
-					</select>
-					<?php if ( $typeLabel ) : ?><span class="nowcastf-product-type"><?php echo esc_html( $typeLabel ); ?></span><?php endif; ?>
+		<tr class="nowcastf-product-row <?php echo $saleableId <= 0 ? 'is-template' : ''; ?>" data-order="<?php echo esc_attr( (string) $displayOrder ); ?>">
+			<td class="nowcastf-col-product">
+				<input type="hidden" name="nowcastf_saleable_id[]" value="<?php echo esc_attr( (string) $saleableId ); ?>" class="nowcastf-saleable-id">
+				<input type="hidden" name="nowcastf_display_order[]" value="<?php echo esc_attr( (string) $displayOrder ); ?>" class="nowcastf-display-order">
+				<div class="nowcastf-product-display <?php echo $saleableId <= 0 ? 'is-empty' : ''; ?>">
+					<div class="nowcastf-product-name"><?php echo esc_html( $label ?: __( 'Select product…', 'now-campaign-storefronts' ) ); ?></div>
+					<div class="nowcastf-sku"><?php echo esc_html( $sku ? sprintf( __( 'SKU: %s', 'now-campaign-storefronts' ), $sku ) : '' ); ?></div>
+					<div class="nowcastf-stock"><?php echo wp_kses_post( $stock ); ?></div>
 				</div>
-				<input type="hidden" name="nowcastf_display_order[]" value="<?php echo esc_attr( (string) $displayOrder ); ?>">
 			</td>
 			<td>
 				<div class="nowcastf-price-reference" data-woo-base-price="<?php echo esc_attr( (string) $rawPrice ); ?>">
 					<strong class="nowcastf-woo-price"><?php echo wp_kses_post( $wooPrice ); ?></strong>
-					<div class="nowcastf-stock"><?php echo wp_kses_post( $stock ); ?></div>
 				</div>
 			</td>
 			<td>
@@ -163,7 +157,7 @@ final class CampaignProductsPanel {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_send_json_error( [ 'message' => 'Unauthorized' ], 403 );
 		}
-		$productId = absint( $_POST['product_id'] ?? 0 );
+		$productId = absint( wp_unslash( $_POST['product_id'] ?? 0 ) );
 		$product = wc_get_product( $productId );
 		if ( ! $product ) {
 			wp_send_json_error( [ 'message' => 'Product not found' ], 404 );

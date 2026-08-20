@@ -52,7 +52,7 @@
     var field = normalizeEditorField(textarea);
     if (field) {
       var label = field.querySelector(':scope > span');
-      if (label) label.textContent = (window.NowCastfPresentation && NowCastfPresentation.i18n && NowCastfPresentation.i18n.introLabel) || 'Campaign introduction';
+      if (label) label.textContent = (window.BboyfanNowCastfPresentation && BboyfanNowCastfPresentation.i18n && BboyfanNowCastfPresentation.i18n.introLabel) || 'Campaign introduction';
     }
 
     try {

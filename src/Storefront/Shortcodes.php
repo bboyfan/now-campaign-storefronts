@@ -1,9 +1,9 @@
 <?php
 
-namespace NowCampaignStorefronts\Storefront;
+namespace Bboyfan\NowCampaignStorefronts\Storefront;
 
-use NowCampaignStorefronts\Campaign\CampaignContext;
-use NowCampaignStorefronts\Campaign\CampaignRepository;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignContext;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

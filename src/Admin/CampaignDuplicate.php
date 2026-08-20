@@ -1,9 +1,9 @@
 <?php
 
-namespace NowCampaignStorefronts\Admin;
+namespace Bboyfan\NowCampaignStorefronts\Admin;
 
-use NowCampaignStorefronts\Campaign\CampaignDuplicator;
-use NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignDuplicator;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -41,7 +41,7 @@ final class CampaignDuplicate {
 	}
 
 	public function handle(): void {
-		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
+		$campaignId = absint( wp_unslash( $_GET['campaign_id'] ?? 0 ) );
 		if ( $campaignId <= 0 ) {
 			$this->redirectWithError( 'invalid_campaign', __( 'Invalid Campaign.', 'now-campaign-storefronts' ) );
 		}
@@ -77,7 +77,7 @@ final class CampaignDuplicate {
 			printf( '<div class="notice notice-success is-dismissible"><p>%s</p></div>', esc_html__( 'Campaign duplicated.', 'now-campaign-storefronts' ) );
 		}
 		if ( ! empty( $_GET['nowcastf_duplicate_error'] ) ) {
-			$message = sanitize_text_field( wp_unslash( $_GET['nowcastf_duplicate_error'] ) );
+			$message = sanitize_text_field( wp_unslash( (string) $_GET['nowcastf_duplicate_error'] ) );
 			printf( '<div class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $message ) );
 		}
 	}

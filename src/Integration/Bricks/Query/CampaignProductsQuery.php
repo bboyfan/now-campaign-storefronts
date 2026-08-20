@@ -1,10 +1,10 @@
 <?php
 
-namespace NowCampaignStorefronts\Integration\Bricks\Query;
+namespace Bboyfan\NowCampaignStorefronts\Integration\Bricks\Query;
 
-use NowCampaignStorefronts\Campaign\CampaignContext;
-use NowCampaignStorefronts\CampaignProduct\CampaignProduct;
-use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignContext;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\CampaignProduct;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

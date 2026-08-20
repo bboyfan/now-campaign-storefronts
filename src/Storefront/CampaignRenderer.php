@@ -1,8 +1,8 @@
 <?php
 
-namespace NowCampaignStorefronts\Storefront;
+namespace Bboyfan\NowCampaignStorefronts\Storefront;
 
-use NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

@@ -1,7 +1,7 @@
 (function ($) {
   'use strict';
 
-  var cfg = window.NowCastfReportAdmin || {};
+  var cfg = window.BboyfanNowCastfReportAdmin || {};
   if (!cfg.campaignId) return;
 
   function el(tag, className, text) {

@@ -1,7 +1,7 @@
 (function ($) {
   'use strict';
 
-  var config = window.NowCastfEditor || {};
+  var config = window.BboyfanNowCastfEditor || {};
   if (!config.campaignId) return;
 
   var sections = Array.isArray(config.sections) ? config.sections.slice() : [];

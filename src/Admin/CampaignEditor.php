@@ -1,18 +1,18 @@
 <?php
 
-namespace NowCampaignStorefronts\Admin;
+namespace Bboyfan\NowCampaignStorefronts\Admin;
 
-use NowCampaignStorefronts\Campaign\CampaignRepository;
-use NowCampaignStorefronts\Campaign\CampaignService;
-use NowCampaignStorefronts\Campaign\Meta;
-use NowCampaignStorefronts\Campaign\PostType;
-use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
-use NowCampaignStorefronts\CampaignProduct\Service as CampaignProductService;
-use NowCampaignStorefronts\CampaignSection\CampaignSection;
-use NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
-use NowCampaignStorefronts\CampaignSection\Service as CampaignSectionService;
-use NowCampaignStorefronts\Product\ProductAdapter;
-use NowCampaignStorefronts\Reporting\CampaignReportService;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignRepository;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignService;
+use Bboyfan\NowCampaignStorefronts\Campaign\Meta;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\Service as CampaignProductService;
+use Bboyfan\NowCampaignStorefronts\CampaignSection\CampaignSection;
+use Bboyfan\NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
+use Bboyfan\NowCampaignStorefronts\CampaignSection\Service as CampaignSectionService;
+use Bboyfan\NowCampaignStorefronts\Product\ProductAdapter;
+use Bboyfan\NowCampaignStorefronts\Reporting\CampaignReportService;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -116,7 +116,7 @@ final class CampaignEditor {
 		if ( $campaignId <= 0 ) {
 			return;
 		}
-		wp_localize_script( 'nowcastf-editor', 'NowCastfEditor', $this->editorState( $campaignId ) );
+		wp_localize_script( 'nowcastf-editor', 'BboyfanNowCastfEditor', $this->editorState( $campaignId ) );
 	}
 
 	public function render(): void {
@@ -280,13 +280,13 @@ final class CampaignEditor {
 			wp_die( esc_html__( 'You do not have permission to manage campaigns.', 'now-campaign-storefronts' ) );
 		}
 		check_admin_referer( self::NONCE_ACTION, 'nowcastf_editor_nonce' );
-		$campaignId = absint( $_POST['campaign_id'] ?? 0 );
+		$campaignId = absint( wp_unslash( $_POST['campaign_id'] ?? 0 ) );
 		$campaign = $this->campaigns->find( $campaignId );
 		if ( ! $campaign ) {
 			wp_die( esc_html__( 'Campaign not found.', 'now-campaign-storefronts' ) );
 		}
 		$currentRevision = absint( get_post_meta( $campaignId, Meta::EDITOR_REVISION, true ) );
-		$postedRevision = absint( $_POST['campaign_revision'] ?? 0 );
+		$postedRevision = absint( wp_unslash( $_POST['campaign_revision'] ?? 0 ) );
 		$postedModifiedGmt = sanitize_text_field( wp_unslash( $_POST['campaign_modified_gmt'] ?? '' ) );
 		if ( $postedRevision !== $currentRevision || $postedModifiedGmt !== $campaign->post_modified_gmt ) {
 			$this->staleEditorDie();
@@ -296,10 +296,13 @@ final class CampaignEditor {
 		$slug = sanitize_title( wp_unslash( $_POST['campaign_slug'] ?? '' ) );
 		$content = wp_kses_post( wp_unslash( $_POST['campaign_description'] ?? '' ) );
 		$postStatus = 'publish' === sanitize_key( (string) ( $_POST['campaign_post_status'] ?? 'draft' ) ) ? 'publish' : 'draft';
-		$sections = $this->decodeArray( wp_unslash( $_POST['sections_json'] ?? '[]' ) );
-		$products = $this->decodeArray( wp_unslash( $_POST['products_json'] ?? '[]' ) );
+		$rawSections = isset( $_POST['sections_json'] ) ? wp_unslash( (string) $_POST['sections_json'] ) : '[]';
+		$rawProducts = isset( $_POST['products_json'] ) ? wp_unslash( (string) $_POST['products_json'] ) : '[]';
+		$sections = $this->decodeArray( $rawSections );
+		$products = $this->decodeArray( $rawProducts );
 		if ( isset( $_POST['section_design_json'] ) ) {
-			$sectionDesign = $this->decodeArray( wp_unslash( (string) $_POST['section_design_json'] ) );
+			$rawSectionDesign = wp_unslash( (string) $_POST['section_design_json'] );
+			$sectionDesign = $this->decodeArray( $rawSectionDesign );
 			foreach ( $sections as $index => &$section ) {
 				$clientKey = sanitize_key( (string) ( $section['client_key'] ?? '' ) );
 				$design = $sectionDesign[ $clientKey ] ?? $sectionDesign[ $index ] ?? [];
@@ -313,7 +316,8 @@ final class CampaignEditor {
 
 		$mediaIds = null;
 		if ( isset( $_POST['campaign_media_ids'] ) ) {
-			$mediaIds = $this->decodeArray( wp_unslash( (string) $_POST['campaign_media_ids'] ) );
+			$rawMediaIds = sanitize_text_field( wp_unslash( (string) $_POST['campaign_media_ids'] ) );
+			$mediaIds = $this->decodeArray( $rawMediaIds );
 			$mediaIds = array_values( array_unique( array_filter( array_map( 'absint', $mediaIds ) ) ) );
 			$mediaIds = array_values( array_filter( $mediaIds, 'wp_attachment_is_image' ) );
 		}
@@ -394,7 +398,7 @@ final class CampaignEditor {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_send_json_error( [ 'message' => __( 'Unauthorized', 'now-campaign-storefronts' ) ], 403 );
 		}
-		$productId = absint( $_POST['product_id'] ?? 0 );
+		$productId = absint( wp_unslash( $_POST['product_id'] ?? 0 ) );
 		$product = wc_get_product( $productId );
 		if ( ! $product ) {
 			wp_send_json_error( [ 'message' => __( 'Product not found.', 'now-campaign-storefronts' ) ], 404 );

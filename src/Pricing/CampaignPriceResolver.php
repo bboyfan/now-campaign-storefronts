@@ -1,10 +1,10 @@
 <?php
 
-namespace NowCampaignStorefronts\Pricing;
+namespace Bboyfan\NowCampaignStorefronts\Pricing;
 
-use NowCampaignStorefronts\Campaign\CampaignRepository;
-use NowCampaignStorefronts\CampaignProduct\CampaignProduct;
-use NowCampaignStorefronts\CampaignProduct\Repository;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignRepository;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\CampaignProduct;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\Repository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

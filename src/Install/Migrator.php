@@ -1,10 +1,10 @@
 <?php
 
-namespace NowCampaignStorefronts\Install;
+namespace Bboyfan\NowCampaignStorefronts\Install;
 
-use NowCampaignStorefronts\CampaignProduct\Table as CampaignProductTable;
-use NowCampaignStorefronts\CampaignSection\CampaignSection;
-use NowCampaignStorefronts\CampaignSection\Table as CampaignSectionTable;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\Table as CampaignProductTable;
+use Bboyfan\NowCampaignStorefronts\CampaignSection\CampaignSection;
+use Bboyfan\NowCampaignStorefronts\CampaignSection\Table as CampaignSectionTable;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

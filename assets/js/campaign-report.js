@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var settings = window.NowCastfLiveReport || {};
+  var settings = window.BboyfanNowCastfLiveReport || {};
   if (!settings.dataUrl) return;
   var numberFormat = new Intl.NumberFormat();
 

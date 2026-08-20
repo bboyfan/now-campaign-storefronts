@@ -1,15 +1,15 @@
 <?php
 
-namespace NowCampaignStorefronts\Integration\Bricks;
+namespace Bboyfan\NowCampaignStorefronts\Integration\Bricks;
 
-use NowCampaignStorefronts\Campaign\CampaignContext;
-use NowCampaignStorefronts\Campaign\PostType;
-use NowCampaignStorefronts\CampaignProduct\CampaignProductPresentationResolver;
-use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
-use NowCampaignStorefronts\Integration\Bricks\Conditions\CampaignCondition;
-use NowCampaignStorefronts\Integration\Bricks\DynamicData\CampaignDynamicData;
-use NowCampaignStorefronts\Integration\Bricks\Query\CampaignProductsQuery;
-use NowCampaignStorefronts\Storefront\CampaignRenderer;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignContext;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\CampaignProductPresentationResolver;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use Bboyfan\NowCampaignStorefronts\Integration\Bricks\Conditions\CampaignCondition;
+use Bboyfan\NowCampaignStorefronts\Integration\Bricks\DynamicData\CampaignDynamicData;
+use Bboyfan\NowCampaignStorefronts\Integration\Bricks\Query\CampaignProductsQuery;
+use Bboyfan\NowCampaignStorefronts\Storefront\CampaignRenderer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

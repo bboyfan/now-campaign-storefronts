@@ -1,9 +1,9 @@
 <?php
 
-namespace NowCampaignStorefronts\Install;
+namespace Bboyfan\NowCampaignStorefronts\Install;
 
-use NowCampaignStorefronts\Campaign\PostType;
-use NowCampaignStorefronts\Reporting\CampaignReportController;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\Reporting\CampaignReportController;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

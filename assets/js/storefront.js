@@ -1,7 +1,7 @@
 (function () {
   'use strict';
 
-  var settings = window.NowCastfSettings || {};
+  var settings = window.BboyfanNowCastfSettings || {};
   var i18n = settings.i18n || {};
   var toastTimer = null;
 

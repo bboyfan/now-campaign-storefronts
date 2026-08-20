@@ -51,15 +51,9 @@ NOW Campaign Storefronts = campaign context + campaign price + attribution + rep
 5. Set Campaign Prices and, optionally, Campaign Bulk Pricing quantity tiers.
 6. Configure content and presentation, then publish.
 
-## Download
-
-Download [NOW Campaign Storefronts 1.4.4](https://github.com/bboyfan/now-campaign-storefronts/releases/download/v1.4.4/now-campaign-storefronts-1.4.4.zip) from the latest GitHub release.
-
-SHA256: [`now-campaign-storefronts-1.4.4.sha256`](https://github.com/bboyfan/now-campaign-storefronts/raw/main/releases/now-campaign-storefronts-1.4.4.sha256)
-
 ## Development
 
-The plugin uses a PSR-4-style `NowCampaignStorefronts\` namespace and includes a runtime fallback autoloader. `composer.json` is included so the source can be inspected and worked on with Composer-based tooling.
+The plugin uses a PSR-4-style `Bboyfan\NowCampaignStorefronts\` namespace and includes a runtime fallback autoloader. `composer.json` is included so the source can be inspected and worked on with Composer-based tooling.
 
 Before submitting changes, run PHP syntax checks and JavaScript syntax checks and verify Campaign Price, Bulk Pricing, attribution, reporting, refunds, and storefront behavior against WooCommerce.
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace NowCampaignStorefronts\Reporting;
+namespace Bboyfan\NowCampaignStorefronts\Reporting;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -113,7 +113,7 @@ final class CampaignReportController {
 			wp_enqueue_script( 'nowcastf-report' );
 			wp_add_inline_script(
 				'nowcastf-report',
-				'window.NowCastfLiveReport=' . wp_json_encode( $scriptConfig ) . ';',
+				'window.BboyfanNowCastfLiveReport=' . wp_json_encode( $scriptConfig ) . ';',
 				'before'
 			);
 		}

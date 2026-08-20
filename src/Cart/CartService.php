@@ -1,11 +1,11 @@
 <?php
 
-namespace NowCampaignStorefronts\Cart;
+namespace Bboyfan\NowCampaignStorefronts\Cart;
 
-use NowCampaignStorefronts\Campaign\CampaignRepository;
-use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
-use NowCampaignStorefronts\Pricing\CampaignPriceResolver;
-use NowCampaignStorefronts\Product\ProductAdapter;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignRepository;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use Bboyfan\NowCampaignStorefronts\Pricing\CampaignPriceResolver;
+use Bboyfan\NowCampaignStorefronts\Product\ProductAdapter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

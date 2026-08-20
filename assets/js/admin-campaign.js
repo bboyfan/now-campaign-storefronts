@@ -1,7 +1,7 @@
 (function ($) {
   'use strict';
 
-  var settings = window.NowCastfAdminSettings || {};
+  var settings = window.BboyfanNowCastfAdminSettings || {};
   var activeModal = null;
 
   function initProductSearch() {

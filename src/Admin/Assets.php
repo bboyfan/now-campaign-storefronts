@@ -1,8 +1,8 @@
 <?php
 
-namespace NowCampaignStorefronts\Admin;
+namespace Bboyfan\NowCampaignStorefronts\Admin;
 
-use NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -23,7 +23,7 @@ final class Assets {
 		wp_enqueue_style( 'woocommerce_admin_styles' );
 		wp_enqueue_style( 'nowcastf-admin', NOWCASTF_URL . 'assets/css/admin.css', [], NOWCASTF_VERSION );
 		wp_enqueue_script( 'nowcastf-admin', NOWCASTF_URL . 'assets/js/admin-campaign.js', [ 'jquery', 'wc-enhanced-select' ], NOWCASTF_VERSION, true );
-		wp_localize_script( 'nowcastf-admin', 'NowCastfAdminSettings', [
+		wp_localize_script( 'nowcastf-admin', 'BboyfanNowCastfAdminSettings', [
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 			'nonce'   => wp_create_nonce( 'nowcastf_admin' ),
 			'i18n'    => [

@@ -1,13 +1,13 @@
 <?php
 
-namespace NowCampaignStorefronts\Storefront;
+namespace Bboyfan\NowCampaignStorefronts\Storefront;
 
-use NowCampaignStorefronts\CampaignProduct\CampaignProduct;
-use NowCampaignStorefronts\CampaignProduct\CampaignProductPresentationResolver;
-use NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
-use NowCampaignStorefronts\CampaignSection\CampaignSection;
-use NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
-use NowCampaignStorefronts\Product\ProductAdapter;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\CampaignProduct;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\CampaignProductPresentationResolver;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\Repository as CampaignProductRepository;
+use Bboyfan\NowCampaignStorefronts\CampaignSection\CampaignSection;
+use Bboyfan\NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
+use Bboyfan\NowCampaignStorefronts\Product\ProductAdapter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

@@ -1,11 +1,11 @@
 <?php
 
-namespace NowCampaignStorefronts\Admin;
+namespace Bboyfan\NowCampaignStorefronts\Admin;
 
-use NowCampaignStorefronts\Campaign\CampaignService;
-use NowCampaignStorefronts\Campaign\Meta;
-use NowCampaignStorefronts\Campaign\PostType;
-use NowCampaignStorefronts\Reporting\CampaignReportService;
+use Bboyfan\NowCampaignStorefronts\Campaign\CampaignService;
+use Bboyfan\NowCampaignStorefronts\Campaign\Meta;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\Reporting\CampaignReportService;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

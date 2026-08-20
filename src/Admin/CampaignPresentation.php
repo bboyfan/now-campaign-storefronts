@@ -1,10 +1,10 @@
 <?php
 
-namespace NowCampaignStorefronts\Admin;
+namespace Bboyfan\NowCampaignStorefronts\Admin;
 
-use NowCampaignStorefronts\Campaign\Meta;
-use NowCampaignStorefronts\Campaign\PostType;
-use NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
+use Bboyfan\NowCampaignStorefronts\Campaign\Meta;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\CampaignSection\Repository as CampaignSectionRepository;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -29,12 +29,12 @@ final class CampaignPresentation {
 	}
 
 	public function enqueue(): void {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( self::PAGE_SLUG !== sanitize_key( (string) ( $_GET['page'] ?? '' ) ) ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen check.
+		if ( self::PAGE_SLUG !== sanitize_key( wp_unslash( (string) ( $_GET['page'] ?? '' ) ) ) ) {
 			return;
 		}
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen parameter.
+		$campaignId = absint( wp_unslash( $_GET['campaign_id'] ?? 0 ) );
 		if ( $campaignId <= 0 || PostType::TYPE !== get_post_type( $campaignId ) ) {
 			return;
 		}
@@ -84,7 +84,7 @@ final class CampaignPresentation {
 
 		wp_localize_script(
 			'nowcastf-presentation-admin',
-			'NowCastfPresentation',
+			'BboyfanNowCastfPresentation',
 			$this->state( $campaignId )
 		);
 	}
@@ -93,7 +93,7 @@ final class CampaignPresentation {
 		if ( ! isset( $_POST['section_design_json'], $_POST['sections_json'] ) || ! current_user_can( 'manage_woocommerce' ) ) {
 			return;
 		}
-		if ( 'nowcastf_save_editor' !== sanitize_key( (string) ( $_POST['action'] ?? '' ) ) || $campaignId !== absint( $_POST['campaign_id'] ?? 0 ) ) {
+		if ( 'nowcastf_save_editor' !== sanitize_key( wp_unslash( (string) ( $_POST['action'] ?? '' ) ) ) || $campaignId !== absint( wp_unslash( $_POST['campaign_id'] ?? 0 ) ) ) {
 			return;
 		}
 		$nonce = sanitize_text_field( wp_unslash( $_POST['nowcastf_editor_nonce'] ?? '' ) );
@@ -101,10 +101,10 @@ final class CampaignPresentation {
 			return;
 		}
 
-		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated via json_decode and sanitized individually below.
 		$rawSections = wp_unslash( (string) ( $_POST['sections_json'] ?? '[]' ) );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated via json_decode and sanitized with sanitize_hex_color() per property below.
 		$rawDesign   = wp_unslash( (string) ( $_POST['section_design_json'] ?? '{}' ) );
-		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$postedSections = json_decode( $rawSections, true );
 		$designByKey    = json_decode( $rawDesign, true );
 		if ( JSON_ERROR_NONE !== json_last_error() || ! is_array( $postedSections ) || ! is_array( $designByKey ) ) {

@@ -1,9 +1,9 @@
 <?php
 
-namespace NowCampaignStorefronts\Storefront;
+namespace Bboyfan\NowCampaignStorefronts\Storefront;
 
-use NowCampaignStorefronts\Cart\AjaxController;
-use NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\Cart\AjaxController;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -64,7 +64,7 @@ final class Assets {
 		if ( ! $this->localized ) {
 			wp_localize_script(
 				'nowcastf-storefront',
-				'NowCastfSettings',
+				'BboyfanNowCastfSettings',
 				[
 					'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 					'nonce'   => AjaxController::nonce(),

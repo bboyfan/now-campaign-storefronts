@@ -1,8 +1,8 @@
 <?php
 
-namespace NowCampaignStorefronts\Integration\Bricks\DynamicData;
+namespace Bboyfan\NowCampaignStorefronts\Integration\Bricks\DynamicData;
 
-use NowCampaignStorefronts\CampaignProduct\CampaignProductPresentationResolver;
+use Bboyfan\NowCampaignStorefronts\CampaignProduct\CampaignProductPresentationResolver;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

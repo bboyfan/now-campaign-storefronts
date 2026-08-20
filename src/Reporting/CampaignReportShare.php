@@ -1,9 +1,9 @@
 <?php
 
-namespace NowCampaignStorefronts\Reporting;
+namespace Bboyfan\NowCampaignStorefronts\Reporting;
 
-use NowCampaignStorefronts\Campaign\Meta;
-use NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\Campaign\Meta;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

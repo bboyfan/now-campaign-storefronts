@@ -1,6 +1,6 @@
 <?php
 
-namespace NowCampaignStorefronts\Cart;
+namespace Bboyfan\NowCampaignStorefronts\Cart;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,9 +27,9 @@ final class AjaxController {
 		$this->guardCart();
 
 		try {
-			$campaignId        = absint( $_POST['campaign_id'] ?? 0 );
-			$campaignProductId = absint( $_POST['campaign_product_id'] ?? 0 );
-			$quantity          = max( 1, absint( $_POST['quantity'] ?? 1 ) );
+			$campaignId        = absint( wp_unslash( $_POST['campaign_id'] ?? 0 ) );
+			$campaignProductId = absint( wp_unslash( $_POST['campaign_product_id'] ?? 0 ) );
+			$quantity          = max( 1, absint( wp_unslash( $_POST['quantity'] ?? 1 ) ) );
 
 			$addedItem = $this->cart->add( $campaignId, $campaignProductId, $quantity );
 			$compat    = $this->emitSingleCompatibility( $addedItem );
@@ -53,11 +53,10 @@ final class AjaxController {
 		$this->guardCart();
 
 		try {
-			$campaignId = absint( $_POST['campaign_id'] ?? 0 );
-			// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			$raw        = wp_unslash( $_POST['items'] ?? '[]' );
-			$items      = json_decode( is_string( $raw ) ? $raw : '[]', true );
-			if ( ! is_array( $items ) ) {
+			$campaignId = absint( wp_unslash( $_POST['campaign_id'] ?? 0 ) );
+			$raw        = isset( $_POST['items'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['items'] ) ) : '[]';
+			$items      = json_decode( $raw, true );
+			if ( ! is_array( $items ) || JSON_ERROR_NONE !== json_last_error() ) {
 				throw new \RuntimeException( __( 'Invalid campaign items.', 'now-campaign-storefronts' ) );
 			}
 
@@ -102,8 +101,9 @@ final class AjaxController {
 		$this->guardCart();
 
 		try {
-			$key = sanitize_text_field( wp_unslash( $_POST['cart_item_key'] ?? '' ) );
-			$this->cart->update( $key, absint( $_POST['quantity'] ?? 0 ) );
+			$key      = sanitize_text_field( wp_unslash( $_POST['cart_item_key'] ?? '' ) );
+			$quantity = absint( wp_unslash( $_POST['quantity'] ?? 0 ) );
+			$this->cart->update( $key, $quantity );
 			$snapshot = $this->cart->snapshot();
 		} catch ( \Throwable $e ) {
 			wp_send_json_error( [ 'message' => $e->getMessage() ], 400 );
@@ -143,63 +143,59 @@ final class AjaxController {
 	}
 
 	/**
-	 * Emit WooCommerce AJAX add-to-cart lifecycle actions in a scoped $_POST context.
+	 * Emit WooCommerce AJAX add-to-cart lifecycle actions in a scoped minimal $_POST context.
 	 *
 	 * @param array{cart_item_key: string, product_id: int, variation_id: int, quantity: int, campaign_product_id: int} $addedItem
 	 * @return array{fragments: array<string, string>, cart_hash: string}
 	 */
 	private function emitSingleCompatibility( array $addedItem ): array {
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing
-		$originalPost = $_POST;
-		$_POST['product_id'] = $addedItem['product_id'];
-		$_POST['quantity']   = $addedItem['quantity'];
-		if ( ! empty( $addedItem['variation_id'] ) ) {
-			$_POST['variation_id'] = $addedItem['variation_id'];
-		} else {
-			unset( $_POST['variation_id'] );
-		}
+		$_POST = $this->buildCompatibilityPostContext( $addedItem );
 
-		try {
-			do_action( 'woocommerce_ajax_added_to_cart', $addedItem['product_id'] );
+		do_action( 'woocommerce_ajax_added_to_cart', absint( $addedItem['product_id'] ) );
 
-			$effectiveId = ! empty( $addedItem['variation_id'] ) ? $addedItem['variation_id'] : $addedItem['product_id'];
-			do_action( 'nowcastf_cart_item_added_from_user_request', $effectiveId, $addedItem['quantity'] );
+		$effectiveId = ! empty( $addedItem['variation_id'] ) ? absint( $addedItem['variation_id'] ) : absint( $addedItem['product_id'] );
+		do_action( 'nowcastf_cart_item_added_from_user_request', $effectiveId, max( 1, absint( $addedItem['quantity'] ) ) );
 
-			return $this->buildFragmentsData();
-		} finally {
-			$_POST = $originalPost;
-		}
+		return $this->buildFragmentsData();
 	}
 
 	/**
-	 * Emit WooCommerce AJAX add-to-cart lifecycle actions for batch items in a scoped $_POST context.
+	 * Emit WooCommerce AJAX add-to-cart lifecycle actions for batch items in a scoped minimal $_POST context.
 	 *
 	 * @param list<array{cart_item_key: string, product_id: int, variation_id: int, quantity: int, campaign_product_id: int}> $addedItems
 	 * @return array{fragments: array<string, string>, cart_hash: string}
 	 */
 	private function emitBatchCompatibility( array $addedItems ): array {
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing
-		$originalPost = $_POST;
-		try {
-			foreach ( $addedItems as $item ) {
-				$_POST['product_id'] = $item['product_id'];
-				$_POST['quantity']   = $item['quantity'];
-				if ( ! empty( $item['variation_id'] ) ) {
-					$_POST['variation_id'] = $item['variation_id'];
-				} else {
-					unset( $_POST['variation_id'] );
-				}
+		foreach ( $addedItems as $item ) {
+			$_POST = $this->buildCompatibilityPostContext( $item );
 
-				do_action( 'woocommerce_ajax_added_to_cart', $item['product_id'] );
+			do_action( 'woocommerce_ajax_added_to_cart', absint( $item['product_id'] ) );
 
-				$effectiveId = ! empty( $item['variation_id'] ) ? $item['variation_id'] : $item['product_id'];
-				do_action( 'nowcastf_cart_item_added_from_user_request', $effectiveId, $item['quantity'] );
-			}
-
-			return $this->buildFragmentsData();
-		} finally {
-			$_POST = $originalPost;
+			$effectiveId = ! empty( $item['variation_id'] ) ? absint( $item['variation_id'] ) : absint( $item['product_id'] );
+			do_action( 'nowcastf_cart_item_added_from_user_request', $effectiveId, max( 1, absint( $item['quantity'] ) ) );
 		}
+
+		return $this->buildFragmentsData();
+	}
+
+	/**
+	 * Build minimal sanitized compatibility $_POST context.
+	 *
+	 * @param array{product_id?: int, quantity?: int, variation_id?: int} $item
+	 * @return array<string, int>
+	 */
+	private function buildCompatibilityPostContext( array $item ): array {
+		$context = [
+			'product_id' => absint( $item['product_id'] ?? 0 ),
+			'quantity'   => max( 1, absint( $item['quantity'] ?? 1 ) ),
+		];
+
+		$variationId = absint( $item['variation_id'] ?? 0 );
+		if ( $variationId > 0 ) {
+			$context['variation_id'] = $variationId;
+		}
+
+		return $context;
 	}
 
 	/**

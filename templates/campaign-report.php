@@ -6,7 +6,7 @@
 /** @var bool $authenticated */
 /** @var array $presented */
 
-use NowCampaignStorefronts\Campaign\Meta;
+use Bboyfan\NowCampaignStorefronts\Campaign\Meta;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

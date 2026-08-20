@@ -1,9 +1,9 @@
 <?php
 
-namespace NowCampaignStorefronts\Admin;
+namespace Bboyfan\NowCampaignStorefronts\Admin;
 
-use NowCampaignStorefronts\Campaign\Meta;
-use NowCampaignStorefronts\Campaign\PostType;
+use Bboyfan\NowCampaignStorefronts\Campaign\Meta;
+use Bboyfan\NowCampaignStorefronts\Campaign\PostType;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -19,12 +19,12 @@ final class CampaignBulkPricing {
 	}
 
 	public function enqueue(): void {
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( self::PAGE_SLUG !== sanitize_key( (string) ( $_GET['page'] ?? '' ) ) ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen check.
+		if ( self::PAGE_SLUG !== sanitize_key( wp_unslash( (string) ( $_GET['page'] ?? '' ) ) ) ) {
 			return;
 		}
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin screen parameter.
+		$campaignId = absint( wp_unslash( $_GET['campaign_id'] ?? 0 ) );
 		if ( $campaignId <= 0 || PostType::TYPE !== get_post_type( $campaignId ) ) {
 			return;
 		}
@@ -47,7 +47,7 @@ final class CampaignBulkPricing {
 		);
 		wp_localize_script(
 			'nowcastf-bulk-pricing-admin',
-			'NowCastfBulkPricing',
+			'BboyfanNowCastfBulkPricing',
 			[
 				'config' => $config,
 				'i18n'   => [
@@ -76,10 +76,10 @@ final class CampaignBulkPricing {
 		if ( ! isset( $_POST['campaign_bulk_pricing_json'] ) || ! current_user_can( 'manage_woocommerce' ) ) {
 			return;
 		}
-		if ( 'nowcastf_save_editor' !== sanitize_key( (string) ( $_POST['action'] ?? '' ) ) ) {
+		if ( 'nowcastf_save_editor' !== sanitize_key( wp_unslash( (string) ( $_POST['action'] ?? '' ) ) ) ) {
 			return;
 		}
-		if ( $campaignId !== absint( $_POST['campaign_id'] ?? 0 ) ) {
+		if ( $campaignId !== absint( wp_unslash( $_POST['campaign_id'] ?? 0 ) ) ) {
 			return;
 		}
 		$nonce = sanitize_text_field( wp_unslash( $_POST['nowcastf_editor_nonce'] ?? '' ) );
@@ -87,8 +87,9 @@ final class CampaignBulkPricing {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$decoded = json_decode( wp_unslash( (string) $_POST['campaign_bulk_pricing_json'] ), true );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated via json_decode and sanitized with Meta::sanitizeBulkPricing().
+		$raw = wp_unslash( (string) ( $_POST['campaign_bulk_pricing_json'] ?? '' ) );
+		$decoded = json_decode( $raw, true );
 		if ( JSON_ERROR_NONE !== json_last_error() || ! is_array( $decoded ) ) {
 			return;
 		}

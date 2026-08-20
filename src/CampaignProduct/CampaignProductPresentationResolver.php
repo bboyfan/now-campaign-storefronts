@@ -1,8 +1,8 @@
 <?php
 
-namespace NowCampaignStorefronts\CampaignProduct;
+namespace Bboyfan\NowCampaignStorefronts\CampaignProduct;
 
-use NowCampaignStorefronts\Product\ProductAdapter;
+use Bboyfan\NowCampaignStorefronts\Product\ProductAdapter;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
