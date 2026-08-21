@@ -20,6 +20,21 @@ NOW Campaign Storefronts is an independent open-source project and is not an off
 
 Campaign Bulk Pricing is a quantity-dependent Campaign Price, not a second discount engine. Eligible products and variations in the same Campaign are counted together; the highest reached tier adjusts each item from its own Campaign Price before WooCommerce coupons or compatible dynamic-pricing rules continue through the normal WooCommerce flow.
 
+## Screenshots
+
+### Campaign Storefront
+![Campaign Storefront](docs/screenshots/campaign-storefront.png)
+
+### Campaign Editor
+![Campaign Editor](docs/screenshots/campaign-editor.png)
+
+### Campaign Bulk Pricing
+![Campaign Bulk Pricing](docs/screenshots/bulk-pricing.png)
+
+### Live Campaign Report
+![Live Campaign Report](docs/screenshots/live-report.png)
+
+
 ## Requirements
 
 - WordPress 6.5 or newer.

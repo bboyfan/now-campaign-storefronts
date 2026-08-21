@@ -19,6 +19,20 @@ NOW Campaign Storefronts 是獨立的開源專案，並非 WooCommerce 或 Autom
 - 對外報表可查看商品層級表現，但不顯示顧客姓名、Email、電話、地址或訂單號碼。
 - 前台會承接 Theme 的一般視覺風格，同時隔離 Campaign 的數量控制、Add to Cart 與 Bottom Mini Cart，降低 Theme 全域樣式造成的跑版。
 
+## 畫面預覽
+
+### 活動前台 (Campaign Storefront)
+![活動前台](docs/screenshots/campaign-storefront.png)
+
+### 活動編輯器 (Campaign Editor)
+![活動編輯器](docs/screenshots/campaign-editor.png)
+
+### 滿件任選優惠 (Campaign Bulk Pricing)
+![滿件任選優惠](docs/screenshots/bulk-pricing.png)
+
+### 即時成效報表 (Live Campaign Report)
+![即時成效報表](docs/screenshots/live-report.png)
+
 ### Campaign Bulk Pricing
 
 Bulk Pricing 是 **Campaign Price 的數量級距變化**，不是第二套折扣引擎。
