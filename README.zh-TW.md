@@ -1,47 +1,57 @@
 # NOW Campaign Storefronts for WooCommerce
 
-[English README](README.md)
+[English README](README.md) ·
+[WordPress.org](https://wordpress.org/plugins/now-campaign-storefronts/) ·
+[GitHub](https://github.com/bboyfan/now-campaign-storefronts)
 
-NOW Campaign Storefronts for WooCommerce 是一個以 WooCommerce 為核心的 Campaign／團購活動外掛，用來建立獨立活動頁、Campaign 價格、訂單歸因與即時業績報表，同時不取代 WooCommerce 原本的商品、庫存、購物車、訂單、退款與折扣系統。
+> WooCommerce 團購活動外掛——幫你快速建立獨立活動賣場、設定活動專屬特惠價與混搭滿件折，並提供密碼保護的即時分潤報表給合作的 KOL 或團媽。完全不需要複製商品或另建庫存。
 
 NOW Campaign Storefronts 是獨立的開源專案，並非 WooCommerce 或 Automattic 的官方產品。
 
+## 適合的使用情境
+
+- **KOL / 網紅團購**：每位合作者一個專屬活動網址 + 加密即時報表，不洩漏買家個資。
+- **檔期快閃特賣**：節慶、週年慶或限時活動，不動全店定價即可快速上線。
+- **混搭滿件折扣**：全場商品任選湊件數，自動套用「3 件 95 折、5 件 9 折」等階梯折扣，有效提高客單價。
+- **封館 / VIP 專屬賣場**：專屬活動網址 + 專屬優惠，精準服務特定客群。
+
 ## 主要功能
 
-- 支援 WooCommerce Simple Product 與 Variation 的 Campaign 價格。
-- 支援 Campaign Bulk Pricing：同一 Campaign 的商品與 Variations 可混搭累計件數，依級距套用折扣。
-- Quick Order、Editorial、Compact 三種活動商品版型。
-- Campaign Section、圖片 Gallery、活動介紹 Rich Text 與 Shortcode。
-- 沿用 WooCommerce Cart / Session，支援 Classic Checkout。
-- 將 Campaign attribution 寫入 WooCommerce order item，支援 HPOS。
-- 退款感知的 Campaign 業績報表。
-- 可設定密碼的對外即時報表分享連結。
-- 對外報表可查看商品層級表現，但不顯示顧客姓名、Email、電話、地址或訂單號碼。
-- 前台會承接 Theme 的一般視覺風格，同時隔離 Campaign 的數量控制、Add to Cart 與 Bottom Mini Cart，降低 Theme 全域樣式造成的跑版。
+- 直接在現有 WooCommerce 商品或規格上設定活動特惠價，不影響原本售價。
+- 同活動商品混搭累計件數，依級距自動套用階梯百分比折扣（滿件任選折）。
+- Quick Order（快速下單）、Editorial（圖文誌）、Compact（精簡卡片）三種活動版型，手機與電腦端皆已優化。
+- 活動區塊排版、圖片 Gallery、活動介紹 Rich Text、自訂色彩與 WordPress Shortcode。
+- 沿用 WooCommerce 購物車與 Session，支援 Classic Checkout。
+- 每筆訂單自動標記來源活動，方便追蹤銷售歸屬（支援 HPOS）。
+- 即時報表自動扣除退款金額，數字永遠是淨銷售額。
+- 密碼保護的對外即時報表——合作 KOL / 團媽隨時用手機查看銷售件數與業績，完全不顯示買家姓名、電話、地址或訂單編號。
+- 一鍵複製整場活動，版型、選品、滿件折設定全部保留，換個網址就能開賣。
+- 原生支援 Bricks Builder：專屬 Single Template、Query Loop、Dynamic Data Tags 與活動條件判斷。
+- 前台承接 Theme 視覺風格，同時隔離活動的數量控制、加入購物車與底部懸浮購物車，降低跑版風險。
 
 ## 畫面預覽
 
 ### 活動前台 (Campaign Storefront)
-![活動前台](docs/screenshots/campaign-storefront.png)
+![活動前台——團購賣場頁面、商品卡片、數量選擇器、滿件折優惠提示與懸浮購物車](docs/screenshots/campaign-storefront.png)
 
 ### 活動編輯器 (Campaign Editor)
-![活動編輯器](docs/screenshots/campaign-editor.png)
+![活動編輯器——區塊排版、WooCommerce 商品挑選、活動特惠價設定與版型選擇](docs/screenshots/campaign-editor.png)
 
 ### 滿件任選優惠 (Campaign Bulk Pricing)
-![滿件任選優惠](docs/screenshots/bulk-pricing.png)
+![滿件任選優惠——混搭階梯折扣設定：買 3 件 95 折、5 件 9 折、8 件 85 折](docs/screenshots/bulk-pricing.png)
 
 ### 即時成效報表 (Live Campaign Report)
-![即時成效報表](docs/screenshots/live-report.png)
+![即時成效報表——密碼保護的分潤報表，含淨銷售額、訂單數、退款扣除與商品明細](docs/screenshots/live-report.png)
 
-### Campaign Bulk Pricing
+### Campaign Bulk Pricing 計算邏輯
 
 Bulk Pricing 是 **Campaign Price 的數量級距變化**，不是第二套折扣引擎。
 
 例如同一個 Campaign 設定：
 
 ```text
-2 件以上：5% off
-4 件以上：10% off
+3 件以上：5% off
+5 件以上：10% off
 8 件以上：15% off
 ```
 
@@ -51,15 +61,15 @@ Bulk Pricing 是 **Campaign Price 的數量級距變化**，不是第二套折�
 商品 A Campaign Price = 500
 商品 B Campaign Price = 400
 商品 C Campaign Price = 550
-合計數量 = 4
+合計數量 = 4 → 未達 5 件門檻，套用 3 件級距（5% off）
 ```
 
-則 4 件級距會分別以每個商品自己的 Campaign Price 計算：
+則分別以每個商品自己的 Campaign Price 計算：
 
 ```text
-商品 A = 450
-商品 B = 360
-商品 C = 495
+商品 A = 475
+商品 B = 380
+商品 C = 522.5
 ```
 
 不同 Campaign 不互相累計，一般 WooCommerce 商品也不會計入 Campaign 件數。Bulk Price 計算完成後，WooCommerce Coupon / 相容的 Dynamic Pricing 規則仍可依既有流程繼續處理。
@@ -70,7 +80,7 @@ Bulk Pricing 是 **Campaign Price 的數量級距變化**，不是第二套折�
 - WooCommerce 8.0 或更新版本。
 - PHP 8.1 或更新版本。
 
-目前公開發行候選版本已測試至 WordPress 7.0 與 WooCommerce 10.9。
+目前公開發行版本已測試至 WordPress 7.0 與 WooCommerce 10.9。
 
 ## 架構原則
 
@@ -83,7 +93,7 @@ WooCommerce Cart / Session      = 購物車 Authority
 WooCommerce Coupon / Pricing    = 折扣 Authority
 WooCommerce Order / Refund      = 財務 Authority
 
-NOW Campaign Storefronts = Campaign Context + Campaign Price + Attribution + Reporting + Presentation
+NOW Campaign Storefronts = 活動情境 + 活動價 + 訂單歸因 + 報表 + 呈現
 ```
 
 也就是說，Campaign 只負責活動情境、活動價、訂單歸因、報表與呈現；實際商品、庫存、購物車、訂單、退款仍由 WooCommerce 負責。
@@ -91,7 +101,7 @@ NOW Campaign Storefronts = Campaign Context + Campaign Price + Attribution + Rep
 ## 安裝方式
 
 1. 安裝並啟用 WooCommerce。
-2. 安裝並啟用 NOW Campaign Storefronts for WooCommerce。
+2. 從 [WordPress.org](https://wordpress.org/plugins/now-campaign-storefronts/) 安裝並啟用 NOW Campaign Storefronts for WooCommerce，或直接上傳外掛 ZIP。
 3. 在 WordPress 後台開啟 Campaigns。
 4. 建立 Campaign，加入 WooCommerce 商品或 Variations。
 5. 設定 Campaign Price；如有需要，再啟用 Campaign Bulk Pricing 並新增件數／折扣級距。
@@ -99,34 +109,12 @@ NOW Campaign Storefronts = Campaign Context + Campaign Price + Attribution + Rep
 7. 發布 Campaign。
 8. 如有需要，可啟用密碼保護的 External Report 並分享產生的網址。
 
-## 活動介紹與 Shortcode
+## 相關連結
 
-「活動介紹」會經過 WordPress 標準 `the_content` 流程，因此可以使用已註冊的 Shortcode，例如由 Theme 或其他外掛提供的 Template Shortcode。
+- **WordPress.org 官方外掛目錄**：[wordpress.org/plugins/now-campaign-storefronts](https://wordpress.org/plugins/now-campaign-storefronts/)
+- **GitHub 開源儲存庫**：[github.com/bboyfan/now-campaign-storefronts](https://github.com/bboyfan/now-campaign-storefronts)
 
-## 即時報表
-
-External Report 可以設定分享密碼與獨立分享網址，並顯示：
-
-- Net Sales
-- Paid Orders
-- Units
-- Average Order
-- Pending Orders
-- Campaign Subtotal
-- Discount
-- Refund
-- Refunded Units
-- 商品表現
-
-Report 的公開頁面只提供彙總業績與商品表現，不會顯示顧客個資或訂單明細。
-
-## 多語系
-
-WordPress.org 發行版使用英文作為 canonical source strings，繁體中文等語言由 WordPress.org language packs 提供。
-
-Repo 中的 `scripts/build-wordpress-org.sh` 會建立 WordPress.org 專用的 `now-campaign-storefronts` package，不會把 `.po` 或 `.mo` 檔案放進 ZIP。
-
-WordPress.org 上架後，可透過 translate.wordpress.org 維護其他語言與繁中翻譯。
+覺得有用的話，歡迎到 GitHub 給我們一顆 ⭐ 支持台灣原創的開源專案！
 
 ## 開發
 

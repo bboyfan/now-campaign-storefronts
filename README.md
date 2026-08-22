@@ -1,39 +1,49 @@
 # NOW Campaign Storefronts for WooCommerce
 
-[繁體中文 README](README.zh-TW.md)
+[繁體中文 README](README.zh-TW.md) ·
+[WordPress.org](https://wordpress.org/plugins/now-campaign-storefronts/) ·
+[GitHub](https://github.com/bboyfan/now-campaign-storefronts)
 
-NOW Campaign Storefronts for WooCommerce adds campaign-specific storefronts, pricing, attribution, and live reporting without replacing WooCommerce products, inventory, carts, orders, refunds, or discounts.
+> Group buy pages, mix-and-match bulk discounts, and password-protected influencer sales reports for WooCommerce — without duplicating products or inventory.
 
 NOW Campaign Storefronts is an independent open-source project and is not an official WooCommerce or Automattic product.
 
+## Who Is It For?
+
+- **Influencer / KOL collaborations** — Give each influencer a dedicated storefront URL and a password-protected live sales report (zero customer PII exposure).
+- **Group buy and flash sale campaigns** — Create time-limited campaign pages with special pricing, without touching your main catalog.
+- **Mix-and-match bulk promotions** — "Buy any 3 items, get 5% off; buy 5, get 10% off" across all campaign products.
+- **Private or VIP storefronts** — Exclusive campaign URLs with campaign-only pricing for specific audiences.
+
 ## Features
 
-- Campaign pricing for WooCommerce simple products and variations.
-- Campaign-wide mix-and-match Bulk Pricing tiers based on total eligible Campaign quantity.
-- Quick Order, Editorial, and Compact campaign layouts.
-- Campaign sections, image galleries, rich content, and shortcode support.
-- WooCommerce cart/session integration and Classic Checkout compatibility.
-- Order-item campaign attribution with HPOS support.
-- Refund-aware campaign reporting.
-- Password-protected live report links with product performance metrics.
-- Theme-aware presentation with isolated campaign commerce controls.
+- Campaign-specific pricing for any WooCommerce product or variation — your catalog prices stay unchanged.
+- Mix-and-match bulk quantity discounts based on total campaign items purchased across products and variations.
+- Quick Order, Editorial, and Compact storefront layouts, fully responsive for desktop and mobile.
+- Campaign sections, image galleries, rich content, color customization, and WordPress shortcode support.
+- WooCommerce cart and session integration with Classic Checkout compatibility.
+- Automatic sales tracking per campaign on every WooCommerce order (HPOS compatible).
+- Live campaign reports with automatic refund deductions.
+- Password-protected sales reports shareable with influencers — no customer names, emails, or addresses exposed.
+- One-click campaign duplication with all sections, products, pricing, and styling preserved.
+- Native Bricks Builder integration: Custom Single Templates, Query Loops, Dynamic Data Tags, and campaign display conditions.
+- Theme-aware presentation with isolated campaign commerce controls (quantity pickers, add-to-cart, floating mini cart).
 
 Campaign Bulk Pricing is a quantity-dependent Campaign Price, not a second discount engine. Eligible products and variations in the same Campaign are counted together; the highest reached tier adjusts each item from its own Campaign Price before WooCommerce coupons or compatible dynamic-pricing rules continue through the normal WooCommerce flow.
 
 ## Screenshots
 
 ### Campaign Storefront
-![Campaign Storefront](docs/screenshots/campaign-storefront.png)
+![Campaign Storefront — group buy page with product cards, quantity pickers, bulk discount badges, and floating mini cart](docs/screenshots/campaign-storefront.png)
 
 ### Campaign Editor
-![Campaign Editor](docs/screenshots/campaign-editor.png)
+![Campaign Editor — drag-and-drop sections, WooCommerce product picker, campaign pricing, and layout options](docs/screenshots/campaign-editor.png)
 
 ### Campaign Bulk Pricing
-![Campaign Bulk Pricing](docs/screenshots/bulk-pricing.png)
+![Bulk Pricing — mix-and-match discount setup: buy 3 get 5% off, buy 5 get 10% off](docs/screenshots/bulk-pricing.png)
 
 ### Live Campaign Report
-![Live Campaign Report](docs/screenshots/live-report.png)
-
+![Live Report — password-protected sales report for influencer collaboration with revenue, orders, refunds, and product breakdown](docs/screenshots/live-report.png)
 
 ## Requirements
 
@@ -60,7 +70,7 @@ NOW Campaign Storefronts = campaign context + campaign price + attribution + rep
 ## Installation
 
 1. Install and activate WooCommerce.
-2. Install and activate NOW Campaign Storefronts for WooCommerce.
+2. Install and activate NOW Campaign Storefronts for WooCommerce from [WordPress.org](https://wordpress.org/plugins/now-campaign-storefronts/) or upload the plugin ZIP.
 3. Open the Campaigns screen in WordPress admin.
 4. Create a campaign and add products or variations.
 5. Set Campaign Prices and, optionally, Campaign Bulk Pricing quantity tiers.

@@ -1,6 +1,6 @@
 === NOW Campaign Storefronts for WooCommerce ===
 Contributors: bboyfan
-Tags: woocommerce, campaigns, group buying, reporting, storefront
+Tags: woocommerce, group buy, bulk discount, influencer, landing page
 Requires at least: 6.5
 Tested up to: 7.1
 Stable tag: 1.4.5
@@ -8,9 +8,41 @@ Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Build campaign storefronts for WooCommerce with campaign pricing, layouts, attribution, live reports, and protected sharing.
+Group buy pages, bulk quantity discounts, and influencer sales reports for WooCommerce — no product duplication needed.
 
 == Description ==
+
+NOW Campaign Storefronts for WooCommerce lets you build dedicated group buy pages, influencer storefronts, and flash sale landing pages — all powered by your existing WooCommerce products and inventory. Set campaign-specific pricing, mix-and-match bulk quantity discounts, and share password-protected live sales reports with collaborators, without duplicating a single product or SKU.
+
+NOW Campaign Storefronts is an independent open-source project and is not an official WooCommerce or Automattic product.
+
+**Who Is It For?**
+
+* **Influencer & KOL collaborations** — Give each influencer a dedicated campaign URL and a password-protected live sales report. Reports show aggregate revenue and product performance with zero customer personal data exposure.
+* **Group buy & flash sale campaigns** — Create time-limited campaign pages with special pricing without touching your main catalog or inventory.
+* **Mix-and-match bulk promotions** — "Buy any 3 items, get 5% off; buy 5, get 10% off" across all campaign products and variations.
+* **Private or VIP storefronts** — Exclusive campaign URLs with campaign-only pricing for specific audiences.
+
+**Key Features:**
+
+* **Campaign-Specific Pricing**: Set special pricing for any WooCommerce product or variation — your catalog prices stay unchanged.
+* **Mix-and-Match Bulk Quantity Discounts**: Tiered percentage discounts based on total items purchased across the campaign. Customers mix any products to reach the next tier.
+* **One-Click Campaign Duplication**: Duplicate any campaign with all sections, products, bulk pricing, and visual styling preserved under fresh internal IDs.
+* **Three Dedicated Storefront Layouts**: Quick Order, Editorial, and Compact layouts, fully responsive for desktop and mobile.
+* **Rich Content & Shortcode Support**: Campaign sections, images, rich text, color customization, and WordPress shortcodes.
+* **Native Bricks Builder Integration**: Custom Single Templates, Query Loops, Dynamic Data Tags, and campaign display conditions.
+* **Password-Protected Live Sales Reports**: Shareable reporting links for influencers and collaborators — no customer names, emails, phone numbers, or addresses exposed.
+* **Automatic Sales Attribution & Refund Deductions**: Every WooCommerce order item tracks its campaign source. Reports automatically deduct refunds for accurate net revenue.
+* **100% WooCommerce Native**: Fully compatible with WooCommerce HPOS, carts, coupons, checkouts, and inventory management. No second product catalog, inventory system, or financial ledger.
+
+**Open Source & Community:**
+
+* **GitHub Repository**: [https://github.com/bboyfan/now-campaign-storefronts](https://github.com/bboyfan/now-campaign-storefronts)
+* If you find this plugin helpful, please consider giving us a **Star ⭐ on GitHub**! Feedback, feature requests, and contributions are warmly welcome.
+
+---
+
+### 繁體中文說明
 
 **NOW Campaign Storefronts for WooCommerce** 是專為 WooCommerce 打造的「團購分銷、KOL 網紅合作、限時特賣與檔期活動頁」外掛。讓您無需重複建立商品或複製庫存，即可快速為特定活動建立專屬的活動賣場與獨立分潤報表。
 
@@ -40,33 +72,6 @@ Build campaign storefronts for WooCommerce with campaign pricing, layouts, attri
 * **GitHub 開源儲存庫**：[https://github.com/bboyfan/now-campaign-storefronts](https://github.com/bboyfan/now-campaign-storefronts)
 * 如果這個外掛對您的商店或團購業務有幫助，歡迎到 GitHub 給我們一顆 **Star ⭐** 支持！也歡迎提交 Issue 或 Pull Request 一起讓外掛更完善。
 
----
-
-### English Description
-
-NOW Campaign Storefronts for WooCommerce adds campaign-specific storefronts and reporting while keeping WooCommerce as the source of truth for products, inventory, carts, orders, refunds, and discounts.
-
-NOW Campaign Storefronts is an independent open-source project and is not an official WooCommerce or Automattic product.
-
-It is designed for stores that run group buys, influencer campaigns, limited-time sales, private campaign pages, or other campaign-specific storefronts without duplicating WooCommerce product or order data.
-
-**Key Features:**
-
-* **Campaign-Specific Pricing**: Set special campaign pricing for WooCommerce simple products and variations without altering standard catalog prices.
-* **Campaign-Wide Mix-and-Match Bulk Pricing**: Tiered percentage discounts based on total campaign items purchased across multiple products and variations.
-* **One-Click Campaign Duplication**: Duplicate any campaign with all sections, products, bulk pricing, and visual styling preserved under fresh internal IDs.
-* **Three Dedicated Storefront Layouts**: Quick Order, Editorial, and Compact layouts, fully responsive for desktop and mobile devices.
-* **Rich Content & Shortcode Support**: Campaign sections, images, rich text descriptions, color customization, and shortcodes.
-* **Native Bricks Builder Integration**: Custom Single Templates, Query Loops, Dynamic Data Tags, and campaign display conditions.
-* **Password-Protected Live Reports**: Shareable live reporting links for influencers/collaborators with aggregate sales metrics and **zero customer personal data exposure**.
-* **Accurate Attribution & Refund Deductions**: Tracks campaign sales directly on WooCommerce order items with refund-aware net revenue metrics.
-* **100% WooCommerce Native**: Fully compatible with WooCommerce HPOS, carts, coupons, checkouts, and inventory management.
-
-**Open Source & Community:**
-
-* **GitHub Repository**: [https://github.com/bboyfan/now-campaign-storefronts](https://github.com/bboyfan/now-campaign-storefronts)
-* If you find this plugin helpful, please consider giving us a **Star ⭐ on GitHub**! Feedback, feature requests, and contributions are warmly welcome.
-
 == Installation ==
 
 1. Install and activate WooCommerce.
@@ -80,9 +85,25 @@ It is designed for stores that run group buys, influencer campaigns, limited-tim
 
 == Frequently Asked Questions ==
 
+= How do I create a group buy page in WooCommerce? =
+
+Install NOW Campaign Storefronts, create a new Campaign, add your WooCommerce products, set campaign-specific prices, and publish. Each campaign gets its own dedicated URL that serves as your group buy landing page with built-in quantity pickers and a floating mini cart.
+
+= Can I track influencer or KOL sales in WooCommerce? =
+
+Yes. Each campaign automatically tracks sales attribution on every WooCommerce order item. You can enable a password-protected live report and share its link with your influencer or KOL collaborator. The report shows real-time revenue, units sold, and product breakdown — without exposing any customer personal data.
+
+= Does it support mix-and-match bulk quantity discounts? =
+
+Yes. Campaign Bulk Pricing lets you set tiered percentage discounts based on the total quantity purchased across all products in the same campaign. For example: buy any 3 items get 5% off, buy 5 get 10% off, buy 8 get 15% off. Customers can mix any products and variations to reach the next tier.
+
+= Can I share sales reports with influencers without exposing customer data? =
+
+Yes. External campaign reports are designed around aggregate sales metrics and product performance. They show net revenue, paid orders, units, refunds, and per-product breakdown — but never expose customer names, email addresses, phone numbers, addresses, or order numbers.
+
 = Does NOW Campaign Storefronts replace WooCommerce products or inventory? =
 
-No. WooCommerce remains the product and inventory authority. Campaign products reference existing WooCommerce products or variations.
+No. WooCommerce remains the product and inventory authority. Campaign products reference existing WooCommerce products or variations. When a customer adds a campaign item to the cart, the same WooCommerce inventory is used.
 
 = Does it replace the WooCommerce cart or checkout? =
 
@@ -126,10 +147,10 @@ No. External reports are designed around aggregate sales metrics and product per
 
 == Screenshots ==
 
-1. Campaign Storefront with multi-product merchandising, quantity pickers, tier savings notices, and floating mini cart.
-2. Campaign Editor for section-based layouts, WooCommerce product selection, campaign pricing, and content controls.
-3. Campaign Bulk Pricing for campaign-wide mix-and-match quantity tier discounts.
-4. Live Campaign Report for revenue, order metrics, refunds, pending checkouts, and product breakdown.
+1. Group buy storefront page with product cards, quantity pickers, bulk discount badges, and floating mini cart.
+2. Campaign editor with drag-and-drop sections, WooCommerce product picker, campaign pricing, and layout options.
+3. Mix-and-match bulk discount setup — buy 3 get 5% off, buy 5 get 10% off, etc.
+4. Password-protected live sales report for influencer collaboration — revenue, orders, refunds, and product breakdown.
 
 == Changelog ==
 
