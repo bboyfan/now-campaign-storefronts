@@ -42,35 +42,45 @@ NOW Campaign Storefronts is an independent open-source project and is not an off
 
 ---
 
-### 繁體中文說明
+### 繁體中文說明 — WooCommerce 團購外掛 / 開團系統 / 網紅分潤報表
 
-**NOW Campaign Storefronts for WooCommerce** 是專為 WooCommerce 打造的「團購分銷、KOL 網紅合作、限時特賣與檔期活動頁」外掛。讓您無需重複建立商品或複製庫存，即可快速為特定活動建立專屬的活動賣場與獨立分潤報表。
+**NOW Campaign Storefronts** 是一款免費的 WooCommerce 團購外掛，專為台灣電商常見的「KOL 網紅開團、團媽團購分銷、檔期快閃特賣、限時優惠活動頁」設計。不用複製商品、不用另建庫存，直接用現有的 WooCommerce 商品就能建立專屬的團購活動頁與加密分潤報表。
 
 本外掛為獨立開源專案，非 WooCommerce 或 Automattic 官方產品。
 
-### 🌟 核心特色
+### 🛒 團購開團核心功能
 
-* **活動專屬特惠價**：直接針對現有 WooCommerce 單一商品或規格商品設定活動特惠價，不影響原商城正常售價。
-* **混搭全場滿件折（Campaign Bulk Pricing）**：支援同活動內跨商品／跨規格「混搭湊件數」享階梯百分比折扣（例如：任選 3 件 9 折、5 件 8 折）。
-* **一鍵複製活動（Duplicate Campaign）**：支援直接複製既有活動設定、版面、商品清單與階梯定價，快速複製開團檔期。
-* **三大原生賣場版型**：提供快速下單（Quick Order）、圖文誌（Editorial）及精簡卡片（Compact）三種活動版型，手機與電腦端皆經過極致優化。
-* **完整支援區塊 Builder 與 Shortcode**：活動內頁支援區塊排版、圖片、自訂色彩、自訂樣式及 WordPress Shortcode。
-* **原生整合 Bricks Builder**：提供專屬 Single Template 範本、查詢迴圈（Query Loop）、條件判斷（Conditions）與動態資料標籤（Dynamic Data Tags）。
-* **密碼保護的獨立即時分潤報表**：提供專屬加密分享連結，合作 KOL／團媽輸入密碼即可即時查看銷售件數、訂單狀態與業績統計；**完全不洩漏買家個資（無姓名、電話、地址與訂單編號）**，安全合規。
-* **精準訂單歸屬與退款扣除**：活動來源自動標記於 WooCommerce 訂單項目，報表具備即時退款扣除計算，財務數據一目了然。
-* **完美相容 WooCommerce 原生生態**：完全沿用 WooCommerce 原生商品庫存、購物車、結帳流程、優惠券與 HPOS（高效能訂單儲存），不建立第二套庫存或帳本。
+* **團購專屬特惠價（不動原本售價）**：直接挑選 WooCommerce 現有商品或規格，設定這場團購的專屬優惠價。原本商城的正常售價完全不受影響，庫存也是扣同一批，不需要為了開團另外複製商品。
+* **全場混搭滿件折（任選湊件折扣）**：支援「任選 3 件 95 折、5 件 9 折、8 件 85 折」等階梯折扣。同一場活動的所有商品和規格可以任意混搭湊件數，客人達到門檻就自動折扣，有效拉高客單價。
+* **一鍵複製開團（秒建新檔期）**：下週換另一位網紅合作？點一下「Duplicate」就能完整複製版型、選品、滿件折設定，換個網址立刻開賣。
+* **三種團購活動版型**：快速下單（Quick Order）、圖文雜誌風（Editorial）、精簡卡片（Compact），手機和電腦都有優化，客人操作直覺順暢。
+* **底部懸浮購物車**：一頁式團購體驗，客人選完數量直接滑到底部結帳，大幅降低跳出率。
+* **支援區塊編輯器與 Shortcode**：活動頁可自由排版圖片、文字、色彩，也支援 WordPress Shortcode。
 
-### 🎯 適合的使用情境
+### 📊 網紅分潤報表 / KOL 開團追蹤
 
-* **KOL / 網紅團購分銷**：提供專屬團購網址與密碼保護的分潤報表，讓團媽隨時掌握開團成效。
-* **檔期快閃特賣**：節慶、週年慶或限定優惠活動，無需更動全店商品定價即可快速上線。
-* **封館與 VIP 專屬賣場**：結合專屬活動網址，提供特定客群專屬優惠。
-* **多件組合促銷**：利用全場混搭階梯折扣，有效提高客單價（AOV）。
+* **加密即時分潤報表（完全不洩漏買家個資）**：每場活動可設定一組密碼與專屬報表連結，合作的 KOL 或團媽用手機打開就能即時查看銷售件數、營收金額與退款扣除。**報表完全不顯示買家姓名、電話、地址與訂單編號**，安全合規。
+* **訂單自動歸屬**：每筆從團購頁面下單的訂單，系統會自動標記來源活動，方便追蹤每場開團的實際成效。
+* **退款自動扣除**：報表的營收數字會即時扣除已退款金額，看到的永遠是淨銷售額。
 
-### 🌟 開源專案與社群支持
+### 🧱 進階整合
 
-* **GitHub 開源儲存庫**：[https://github.com/bboyfan/now-campaign-storefronts](https://github.com/bboyfan/now-campaign-storefronts)
-* 如果這個外掛對您的商店或團購業務有幫助，歡迎到 GitHub 給我們一顆 **Star ⭐** 支持！也歡迎提交 Issue 或 Pull Request 一起讓外掛更完善。
+* **原生支援 Bricks Builder**：提供專屬 Single Template、Query Loop、Dynamic Data Tags 與活動條件判斷，想自己刻活動頁面完全沒問題。
+* **完美相容 WooCommerce**：沿用 WooCommerce 原生庫存、購物車、結帳、優惠券與 HPOS，不建立第二套庫存或帳本。
+
+### 🎯 誰適合用？
+
+* **KOL / 網紅團購**：給每位合作者一個專屬團購網址與加密分潤報表，團媽隨時掌握開團業績。
+* **檔期快閃特賣**：節慶、週年慶、限時優惠，不動全店定價就能快速上線活動頁。
+* **團媽開團分銷**：搭配專屬連結與即時報表，輕鬆管理多場同時進行的團購。
+* **混搭滿件折促銷**：全場商品任選湊件數自動折扣，有效提高客單價。
+* **封館 / VIP 專屬賣場**：專屬活動網址 + 專屬優惠價，精準服務特定客群。
+
+### ⭐ 開源免費 / 台灣開發
+
+* **WordPress.org 官方外掛目錄**：[wordpress.org/plugins/now-campaign-storefronts](https://wordpress.org/plugins/now-campaign-storefronts/)
+* **GitHub 開源儲存庫**：[github.com/bboyfan/now-campaign-storefronts](https://github.com/bboyfan/now-campaign-storefronts)
+* 台灣開發者維護的開源專案。如果對你的團購業務有幫助，歡迎到 GitHub 給一顆 **Star ⭐** 支持，也歡迎提 Issue 或 Pull Request！
 
 == Installation ==
 
