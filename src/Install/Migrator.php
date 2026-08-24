@@ -27,6 +27,11 @@ final class Migrator {
 
 		$productsTable = CampaignProductTable::name();
 		$sectionsTable = CampaignSectionTable::name();
+
+		$this->maybeMigrateLegacyData( $productsTable, $sectionsTable );
+
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+
 		$charsetCollate = $wpdb->get_charset_collate();
 
 		$productsSql = "CREATE TABLE {$productsTable} (
@@ -75,6 +80,58 @@ final class Migrator {
 		dbDelta( $sectionsSql );
 		$this->backfillDefaultSections( $productsTable, $sectionsTable );
 		update_option( self::OPTION_KEY, self::DB_VERSION, false );
+		delete_option( 'rewrite_rules' );
+	}
+
+	private function maybeMigrateLegacyData( string $productsTable, string $sectionsTable ): void {
+		global $wpdb;
+
+		$oldProductsTable = $wpdb->prefix . 'woo_campaign_products';
+		$oldSectionsTable = $wpdb->prefix . 'woo_campaign_sections';
+
+		// 1. If legacy products table exists and canonical table does not exist, rename it.
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery
+		$hasOldProducts = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $oldProductsTable ) ) === $oldProductsTable;
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery
+		$hasNewProducts = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $productsTable ) ) === $productsTable;
+
+		if ( $hasOldProducts && ! $hasNewProducts ) {
+			// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery
+			$wpdb->query( "RENAME TABLE {$oldProductsTable} TO {$productsTable}" );
+		}
+
+		// 2. If legacy sections table exists and canonical table does not exist, rename it.
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery
+		$hasOldSections = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $oldSectionsTable ) ) === $oldSectionsTable;
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery
+		$hasNewSections = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $sectionsTable ) ) === $sectionsTable;
+
+		if ( $hasOldSections && ! $hasNewSections ) {
+			// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery
+			$wpdb->query( "RENAME TABLE {$oldSectionsTable} TO {$sectionsTable}" );
+		}
+
+		// 3. Migrate legacy post types if any exist in the posts table.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->query(
+			$wpdb->prepare(
+				"UPDATE {$wpdb->posts} SET post_type = %s WHERE post_type = %s",
+				'nowcastf_campaign',
+				'woo_campaign'
+			)
+		);
+
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		$wpdb->query(
+			$wpdb->prepare(
+				"UPDATE {$wpdb->posts} SET post_type = %s WHERE post_type = %s",
+				'nowcastf_report',
+				'woo_campaign_report'
+			)
+		);
+
+		// 4. Clean up legacy db_version option.
+		delete_option( 'woo_campaign_db_version' );
 	}
 
 	private function backfillDefaultSections( string $productsTable, string $sectionsTable ): void {
@@ -96,6 +153,7 @@ final class Migrator {
 				$wpdb->prepare( "SELECT id FROM {$sectionsTable} WHERE campaign_id = %d ORDER BY display_order ASC, id ASC LIMIT 1", $campaignId ) // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			);
 			if ( $sectionId <= 0 ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Direct custom-table insert during migration; values are prepared.
 				$wpdb->insert(
 					$sectionsTable,
 					[
