@@ -33,7 +33,9 @@ final class BulkPricingNotice {
 			<div class="nowcastf-bulk-pricing-tiers">
 				<?php foreach ( $tiers as $tier ) : ?>
 					<span class="nowcastf-bulk-pricing-tier">
+						<?php /* translators: %d: Minimum quantity for bulk tier */ ?>
 						<strong><?php echo esc_html( sprintf( __( '%d items or more', 'now-campaign-storefronts' ), absint( $tier['min_qty'] ?? 0 ) ) ); ?></strong>
+						<?php /* translators: %s: Discount percentage formatted as decimal */ ?>
 						<small><?php echo esc_html( sprintf( __( 'Save %s%%', 'now-campaign-storefronts' ), wc_format_localized_decimal( (float) ( $tier['discount_percent'] ?? 0 ) ) ) ); ?></small>
 					</span>
 				<?php endforeach; ?>

@@ -79,6 +79,7 @@ final class Repository {
 			];
 
 			if ( $id > 0 && isset( $existingIds[ $id ] ) ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct custom-table update; values are prepared.
 				$result = $wpdb->update(
 					$table,
 					$data,
@@ -91,6 +92,7 @@ final class Repository {
 				}
 			} else {
 				$data['created_at'] = $now;
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Direct custom-table insert; values are prepared.
 				$result = $wpdb->insert(
 					$table,
 					$data,
@@ -110,6 +112,7 @@ final class Repository {
 
 		foreach ( array_keys( $existingIds ) as $existingId ) {
 			if ( ! isset( $keptIds[ $existingId ] ) ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct custom-table deletion; values are prepared.
 				$result = $wpdb->delete( $table, [ 'id' => $existingId, 'campaign_id' => $campaignId ], [ '%d', '%d' ] );
 				if ( false === $result ) {
 					throw new \RuntimeException( 'Unable to remove Campaign sections.' );
@@ -122,6 +125,7 @@ final class Repository {
 
 	public function updateDesign( int $id, int $campaignId, array $design ): void {
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct custom-table update; values are prepared.
 		$result = $wpdb->update(
 			Table::name(),
 			[
@@ -143,6 +147,7 @@ final class Repository {
 	public function createDefault( int $campaignId ): int {
 		global $wpdb;
 		$now = current_time( 'mysql', true );
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Direct custom-table insert; values are prepared.
 		$result = $wpdb->insert(
 			Table::name(),
 			[
@@ -170,6 +175,7 @@ final class Repository {
 
 	public function deleteForCampaign( int $campaignId ): void {
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct custom-table deletion; values are prepared.
 		$result = $wpdb->delete( Table::name(), [ 'campaign_id' => $campaignId ], [ '%d' ] );
 		if ( false === $result ) {
 			throw new \RuntimeException( 'Unable to remove Campaign sections.' );

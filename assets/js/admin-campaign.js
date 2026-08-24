@@ -9,10 +9,10 @@
   }
 
   function updatePanelState($panel) {
-    var count = $panel.find('.woo-campaign-product-row').length;
+    var count = $panel.find('.nowcastf-product-row, .woo-campaign-product-row').length;
     $panel.find('[data-woo-campaign-product-count]').text(count);
     $panel.find('[data-woo-campaign-products-empty]').prop('hidden', count > 0);
-    $panel.find('.woo-campaign-products-table').toggleClass('is-empty', count === 0);
+    $panel.find('.nowcastf-products-table, .woo-campaign-products-table').toggleClass('is-empty', count === 0);
     $panel.find('.woo-campaign-product-row, .nowcastf-product-row').each(function (index) {
       $(this).find('input[name="nowcastf_display_order[]"]').val(index);
     });
@@ -34,14 +34,14 @@
   }
 
   function updateAllSavings(scope) {
-    $(scope || document).find('.woo-campaign-product-row').each(function () {
+    $(scope || document).find('.nowcastf-product-row, .woo-campaign-product-row').each(function () {
       updateSavings($(this));
     });
   }
 
   function rowExists($panel, saleableId, $exclude) {
     var found = false;
-    $panel.find('.woo-campaign-product-row').each(function () {
+    $panel.find('.nowcastf-product-row, .woo-campaign-product-row').each(function () {
       var $row = $(this);
       if ($exclude && $row.is($exclude)) return;
       var current = parseInt($row.find('select.wc-product-search').val() || $row.attr('data-saleable-id') || '0', 10);
@@ -66,12 +66,12 @@
   }
 
   function selectedCount($modal) {
-    return $modal.find('.woo-campaign-var-check:checked').length;
+    return $modal.find('.nowcastf-var-check:checked, .woo-campaign-var-check:checked').length;
   }
 
   function refreshModalSelection($modal) {
     var count = selectedCount($modal);
-    var $button = $modal.find('.woo-campaign-modal-add');
+    var $button = $modal.find('.nowcastf-modal-add, .woo-campaign-modal-add');
     var label = settings.i18n && settings.i18n.addVariations ? settings.i18n.addVariations : 'Add selected variations';
     $button.prop('disabled', count === 0).text(label + (count ? ' (' + count + ')' : ''));
     $modal.find('[data-woo-campaign-selected-count]').text(count);
@@ -121,35 +121,35 @@
     $('body').addClass('nowcastf-modal-open').append(activeModal);
 
     var $modal = activeModal;
-    $modal.find('.woo-campaign-var-check').on('change', function () {
-      var available = $modal.find('.woo-campaign-var-check:not(:disabled)');
+    $modal.find('.nowcastf-var-check, .woo-campaign-var-check').on('change', function () {
+      var available = $modal.find('.nowcastf-var-check:not(:disabled), .woo-campaign-var-check:not(:disabled)');
       var checked = available.filter(':checked');
-      $modal.find('.woo-campaign-modal-select-all').prop('checked', available.length > 0 && available.length === checked.length);
+      $modal.find('.nowcastf-modal-select-all, .woo-campaign-modal-select-all').prop('checked', available.length > 0 && available.length === checked.length);
       refreshModalSelection($modal);
     });
 
-    $modal.find('.woo-campaign-modal-select-all').on('change', function () {
-      $modal.find('.woo-campaign-var-check:not(:disabled)').prop('checked', $(this).is(':checked')).trigger('change');
+    $modal.find('.nowcastf-modal-select-all, .woo-campaign-modal-select-all').on('change', function () {
+      $modal.find('.nowcastf-var-check:not(:disabled), .woo-campaign-var-check:not(:disabled)').prop('checked', $(this).is(':checked')).trigger('change');
     });
 
     $modal.on('click', function (event) {
-      if ($(event.target).is('.woo-campaign-variation-modal-overlay')) closeModal();
+      if ($(event.target).is('.nowcastf-variation-modal-overlay, .woo-campaign-variation-modal-overlay')) closeModal();
     });
 
-    $modal.find('.woo-campaign-modal-cancel, .woo-campaign-modal-close').on('click', closeModal);
+    $modal.find('.nowcastf-modal-cancel, .nowcastf-modal-close, .woo-campaign-modal-cancel, .woo-campaign-modal-close').on('click', closeModal);
 
-    $modal.find('.woo-campaign-modal-add').on('click', function () {
+    $modal.find('.nowcastf-modal-add, .woo-campaign-modal-add').on('click', function () {
       var selected = [];
       $modal.find('tbody tr').each(function () {
         var $tr = $(this);
-        if ($tr.find('.woo-campaign-var-check').is(':checked')) {
+        if ($tr.find('.nowcastf-var-check, .woo-campaign-var-check').is(':checked')) {
           selected.push({
             variationId: $tr.attr('data-variation-id'),
             label: $tr.attr('data-label'),
             wooPrice: $tr.attr('data-woo-price'),
             rawPrice: $tr.attr('data-raw-price'),
             stock: $tr.attr('data-stock'),
-            price: $tr.find('.woo-campaign-modal-price').val()
+            price: $tr.find('.nowcastf-modal-price, .woo-campaign-modal-price').val()
           });
         }
       });
@@ -158,19 +158,19 @@
 
       $.each(selected, function (i, item) {
         if (rowExists($panel, item.variationId, $targetRow)) return;
-        var template = $('#tmpl-woo-campaign-product-row').html();
+        var template = $('#tmpl-nowcastf-product-row, #tmpl-woo-campaign-product-row').html();
         var $newRow = $(template);
         var $select = $newRow.find('select.wc-product-search');
 
         $newRow.attr('data-saleable-id', item.variationId);
         $select.append('<option value="' + item.variationId + '" selected>' + escapeHtml(item.label) + '</option>');
-        $newRow.find('.woo-campaign-woo-price').html(item.wooPrice);
+        $newRow.find('.nowcastf-woo-price, .woo-campaign-woo-price').html(item.wooPrice);
         $newRow.find('[data-woo-base-price]').attr('data-woo-base-price', item.rawPrice);
-        $newRow.find('.woo-campaign-stock').html(item.stock);
+        $newRow.find('.nowcastf-stock, .woo-campaign-stock').html(item.stock);
         $newRow.find('input[name="nowcastf_price[]"]').val(item.price);
-        $newRow.find('.woo-campaign-product-search-wrap').append('<span class="nowcastf-product-type">' + escapeHtml(settings.i18n && settings.i18n.variation ? settings.i18n.variation : 'Variation') + '</span>');
+        $newRow.find('.nowcastf-product-search-wrap, .woo-campaign-product-search-wrap').append('<span class="nowcastf-product-type">' + escapeHtml(settings.i18n && settings.i18n.variation ? settings.i18n.variation : 'Variation') + '</span>');
 
-        $panel.find('.woo-campaign-product-rows').append($newRow);
+        $panel.find('.nowcastf-product-rows, .woo-campaign-product-rows').append($newRow);
         initProductSearch();
         updateSavings($newRow);
       });
@@ -182,15 +182,15 @@
 
     refreshModalSelection($modal);
     setTimeout(function () {
-      $modal.find('.woo-campaign-modal-close').trigger('focus');
+      $modal.find('.nowcastf-modal-close, .woo-campaign-modal-close').trigger('focus');
     }, 0);
   }
 
-  $(document).on('change', '.woo-campaign-product-row select.wc-product-search', function () {
+  $(document).on('change', '.nowcastf-product-row select.wc-product-search, .woo-campaign-product-row select.wc-product-search', function () {
     var $select = $(this);
     var productId = parseInt($select.val() || '0', 10);
-    var $row = $select.closest('.woo-campaign-product-row');
-    var $panel = $row.closest('.woo-campaign-products-panel');
+    var $row = $select.closest('.nowcastf-product-row, .woo-campaign-product-row');
+    var $panel = $row.closest('.nowcastf-products-panel, .woo-campaign-products-panel');
 
     if (!productId || $row.data('fetching')) return;
     if (rowExists($panel, productId, $row)) {
@@ -222,9 +222,9 @@
       }
 
       $row.attr('data-saleable-id', data.saleable_id || productId);
-      $row.find('.woo-campaign-woo-price').html(data.woo_price);
+      $row.find('.nowcastf-woo-price, .woo-campaign-woo-price').html(data.woo_price);
       $row.find('[data-woo-base-price]').attr('data-woo-base-price', data.raw_price || 0);
-      $row.find('.woo-campaign-stock').html(data.stock);
+      $row.find('.nowcastf-stock, .woo-campaign-stock').html(data.stock);
       if (!$row.find('[data-woo-campaign-price-input]').val()) {
         $row.find('[data-woo-campaign-price-input]').val(data.raw_price || '');
       }
@@ -237,14 +237,14 @@
   });
 
   $(document).on('input change', '[data-woo-campaign-price-input]', function () {
-    updateSavings($(this).closest('.woo-campaign-product-row'));
+    updateSavings($(this).closest('.nowcastf-product-row, .woo-campaign-product-row'));
   });
 
-  $(document).on('click', '.woo-campaign-add-product-row', function () {
-    var template = $('#tmpl-woo-campaign-product-row').html();
-    var $panel = $(this).closest('.woo-campaign-products-panel');
+  $(document).on('click', '.nowcastf-add-product-row, .woo-campaign-add-product-row', function () {
+    var template = $('#tmpl-nowcastf-product-row, #tmpl-woo-campaign-product-row').html();
+    var $panel = $(this).closest('.nowcastf-products-panel, .woo-campaign-products-panel');
     var $row = $(template);
-    $panel.find('.woo-campaign-product-rows').append($row);
+    $panel.find('.nowcastf-product-rows, .woo-campaign-product-rows').append($row);
     updatePanelState($panel);
     initProductSearch();
     setTimeout(function () {
@@ -252,9 +252,9 @@
     }, 0);
   });
 
-  $(document).on('click', '.woo-campaign-remove-product-row', function () {
-    var $panel = $(this).closest('.woo-campaign-products-panel');
-    $(this).closest('.woo-campaign-product-row').remove();
+  $(document).on('click', '.nowcastf-remove-product-row, .woo-campaign-remove-product-row', function () {
+    var $panel = $(this).closest('.nowcastf-products-panel, .woo-campaign-products-panel');
+    $(this).closest('.nowcastf-product-row, .woo-campaign-product-row').remove();
     updatePanelState($panel);
   });
 
@@ -263,7 +263,7 @@
   });
 
   $(function () {
-    $('.woo-campaign-products-panel').each(function () {
+    $('.nowcastf-products-panel, .woo-campaign-products-panel').each(function () {
       updatePanelState($(this));
     });
     updateAllSavings(document);

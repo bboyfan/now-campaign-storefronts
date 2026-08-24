@@ -101,14 +101,43 @@ final class CampaignPresentation {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated via json_decode and sanitized individually below.
-		$rawSections = wp_unslash( (string) ( $_POST['sections_json'] ?? '[]' ) );
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated via json_decode and sanitized with sanitize_hex_color() per property below.
-		$rawDesign   = wp_unslash( (string) ( $_POST['section_design_json'] ?? '{}' ) );
-		$postedSections = json_decode( $rawSections, true );
-		$designByKey    = json_decode( $rawDesign, true );
-		if ( JSON_ERROR_NONE !== json_last_error() || ! is_array( $postedSections ) || ! is_array( $designByKey ) ) {
+		$rawSections = isset( $_POST['sections_json'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['sections_json'] ) ) : '';
+		$rawDesign   = isset( $_POST['section_design_json'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['section_design_json'] ) ) : '';
+
+		try {
+			$decodedSections = json_decode( $rawSections, true, 512, JSON_THROW_ON_ERROR );
+			$decodedDesign   = json_decode( $rawDesign, true, 512, JSON_THROW_ON_ERROR );
+		} catch ( \JsonException ) {
 			return;
+		}
+
+		if ( ! is_array( $decodedSections ) || ! is_array( $decodedDesign ) ) {
+			return;
+		}
+
+		$sanitizedSections = [];
+		foreach ( $decodedSections as $index => $item ) {
+			if ( ! is_array( $item ) ) {
+				continue;
+			}
+			$sanitizedSections[ absint( $index ) ] = [
+				'id'         => absint( $item['id'] ?? 0 ),
+				'client_key' => sanitize_key( (string) ( $item['client_key'] ?? '' ) ),
+			];
+		}
+
+		$sanitizedDesignMap = [];
+		foreach ( $decodedDesign as $key => $props ) {
+			if ( ! is_array( $props ) ) {
+				continue;
+			}
+			$cleanKey = is_numeric( $key ) ? absint( $key ) : sanitize_key( (string) $key );
+			$sanitizedDesignMap[ $cleanKey ] = [
+				'title_color'    => sanitize_hex_color( (string) ( $props['title_color'] ?? '' ) ) ?: '',
+				'copy_color'     => sanitize_hex_color( (string) ( $props['copy_color'] ?? '' ) ) ?: '',
+				'cta_bg_color'   => sanitize_hex_color( (string) ( $props['cta_bg_color'] ?? '' ) ) ?: '',
+				'cta_text_color' => sanitize_hex_color( (string) ( $props['cta_text_color'] ?? '' ) ) ?: '',
+			];
 		}
 
 		$savedSections = $this->sections->forCampaign( $campaignId );
@@ -117,17 +146,14 @@ final class CampaignPresentation {
 			$savedById[ $savedSection->id ] = $savedSection;
 		}
 
-		foreach ( $postedSections as $index => $postedSection ) {
-			if ( ! is_array( $postedSection ) ) {
-				continue;
-			}
-			$clientKey = sanitize_key( (string) ( $postedSection['client_key'] ?? '' ) );
-			$design = $designByKey[ $clientKey ] ?? $designByKey[ $index ] ?? null;
+		foreach ( $sanitizedSections as $index => $postedSection ) {
+			$clientKey = $postedSection['client_key'];
+			$design = $sanitizedDesignMap[ $clientKey ] ?? $sanitizedDesignMap[ $index ] ?? null;
 			if ( ! is_array( $design ) ) {
 				continue;
 			}
 
-			$sectionId = absint( $postedSection['id'] ?? 0 );
+			$sectionId = $postedSection['id'];
 			if ( $sectionId <= 0 || ! isset( $savedById[ $sectionId ] ) ) {
 				$sectionId = isset( $savedSections[ $index ] ) ? (int) $savedSections[ $index ]->id : 0;
 			}

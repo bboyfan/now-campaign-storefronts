@@ -87,15 +87,11 @@ final class CampaignProductsPanel {
 			return;
 		}
 
-		$rawSaleableIds = isset( $_POST['nowcastf_saleable_id'] ) ? (array) wp_unslash( $_POST['nowcastf_saleable_id'] ) : [];
-		$rawPrices      = isset( $_POST['nowcastf_price'] ) ? (array) wp_unslash( $_POST['nowcastf_price'] ) : [];
-		$rawStatuses    = isset( $_POST['nowcastf_product_status'] ) ? (array) wp_unslash( $_POST['nowcastf_product_status'] ) : [];
-		$rawOrders      = isset( $_POST['nowcastf_display_order'] ) ? (array) wp_unslash( $_POST['nowcastf_display_order'] ) : [];
-
-		$saleableIds = array_map( 'absint', $rawSaleableIds );
+		$saleableIds = isset( $_POST['nowcastf_saleable_id'] ) ? array_map( 'absint', (array) wp_unslash( $_POST['nowcastf_saleable_id'] ) ) : [];
+		$rawPrices   = isset( $_POST['nowcastf_price'] ) ? array_map( 'sanitize_text_field', (array) wp_unslash( $_POST['nowcastf_price'] ) ) : [];
 		$prices      = array_map( 'wc_format_decimal', $rawPrices );
-		$statuses    = array_map( 'sanitize_key', $rawStatuses );
-		$orders      = array_map( 'absint', $rawOrders );
+		$statuses    = isset( $_POST['nowcastf_product_status'] ) ? array_map( 'sanitize_key', (array) wp_unslash( $_POST['nowcastf_product_status'] ) ) : [];
+		$orders      = isset( $_POST['nowcastf_display_order'] ) ? array_map( 'absint', (array) wp_unslash( $_POST['nowcastf_display_order'] ) ) : [];
 		$input = [];
 		foreach ( $saleableIds as $index => $saleableId ) {
 			if ( $saleableId <= 0 ) {
@@ -125,6 +121,7 @@ final class CampaignProductsPanel {
 				<input type="hidden" name="nowcastf_display_order[]" value="<?php echo esc_attr( (string) $displayOrder ); ?>" class="nowcastf-display-order">
 				<div class="nowcastf-product-display <?php echo $saleableId <= 0 ? 'is-empty' : ''; ?>">
 					<div class="nowcastf-product-name"><?php echo esc_html( $label ?: __( 'Select product…', 'now-campaign-storefronts' ) ); ?></div>
+					<?php /* translators: %s: Product SKU */ ?>
 					<div class="nowcastf-sku"><?php echo esc_html( $sku ? sprintf( __( 'SKU: %s', 'now-campaign-storefronts' ), $sku ) : '' ); ?></div>
 					<div class="nowcastf-stock"><?php echo wp_kses_post( $stock ); ?></div>
 				</div>

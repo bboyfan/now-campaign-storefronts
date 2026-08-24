@@ -66,6 +66,7 @@ final class CampaignList {
 			}
 			echo '<strong>' . esc_html( number_format_i18n( count( $rows ) ) ) . '</strong>';
 			if ( count( $rows ) !== $active ) {
+				/* translators: %d: Number of active products */
 				echo '<small class="nowcastf-list-product-detail">' . esc_html( sprintf( __( '%d active', 'now-campaign-storefronts' ), $active ) ) . '</small>';
 			}
 		}

@@ -204,7 +204,7 @@
         sectionColorControl('CTA background', 'cta_bg_color', key, '#222222') +
         sectionColorControl('CTA text color', 'cta_text_color', key, '#ffffff') +
       '</div>';
-      var layout = block.querySelector('.woo-campaign-layout-picker');
+      var layout = block.querySelector('.nowcastf-layout-picker, .woo-campaign-layout-picker');
       if (layout && layout.nextSibling) layout.parentNode.insertBefore(panel, layout.nextSibling);
       else if (layout) layout.parentNode.appendChild(panel);
     });
@@ -234,7 +234,7 @@
   injectCampaignPanels();
   injectSectionDesignControls();
 
-  var builder = document.getElementById('nowcastf-sections-builder');
+  var builder = document.getElementById('nowcastf-sections-builder') || document.getElementById('woo-campaign-sections-builder');
   if (builder && window.MutationObserver) {
     observer = new MutationObserver(function () { injectSectionDesignControls(); });
     observer.observe(builder, { childList: true, subtree: true });
@@ -250,42 +250,42 @@
   $(document).on('input', '[data-campaign-design-color]', function () {
     var key = $(this).attr('data-campaign-design-color');
     design[key] = this.value;
-    var control = $(this).closest('.woo-campaign-color-control');
+    var control = $(this).closest('.nowcastf-color-control, .woo-campaign-color-control');
     control.removeClass('is-inherit');
     control.closest('[data-design-row]').find('[data-campaign-design-status]').text(state.i18n && state.i18n.overridden ? state.i18n.overridden : 'Set');
   });
   $(document).on('click', '[data-campaign-design-reset]', function () {
     var key = $(this).attr('data-campaign-design-reset');
     design[key] = '';
-    var control = $(this).closest('.woo-campaign-color-control');
+    var control = $(this).closest('.nowcastf-color-control, .woo-campaign-color-control');
     control.addClass('is-inherit');
     control.closest('[data-design-row]').find('[data-campaign-design-status]').text(state.i18n && state.i18n.inherit ? state.i18n.inherit : 'Not set');
   });
   $(document).on('input', '[data-campaign-design-width]', function () {
     design.content_width = Math.max(800, Math.min(1600, Number(this.value || 1200)));
-    var control = $(this).closest('.woo-campaign-color-control');
+    var control = $(this).closest('.nowcastf-color-control, .woo-campaign-color-control');
     control.removeClass('is-inherit');
-    control.closest('.woo-campaign-design-control').find('[data-campaign-design-status]').text(state.i18n && state.i18n.overridden ? state.i18n.overridden : 'Set');
+    control.closest('.nowcastf-design-control, .woo-campaign-design-control').find('[data-campaign-design-status]').text(state.i18n && state.i18n.overridden ? state.i18n.overridden : 'Set');
   });
   $(document).on('click', '[data-campaign-design-width-reset]', function () {
     design.content_width = '';
-    var control = $(this).closest('.woo-campaign-color-control');
+    var control = $(this).closest('.nowcastf-color-control, .woo-campaign-color-control');
     control.addClass('is-inherit');
-    control.closest('.woo-campaign-design-control').find('[data-campaign-design-status]').text(state.i18n && state.i18n.inherit ? state.i18n.inherit : 'Not set');
+    control.closest('.nowcastf-design-control, .woo-campaign-design-control').find('[data-campaign-design-status]').text(state.i18n && state.i18n.inherit ? state.i18n.inherit : 'Not set');
   });
 
   $(document).on('input', '[data-section-design-color]', function () {
     var block = $(this).closest('[data-section-key]');
     var values = ensureSectionDesignState(block.attr('data-section-key'));
     values[$(this).attr('data-section-design-color')] = this.value;
-    $(this).closest('.woo-campaign-color-control').removeClass('is-inherit');
+    $(this).closest('.nowcastf-color-control, .woo-campaign-color-control').removeClass('is-inherit');
   });
   $(document).on('click', '[data-section-design-reset]', function () {
     var block = $(this).closest('[data-section-key]');
     var values = ensureSectionDesignState(block.attr('data-section-key'));
     values[$(this).attr('data-section-design-reset')] = '';
-    $(this).closest('.woo-campaign-color-control').addClass('is-inherit');
+    $(this).closest('.nowcastf-color-control, .woo-campaign-color-control').addClass('is-inherit');
   });
 
-  $('#woo-campaign-editor-form').on('submit', serializePresentation);
+  $('#nowcastf-editor-form, #woo-campaign-editor-form').on('submit', serializePresentation);
 })(jQuery);

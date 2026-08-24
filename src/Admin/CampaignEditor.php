@@ -68,14 +68,17 @@ final class CampaignEditor {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin parameter; no state change.
 		if ( 'post-new.php' === $pagenow && PostType::TYPE === sanitize_key( (string) ( $_GET['post_type'] ?? '' ) ) ) {
 			wp_safe_redirect( add_query_arg( [ 'page' => self::PAGE_SLUG, 'new' => '1' ], admin_url( 'admin.php' ) ) );
 			exit;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin parameter; no state change.
 		if ( 'post.php' !== $pagenow || 'edit' !== sanitize_key( (string) ( $_GET['action'] ?? '' ) ) ) {
 			return;
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin parameter; no state change.
 		$postId = absint( $_GET['post'] ?? 0 );
 		if ( $postId > 0 && PostType::TYPE === get_post_type( $postId ) ) {
 			wp_safe_redirect( $this->editorUrl( $postId ) );
@@ -101,6 +104,7 @@ final class CampaignEditor {
 	}
 
 	public function enqueue( string $hook ): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin parameter; no state change.
 		$page = sanitize_key( (string) ( $_GET['page'] ?? '' ) );
 		if ( self::PAGE_SLUG !== $page && 'nowcastf_campaign_page_' . self::PAGE_SLUG !== $hook ) {
 			return;
@@ -112,6 +116,7 @@ final class CampaignEditor {
 		wp_enqueue_style( 'nowcastf-editor', NOWCASTF_URL . 'assets/css/campaign-editor.css', [], NOWCASTF_VERSION );
 		wp_enqueue_script( 'nowcastf-editor', NOWCASTF_URL . 'assets/js/campaign-editor.js', [ 'jquery', 'wc-enhanced-select' ], NOWCASTF_VERSION, true );
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin parameter; no state change.
 		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
 		if ( $campaignId <= 0 ) {
 			return;
@@ -123,7 +128,9 @@ final class CampaignEditor {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
 			wp_die( esc_html__( 'You do not have permission to manage campaigns.', 'now-campaign-storefronts' ) );
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin parameter; no state change.
 		$campaignId = absint( $_GET['campaign_id'] ?? 0 );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin parameter; no state change.
 		if ( ! $campaignId && ! empty( $_GET['new'] ) ) {
 			$this->renderCreateForm();
 			return;
@@ -139,7 +146,7 @@ final class CampaignEditor {
 		$end = (int) get_post_meta( $campaignId, Meta::END_AT, true );
 		$archived = (bool) get_post_meta( $campaignId, Meta::ARCHIVED, true );
 		?>
-		<div class="wrap woo-campaign-editor-shell">
+		<div class="wrap nowcastf-editor-shell woo-campaign-editor-shell">
 			<form id="nowcastf-editor-form" method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="nowcastf_save_editor">
 				<input type="hidden" name="campaign_id" value="<?php echo esc_attr( (string) $campaignId ); ?>">
@@ -164,6 +171,7 @@ final class CampaignEditor {
 					</div>
 				</header>
 
+				<?php // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin parameter; no state change. ?>
 				<?php if ( isset( $_GET['updated'] ) ) : ?><div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Campaign saved.', 'now-campaign-storefronts' ); ?></p></div><?php endif; ?>
 
 				<div class="nowcastf-editor-layout">
@@ -264,7 +272,7 @@ final class CampaignEditor {
 
 	private function renderCreateForm(): void {
 		?>
-		<div class="wrap woo-campaign-editor-shell">
+		<div class="wrap nowcastf-editor-shell woo-campaign-editor-shell">
 			<h1><?php esc_html_e( 'Create Campaign', 'now-campaign-storefronts' ); ?></h1>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="<?php echo esc_attr( self::CREATE_ACTION ); ?>">
@@ -296,19 +304,23 @@ final class CampaignEditor {
 		$slug = sanitize_title( wp_unslash( $_POST['campaign_slug'] ?? '' ) );
 		$content = wp_kses_post( wp_unslash( $_POST['campaign_description'] ?? '' ) );
 		$postStatus = 'publish' === sanitize_key( (string) ( $_POST['campaign_post_status'] ?? 'draft' ) ) ? 'publish' : 'draft';
+
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated via decodeJsonArray() and sanitized per field with sanitizeSectionsPayload() (including wp_kses_post for rich description).
 		$rawSections = isset( $_POST['sections_json'] ) ? wp_unslash( (string) $_POST['sections_json'] ) : '[]';
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated via decodeJsonArray() and sanitized per field with sanitizeProductsPayload() (including wp_kses_post for rich campaign_copy).
 		$rawProducts = isset( $_POST['products_json'] ) ? wp_unslash( (string) $_POST['products_json'] ) : '[]';
-		$sections = $this->decodeArray( $rawSections );
-		$products = $this->decodeArray( $rawProducts );
+		$sections = $this->sanitizeSectionsPayload( $this->decodeJsonArray( $rawSections ) );
+		$products = $this->sanitizeProductsPayload( $this->decodeJsonArray( $rawProducts ) );
+
 		if ( isset( $_POST['section_design_json'] ) ) {
-			$rawSectionDesign = wp_unslash( (string) $_POST['section_design_json'] );
-			$sectionDesign = $this->decodeArray( $rawSectionDesign );
+			$rawSectionDesign = sanitize_text_field( wp_unslash( (string) $_POST['section_design_json'] ) );
+			$sectionDesign = $this->sanitizeSectionDesignPayload( $this->decodeJsonArray( $rawSectionDesign ) );
 			foreach ( $sections as $index => &$section ) {
-				$clientKey = sanitize_key( (string) ( $section['client_key'] ?? '' ) );
+				$clientKey = $section['client_key'];
 				$design = $sectionDesign[ $clientKey ] ?? $sectionDesign[ $index ] ?? [];
-				$design = is_array( $design ) ? $design : [];
-				$section['title_color'] = $design['title_color'] ?? '';
-				$section['cta_bg_color'] = $design['cta_bg_color'] ?? '';
+				$section['title_color']    = $design['title_color'] ?? '';
+				$section['copy_color']     = $design['copy_color'] ?? '';
+				$section['cta_bg_color']   = $design['cta_bg_color'] ?? '';
 				$section['cta_text_color'] = $design['cta_text_color'] ?? '';
 			}
 			unset( $section );
@@ -317,13 +329,15 @@ final class CampaignEditor {
 		$mediaIds = null;
 		if ( isset( $_POST['campaign_media_ids'] ) ) {
 			$rawMediaIds = sanitize_text_field( wp_unslash( (string) $_POST['campaign_media_ids'] ) );
-			$mediaIds = $this->decodeArray( $rawMediaIds );
-			$mediaIds = array_values( array_unique( array_filter( array_map( 'absint', $mediaIds ) ) ) );
-			$mediaIds = array_values( array_filter( $mediaIds, 'wp_attachment_is_image' ) );
+			$mediaIds = $this->sanitizeMediaIdsPayload( $this->decodeJsonArray( $rawMediaIds ) );
 		}
-		$design = isset( $_POST['campaign_design_json'] )
-			? Meta::sanitizeDesign( $this->decodeArray( wp_unslash( (string) $_POST['campaign_design_json'] ) ) )
-			: null;
+
+		$design = null;
+		if ( isset( $_POST['campaign_design_json'] ) ) {
+			$rawDesign = sanitize_text_field( wp_unslash( (string) $_POST['campaign_design_json'] ) );
+			$decodedDesign = $this->decodeJsonArray( $rawDesign );
+			$design = Meta::sanitizeDesign( $decodedDesign );
+		}
 
 		try {
 			$this->beginTransaction();
@@ -361,14 +375,14 @@ final class CampaignEditor {
 			$fallbackSectionId = $keyMap ? (int) reset( $keyMap ) : $this->sectionService->ensureDefault( $campaignId );
 			$productInput = [];
 			foreach ( $products as $position => $product ) {
-				$sectionKey = sanitize_key( (string) ( $product['section_key'] ?? '' ) );
+				$sectionKey = $product['section_key'];
 				$productInput[] = [
-					'saleable_id'    => absint( $product['saleable_id'] ?? 0 ),
+					'saleable_id'    => $product['saleable_id'],
 					'section_id'     => (int) ( $keyMap[ $sectionKey ] ?? $fallbackSectionId ),
-					'campaign_price' => $product['campaign_price'] ?? '',
-					'campaign_copy'  => $product['campaign_copy'] ?? '',
-					'status'         => $product['status'] ?? 'active',
-					'display_order'  => isset( $product['display_order'] ) ? absint( $product['display_order'] ) : $position,
+					'campaign_price' => $product['campaign_price'],
+					'campaign_copy'  => $product['campaign_copy'],
+					'status'         => $product['status'],
+					'display_order'  => $product['display_order'],
 				];
 			}
 			$this->campaignProductService->replace( $campaignId, $productInput, false );
@@ -555,22 +569,143 @@ final class CampaignEditor {
 		return $imageId > 0 ? (string) wp_get_attachment_image_url( $imageId, 'thumbnail' ) : '';
 	}
 
-	private function decodeArray( string $raw ): array {
-		$decoded = json_decode( $raw, true );
-		if ( JSON_ERROR_NONE !== json_last_error() || ! is_array( $decoded ) ) {
+	/**
+	 * Decode a JSON array string and validate its syntax and array shape.
+	 *
+	 * Note: This only validates JSON syntax and array structure. Callers must
+	 * immediately pass the returned array through a schema-specific sanitizer.
+	 *
+	 * @param string $raw Raw unslashed JSON string.
+	 * @return array<mixed>
+	 */
+	private function decodeJsonArray( string $raw ): array {
+		try {
+			$decoded = json_decode( $raw, true, 512, JSON_THROW_ON_ERROR );
+		} catch ( \JsonException ) {
 			wp_die(
 				esc_html__( 'The Campaign editor submitted invalid data. Reload the editor and try again.', 'now-campaign-storefronts' ),
 				esc_html__( 'Invalid Campaign data', 'now-campaign-storefronts' ),
 				[ 'response' => 400, 'back_link' => true ]
 			);
 		}
+
+		if ( ! is_array( $decoded ) ) {
+			wp_die(
+				esc_html__( 'The Campaign editor submitted invalid data. Reload the editor and try again.', 'now-campaign-storefronts' ),
+				esc_html__( 'Invalid Campaign data', 'now-campaign-storefronts' ),
+				[ 'response' => 400, 'back_link' => true ]
+			);
+		}
+
 		return $decoded;
+	}
+
+	/**
+	 * Sanitize sections JSON payload at request boundary.
+	 *
+	 * @param array<mixed> $decoded
+	 * @return list<array{id: int, client_key: string, title: string, description: string, image_id: int, layout: string, status: string, display_order: int, title_color?: string, copy_color?: string, cta_bg_color?: string, cta_text_color?: string}>
+	 */
+	private function sanitizeSectionsPayload( array $decoded ): array {
+		$sanitized = [];
+		$validLayouts = CampaignSection::layouts();
+
+		foreach ( $decoded as $position => $item ) {
+			if ( ! is_array( $item ) ) {
+				continue;
+			}
+
+			$row = [
+				'id'            => absint( $item['id'] ?? 0 ),
+				'client_key'    => sanitize_key( (string) ( $item['client_key'] ?? 'section-' . $position ) ),
+				'title'         => sanitize_text_field( (string) ( $item['title'] ?? '' ) ),
+				'description'   => wp_kses_post( (string) ( $item['description'] ?? '' ) ),
+				'image_id'      => absint( $item['image_id'] ?? 0 ),
+				'layout'        => in_array( (string) ( $item['layout'] ?? '' ), $validLayouts, true ) ? (string) $item['layout'] : CampaignSection::LAYOUT_QUICK_ORDER,
+				'status'        => 'paused' === (string) ( $item['status'] ?? 'active' ) ? 'paused' : 'active',
+				'display_order' => isset( $item['display_order'] ) ? absint( $item['display_order'] ) : (int) $position,
+			];
+
+			foreach ( [ 'title_color', 'copy_color', 'cta_bg_color', 'cta_text_color' ] as $colorKey ) {
+				if ( array_key_exists( $colorKey, $item ) ) {
+					$row[ $colorKey ] = sanitize_hex_color( (string) $item[ $colorKey ] ) ?: '';
+				}
+			}
+
+			$sanitized[] = $row;
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Sanitize products JSON payload at request boundary.
+	 *
+	 * @param array<mixed> $decoded
+	 * @return list<array{saleable_id: int, section_key: string, campaign_price: string, campaign_copy: string, status: string, display_order: int}>
+	 */
+	private function sanitizeProductsPayload( array $decoded ): array {
+		$sanitized = [];
+
+		foreach ( $decoded as $position => $item ) {
+			if ( ! is_array( $item ) ) {
+				continue;
+			}
+
+			$sanitized[] = [
+				'saleable_id'    => absint( $item['saleable_id'] ?? 0 ),
+				'section_key'    => sanitize_key( (string) ( $item['section_key'] ?? '' ) ),
+				'campaign_price' => (string) wc_format_decimal( $item['campaign_price'] ?? '' ),
+				'campaign_copy'  => wp_kses_post( (string) ( $item['campaign_copy'] ?? '' ) ),
+				'status'         => 'paused' === (string) ( $item['status'] ?? 'active' ) ? 'paused' : 'active',
+				'display_order'  => isset( $item['display_order'] ) ? absint( $item['display_order'] ) : (int) $position,
+			];
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Sanitize section design map payload at request boundary.
+	 *
+	 * @param array<mixed> $decoded
+	 * @return array<string|int, array{title_color: string, copy_color: string, cta_bg_color: string, cta_text_color: string}>
+	 */
+	private function sanitizeSectionDesignPayload( array $decoded ): array {
+		$sanitized = [];
+
+		foreach ( $decoded as $key => $props ) {
+			if ( ! is_array( $props ) ) {
+				continue;
+			}
+
+			$cleanKey = is_numeric( $key ) ? absint( $key ) : sanitize_key( (string) $key );
+			$sanitized[ $cleanKey ] = [
+				'title_color'    => sanitize_hex_color( (string) ( $props['title_color'] ?? '' ) ) ?: '',
+				'copy_color'     => sanitize_hex_color( (string) ( $props['copy_color'] ?? '' ) ) ?: '',
+				'cta_bg_color'   => sanitize_hex_color( (string) ( $props['cta_bg_color'] ?? '' ) ) ?: '',
+				'cta_text_color' => sanitize_hex_color( (string) ( $props['cta_text_color'] ?? '' ) ) ?: '',
+			];
+		}
+
+		return $sanitized;
+	}
+
+	/**
+	 * Sanitize media IDs array payload at request boundary.
+	 *
+	 * @param array<mixed> $decoded
+	 * @return list<int>
+	 */
+	private function sanitizeMediaIdsPayload( array $decoded ): array {
+		$ids = array_values( array_unique( array_filter( array_map( 'absint', $decoded ) ) ) );
+		return array_values( array_filter( $ids, 'wp_attachment_is_image' ) );
 	}
 
 	private function updateMeta( int $campaignId, string $key, mixed $value ): void {
 		$result = update_post_meta( $campaignId, $key, $value );
 		if ( false === $result && ! $this->metaValuesEqual( get_post_meta( $campaignId, $key, true ), $value ) ) {
-			throw new \RuntimeException( 'Unable to update Campaign metadata: ' . $key );
+			throw new \RuntimeException( 'Unable to update Campaign metadata.' );
 		}
 	}
 
@@ -586,13 +721,15 @@ final class CampaignEditor {
 
 	private function beginTransaction(): void {
 		global $wpdb;
-		if ( false === $wpdb->query( 'START TRANSACTION' ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transactional query; object caching does not apply.
+		if ( false === $wpdb->query( 'START TRANSACTION' ) ) {
 			throw new \RuntimeException( 'Unable to start Campaign save transaction.' );
 		}
 	}
 
 	private function lockCampaignForSave( int $campaignId ): array {
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Transactional SELECT ... FOR UPDATE; WordPress metadata API cannot preserve row-lock semantics.
 		$lockedPost = $wpdb->get_row(
 			$wpdb->prepare( "SELECT ID, post_modified_gmt FROM {$wpdb->posts} WHERE ID = %d FOR UPDATE", $campaignId ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			ARRAY_A
@@ -600,6 +737,7 @@ final class CampaignEditor {
 		if ( ! is_array( $lockedPost ) || $campaignId !== (int) $lockedPost['ID'] ) {
 			throw new \RuntimeException( 'Unable to lock Campaign for saving.' );
 		}
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Transactional query for revision check.
 		$revision = $wpdb->get_var(
 			$wpdb->prepare( "SELECT meta_value FROM {$wpdb->postmeta} WHERE post_id = %d AND meta_key = %s LIMIT 1", $campaignId, Meta::EDITOR_REVISION ) // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		);
@@ -611,14 +749,16 @@ final class CampaignEditor {
 
 	private function commitTransaction(): void {
 		global $wpdb;
-		if ( false === $wpdb->query( 'COMMIT' ) ) { // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transactional query; object caching does not apply.
+		if ( false === $wpdb->query( 'COMMIT' ) ) {
 			throw new \RuntimeException( 'Unable to commit Campaign changes.' );
 		}
 	}
 
 	private function rollbackTransaction(): void {
 		global $wpdb;
-		$wpdb->query( 'ROLLBACK' ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Transactional query; object caching does not apply.
+		$wpdb->query( 'ROLLBACK' );
 	}
 
 	private function staleEditorDie(): never {

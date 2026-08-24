@@ -122,6 +122,7 @@ final class CampaignDuplicator {
 		$sectionMap = [];
 
 		foreach ( $this->sections->forCampaign( $sourceId ) as $section ) {
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Direct custom-table insert; values are prepared.
 			$result = $wpdb->insert(
 				$table,
 				[
@@ -158,6 +159,7 @@ final class CampaignDuplicator {
 
 		foreach ( $this->products->forCampaign( $sourceId ) as $row ) {
 			$sectionId = $sectionMap[ $row->sectionId ] ?? $fallbackSectionId;
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Direct custom-table insert; values are prepared.
 			$result = $wpdb->insert(
 				$table,
 				[

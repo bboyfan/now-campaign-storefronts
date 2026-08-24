@@ -5,8 +5,8 @@
   var initialized = false;
 
   function movePublishActions() {
-    var publishCard = document.querySelector('.woo-campaign-editor-sidebar .sticky-card');
-    var actions = document.querySelector('.woo-campaign-editor-topbar .woo-campaign-editor-actions');
+    var publishCard = document.querySelector('.nowcastf-editor-sidebar .sticky-card, .woo-campaign-editor-sidebar .sticky-card');
+    var actions = document.querySelector('.nowcastf-editor-topbar .nowcastf-editor-actions, .nowcastf-editor-topbar .woo-campaign-editor-actions, .woo-campaign-editor-topbar .woo-campaign-editor-actions');
     if (!publishCard || !actions) return;
 
     actions.classList.add('nowcastf-publish-actions');
@@ -14,11 +14,11 @@
   }
 
   function normalizeEditorField(textarea) {
-    var field = textarea.closest('label.woo-campaign-editor-field');
-    if (!field) return textarea.closest('.woo-campaign-editor-field');
+    var field = textarea.closest('label.nowcastf-editor-field, label.woo-campaign-editor-field');
+    if (!field) return textarea.closest('.nowcastf-editor-field, .woo-campaign-editor-field');
 
     var replacement = document.createElement('div');
-    replacement.className = field.className + ' woo-campaign-native-editor-field';
+    replacement.className = field.className + ' nowcastf-native-editor-field woo-campaign-native-editor-field';
     while (field.firstChild) replacement.appendChild(field.firstChild);
     field.replaceWith(replacement);
     return replacement;
@@ -88,6 +88,6 @@
   $(function () {
     movePublishActions();
     retryEditor(0);
-    $('#woo-campaign-editor-form').on('submit.wooCampaignNativeEditor', syncEditorBeforeSubmit);
+    $('#nowcastf-editor-form, #woo-campaign-editor-form').on('submit.wooCampaignNativeEditor', syncEditorBeforeSubmit);
   });
 })(jQuery);

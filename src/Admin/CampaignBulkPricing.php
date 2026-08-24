@@ -87,13 +87,18 @@ final class CampaignBulkPricing {
 			return;
 		}
 
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Validated via json_decode and sanitized with Meta::sanitizeBulkPricing().
-		$raw = wp_unslash( (string) ( $_POST['campaign_bulk_pricing_json'] ?? '' ) );
+		$raw = isset( $_POST['campaign_bulk_pricing_json'] ) ? sanitize_text_field( wp_unslash( (string) $_POST['campaign_bulk_pricing_json'] ) ) : '';
+		if ( '' === $raw ) {
+			return;
+		}
+
 		$decoded = json_decode( $raw, true );
 		if ( JSON_ERROR_NONE !== json_last_error() || ! is_array( $decoded ) ) {
 			return;
 		}
-		update_post_meta( $campaignId, Meta::BULK_PRICING, Meta::sanitizeBulkPricing( $decoded ) );
+
+		$sanitized = Meta::sanitizeBulkPricing( $decoded );
+		update_post_meta( $campaignId, Meta::BULK_PRICING, $sanitized );
 		clean_post_cache( $campaignId );
 	}
 }

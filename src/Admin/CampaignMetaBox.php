@@ -97,6 +97,7 @@ final class CampaignMetaBox {
 			<?php $this->metric( __( 'Pending', 'now-campaign-storefronts' ), number_format_i18n( $report['pending_orders'] ) ); ?>
 		</div>
 		<?php if ( (int) $report['refunded_units'] > 0 ) : ?>
+			<?php /* translators: %s: Number of refunded units */ ?>
 			<p class="nowcastf-performance-note"><?php echo esc_html( sprintf( _n( '%s refunded unit', '%s refunded units', (int) $report['refunded_units'], 'now-campaign-storefronts' ), number_format_i18n( $report['refunded_units'] ) ) ); ?></p>
 		<?php endif; ?>
 		<?php

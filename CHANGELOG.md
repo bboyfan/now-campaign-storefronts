@@ -2,39 +2,15 @@
 
 All notable changes to NOW Campaign Storefronts for WooCommerce are documented here. Historical entries retain their release-time names.
 
+## 1.4.6 — 2026-08-24
+
+### Fixed
+
+- Fix admin and storefront styles after the NOW runtime prefix migration.
+- Restore Campaign Editor section rendering.
+- Add legacy DOM selector compatibility for pre-NOW storefront integrations.
+
 ## 1.4.5 — 2026-08-20
-
-### Changed
-
-- Addressed second-round WordPress.org manual review requirements.
-- Scoped PHP namespace to vendor prefix `Bboyfan\NowCampaignStorefronts\`.
-- Scoped all localized JavaScript globals to `BboyfanNowCastf*` (`BboyfanNowCastfSettings`, `BboyfanNowCastfPresentation`, `BboyfanNowCastfEditor`, `BboyfanNowCastfReportAdmin`, `BboyfanNowCastfBulkPricing`, `BboyfanNowCastfAdminSettings`, `BboyfanNowCastfLiveReport`).
-- Updated PSR-4 autoloading configurations in `composer.json` and bootstrap autoloader.
-
-### Security
-
-- Replaced raw `$_POST` backup and restoration in Cart AJAX lifecycle compatibility hooks with minimal sanitized context parameters containing only `product_id`, `quantity`, and `variation_id`.
-- Hardened request boundary input handling across editor, bulk pricing, report administration, and cart endpoints with explicit sanitization and strict schema validation.
-
-## 1.4.4 — 2026-08-19
-
-### Added
-
-- Unique canonical `nowcastf_` prefix identity across all custom post types (`nowcastf_campaign`, `nowcastf_report`), custom database tables (`{$wpdb->prefix}nowcastf_products`, `{$wpdb->prefix}nowcastf_sections`), options, transients, actions, filters, nonces, and constants (`NOWCASTF_*`).
-- Dedicated Bricks Builder dynamic data provider (`ProviderNowCastf`) under the canonical namespace.
-
-### Changed
-
-- Addressed WordPress.org manual review feedback with hardened request parameter sanitization and escaping.
-- Storefront product media presentation updated to `object-fit: cover` with centered alignment across Quick Order, Editorial, and Compact layouts.
-- Campaign Report visual hierarchy refined with compact card heights, responsive typography, 4-column desktop KPI and breakdown grids, and 2-column mobile presentation.
-
-### Security
-
-- Hardened array sanitization and unslashing for campaign editor payloads and AJAX parameters.
-- Standardized report authentication redirect and cache control handling.
-
-## 1.4.3 — 2026-08-17
 
 ### Fixed
 

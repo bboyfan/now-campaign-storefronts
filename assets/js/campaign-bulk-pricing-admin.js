@@ -68,8 +68,8 @@
 
   function injectCard() {
     if (document.querySelector('[data-campaign-bulk-pricing-card]')) return;
-    var sectionsCard = document.querySelector('.woo-campaign-sections-card');
-    var main = document.querySelector('.woo-campaign-editor-main');
+    var sectionsCard = document.querySelector('.nowcastf-sections-card, .woo-campaign-sections-card');
+    var main = document.querySelector('.nowcastf-editor-main, .woo-campaign-editor-main');
     if (!sectionsCard || !main) return;
 
     var card = document.createElement('section');
@@ -144,5 +144,5 @@
     config.tiers[index].discount_percent = Math.max(0, Math.min(99.99, Number(this.value || 0)));
   });
 
-  $('#woo-campaign-editor-form').on('submit', serialize);
+  $('#nowcastf-editor-form, #woo-campaign-editor-form').on('submit', serialize);
 })(jQuery);

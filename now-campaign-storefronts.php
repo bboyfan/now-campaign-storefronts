@@ -3,7 +3,7 @@
  * Plugin Name:       NOW Campaign Storefronts for WooCommerce
  * Plugin URI:        https://github.com/bboyfan/now-campaign-storefronts
  * Description:       Build campaign storefronts for WooCommerce with campaign pricing, layouts, attribution, live reports, and protected sharing.
- * Version:           1.4.5
+ * Version:           1.4.6
  * Requires at least: 6.5
  * Requires PHP:      8.1
  * Requires Plugins:  woocommerce
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'NOWCASTF_VERSION', '1.4.5' );
+define( 'NOWCASTF_VERSION', '1.4.6' );
 define( 'NOWCASTF_FILE', __FILE__ );
 define( 'NOWCASTF_PATH', plugin_dir_path( __FILE__ ) );
 define( 'NOWCASTF_URL', plugin_dir_url( __FILE__ ) );

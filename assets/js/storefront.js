@@ -129,11 +129,11 @@
       if (!input) return;
       var quantity = clampInput(input, 0); var price = Number(option.getAttribute('data-campaign-price') || 0);
       count += quantity; total += quantity * price;
-      var quantityBox = input.closest('.woo-campaign-quantity'); if (quantityBox) quantityBox.classList.toggle('is-zero', quantity === 0);
+      var quantityBox = input.closest('.nowcastf-quantity, .woo-campaign-quantity'); if (quantityBox) quantityBox.classList.toggle('is-zero', quantity === 0);
     });
     var countEl = group.querySelector('[data-woo-campaign-selected-count]'); if (countEl) countEl.textContent = count;
     var totalEl = group.querySelector('[data-woo-campaign-selected-total]'); if (totalEl) totalEl.textContent = formatSelectedTotal(total);
-    var button = group.querySelector('.woo-campaign-add-selected'); if (button && !button.classList.contains('is-loading')) button.disabled = count <= 0;
+    var button = group.querySelector('.nowcastf-add-selected, .woo-campaign-add-selected'); if (button && !button.classList.contains('is-loading')) button.disabled = count <= 0;
   }
 
   function resetDirectGroup(group) {
@@ -158,7 +158,7 @@
       return;
     }
 
-    var addSelected = event.target.closest('.woo-campaign-add-selected');
+    var addSelected = event.target.closest('.nowcastf-add-selected, .woo-campaign-add-selected');
     if (addSelected) {
       event.preventDefault();
       var group = addSelected.closest('[data-campaign-order-group]'); if (!group) return;
@@ -188,7 +188,7 @@
       return;
     }
 
-    var add = event.target.closest('.woo-campaign-add-to-cart');
+    var add = event.target.closest('.nowcastf-add-to-cart, .woo-campaign-add-to-cart');
     if (add) {
       event.preventDefault();
       var card = add.closest('[data-campaign-product-card], [data-campaign-product-option]'); var select = card && card.querySelector('[data-woo-campaign-variation]'); var qty = card && card.querySelector('[data-woo-campaign-qty]'); var campaignProductId = add.getAttribute('data-campaign-product-id') || (select ? select.value : '');

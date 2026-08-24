@@ -74,6 +74,7 @@ final class Repository {
 			$existingItem = $existingBySaleable[ $key ] ?? null;
 
 			if ( $existingItem ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct custom-table update; values are prepared.
 				$result = $wpdb->update(
 					$table,
 					$data,
@@ -82,8 +83,7 @@ final class Repository {
 					[ '%d', '%d' ]
 				);
 				if ( false === $result ) {
-					// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-					throw new \RuntimeException( 'Could not update campaign product: ' . $wpdb->last_error );
+					throw new \RuntimeException( 'Could not update campaign product.' );
 				}
 				$keptIds[ $existingItem->id ] = true;
 				continue;
@@ -93,14 +93,14 @@ final class Repository {
 			$data['product_id'] = $productId;
 			$data['variation_id'] = $variationId;
 			$data['created_at'] = $now;
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Direct custom-table insert; values are prepared.
 			$result = $wpdb->insert(
 				$table,
 				$data,
 				[ '%d', '%s', '%s', '%s', '%d', '%s', '%d', '%d', '%d', '%s' ]
 			);
 			if ( false === $result || (int) $wpdb->insert_id <= 0 ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-				throw new \RuntimeException( 'Could not create campaign product: ' . $wpdb->last_error );
+				throw new \RuntimeException( 'Could not create campaign product.' );
 			}
 			$keptIds[ (int) $wpdb->insert_id ] = true;
 		}
@@ -109,20 +109,20 @@ final class Repository {
 			if ( isset( $keptIds[ $item->id ] ) ) {
 				continue;
 			}
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct custom-table deletion; values are prepared.
 			$result = $wpdb->delete( $table, [ 'id' => $item->id, 'campaign_id' => $campaignId ], [ '%d', '%d' ] );
 			if ( false === $result ) {
-				// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-				throw new \RuntimeException( 'Could not remove campaign product: ' . $wpdb->last_error );
+				throw new \RuntimeException( 'Could not remove campaign product.' );
 			}
 		}
 	}
 
 	public function deleteForCampaign( int $campaignId ): void {
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Direct custom-table deletion; values are prepared.
 		$result = $wpdb->delete( Table::name(), [ 'campaign_id' => $campaignId ], [ '%d' ] );
 		if ( false === $result ) {
-			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped
-			throw new \RuntimeException( 'Could not remove campaign products: ' . $wpdb->last_error );
+			throw new \RuntimeException( 'Could not remove campaign products.' );
 		}
 	}
 

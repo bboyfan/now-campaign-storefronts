@@ -1,7 +1,7 @@
 /* Final storefront presentation rules shared by Quick Order, Editorial, and Compact Grid. */
-.woo-campaign-page .woo-campaign-section .woo-campaign-row-copy,
-.woo-campaign-page .woo-campaign-section .woo-campaign-editorial-description,
-.woo-campaign-page .woo-campaign-section .woo-campaign-compact-copy{
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-section, .woo-campaign-section) :is(.nowcastf-row-copy, .woo-campaign-row-copy),
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-section, .woo-campaign-section) :is(.nowcastf-editorial-description, .woo-campaign-editorial-description),
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-section, .woo-campaign-section) :is(.nowcastf-compact-copy, .woo-campaign-compact-copy){
 	color:var(--woo-campaign-section-copy-color,inherit)!important;
 	font-size:14px!important;
 	line-height:1.6!important;
@@ -11,7 +11,7 @@
 /* Keep every Campaign layout on one CTA contract. The stronger layout-aware
  * selector intentionally overrides older Quick Order / Editorial / Compact
  * presentation rules while preserving the section-level color controls. */
-.woo-campaign-page .woo-campaign-section[class*="layout-"] .woo-campaign-add-to-cart{
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-section, .woo-campaign-section)[class*="layout-"] :is(.nowcastf-add-to-cart, .woo-campaign-add-to-cart){
 	display:inline-flex!important;
 	align-items:center!important;
 	justify-content:center!important;
@@ -33,37 +33,37 @@
 	transform:none!important;
 	transition:filter .16s ease,opacity .16s ease!important;
 }
-.woo-campaign-page .woo-campaign-section[class*="layout-"] .woo-campaign-add-to-cart:hover,
-.woo-campaign-page .woo-campaign-section[class*="layout-"] .woo-campaign-add-to-cart:focus-visible{
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-section, .woo-campaign-section)[class*="layout-"] :is(.nowcastf-add-to-cart, .woo-campaign-add-to-cart):hover,
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-section, .woo-campaign-section)[class*="layout-"] :is(.nowcastf-add-to-cart, .woo-campaign-add-to-cart):focus-visible{
 	background-color:var(--woo-campaign-section-cta-bg,var(--woo-campaign-accent,var(--wp--preset--color--contrast,#1f2421)))!important;
 	border-color:var(--woo-campaign-section-cta-bg,var(--woo-campaign-accent,var(--wp--preset--color--contrast,#1f2421)))!important;
 	color:var(--woo-campaign-section-cta-text,var(--wp--preset--color--base,#fff))!important;
 	filter:brightness(1.07)!important;
 	transform:none!important;
 }
-.woo-campaign-page .woo-campaign-section[class*="layout-"] .woo-campaign-add-to-cart:disabled{
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-section, .woo-campaign-section)[class*="layout-"] :is(.nowcastf-add-to-cart, .woo-campaign-add-to-cart):disabled{
 	opacity:.55!important;
 	cursor:not-allowed!important;
 	filter:none!important;
 }
 
-.woo-campaign-page .woo-campaign-purchase-row-media,
-.woo-campaign-page .woo-campaign-editorial-media,
-.woo-campaign-page .woo-campaign-compact-card-media,
-.woo-campaign-purchase-row-media,
-.woo-campaign-editorial-media,
-.woo-campaign-compact-card-media{
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-purchase-row-media, .woo-campaign-purchase-row-media),
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-editorial-media, .woo-campaign-editorial-media),
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-compact-card-media, .woo-campaign-compact-card-media),
+:is(.nowcastf-purchase-row-media, .woo-campaign-purchase-row-media),
+:is(.nowcastf-editorial-media, .woo-campaign-editorial-media),
+:is(.nowcastf-compact-card-media, .woo-campaign-compact-card-media){
 	display:flex;
 	align-items:center;
 	justify-content:center;
 	overflow:hidden;
 }
-.woo-campaign-page .woo-campaign-purchase-row-media img,
-.woo-campaign-page .woo-campaign-editorial-media img,
-.woo-campaign-page .woo-campaign-compact-card-media img,
-.woo-campaign-purchase-row-media img,
-.woo-campaign-editorial-media img,
-.woo-campaign-compact-card-media img{
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-purchase-row-media, .woo-campaign-purchase-row-media) img,
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-editorial-media, .woo-campaign-editorial-media) img,
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-compact-card-media, .woo-campaign-compact-card-media) img,
+:is(.nowcastf-purchase-row-media, .woo-campaign-purchase-row-media) img,
+:is(.nowcastf-editorial-media, .woo-campaign-editorial-media) img,
+:is(.nowcastf-compact-card-media, .woo-campaign-compact-card-media) img{
 	display:block!important;
 	width:100%!important;
 	height:100%!important;
@@ -71,10 +71,10 @@
 	object-fit:cover!important;
 	object-position:center!important;
 }
-.woo-campaign-page .woo-campaign-editorial-media{min-height:360px}
-.woo-campaign-page .woo-campaign-compact-card-media{aspect-ratio:1/1}
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-editorial-media, .woo-campaign-editorial-media){min-height:360px}
+:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-compact-card-media, .woo-campaign-compact-card-media){aspect-ratio:1/1}
 
 @media(max-width:760px){
-	.woo-campaign-page .woo-campaign-editorial-media{min-height:0;aspect-ratio:1/1}
-	.woo-campaign-page .woo-campaign-section[class*="layout-"] .woo-campaign-add-to-cart{width:100%!important}
+	:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-editorial-media, .woo-campaign-editorial-media){min-height:0;aspect-ratio:1/1}
+	:is(.nowcastf-page, .woo-campaign-page) :is(.nowcastf-section, .woo-campaign-section)[class*="layout-"] :is(.nowcastf-add-to-cart, .woo-campaign-add-to-cart){width:100%!important}
 }

@@ -49,7 +49,7 @@ final class Assets {
 	}
 
 	private function isBricksOwned(): bool {
-		return 'bricks' === apply_filters( CampaignRenderer::FILTER_PRESENTATION_OWNER, 'native', (int) get_queried_object_id() );
+		return 'bricks' === apply_filters( 'nowcastf_storefront_presentation_owner', 'native', (int) get_queried_object_id() );
 	}
 
 	public function enqueue(): void {
@@ -80,6 +80,7 @@ final class Assets {
 						'decreaseQty'   => __( 'Decrease quantity', 'now-campaign-storefronts' ),
 						'increaseQty'   => __( 'Increase quantity', 'now-campaign-storefronts' ),
 						'quantity'      => __( 'Quantity', 'now-campaign-storefronts' ),
+						/* translators: %d: Discount percentage saved */
 						'save'          => __( 'Save %d%', 'now-campaign-storefronts' ),
 					],
 				]

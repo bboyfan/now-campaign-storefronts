@@ -3,7 +3,7 @@ Contributors: bboyfan
 Tags: woocommerce, group buy, bulk discount, influencer, landing page
 Requires at least: 6.5
 Tested up to: 7.1
-Stable tag: 1.4.5
+Stable tag: 1.4.6
 Requires PHP: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -163,6 +163,11 @@ No. External reports are designed around aggregate sales metrics and product per
 4. Password-protected live sales report for influencer collaboration — revenue, orders, refunds, and product breakdown.
 
 == Changelog ==
+
+= 1.4.6 =
+* Fix admin and storefront styles after the NOW runtime prefix migration.
+* Restore Campaign Editor section rendering.
+* Add legacy DOM selector compatibility for pre-NOW storefront integrations.
 
 = 1.4.5 =
 * Addressed second-round WordPress.org manual review feedback with vendor-scoped PHP namespace and JavaScript globals.

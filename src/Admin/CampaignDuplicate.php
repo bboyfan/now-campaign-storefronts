@@ -36,6 +36,7 @@ final class CampaignDuplicate {
 			),
 			self::NONCE_ACTION . '_' . $post->ID
 		);
+		/* translators: %s: Campaign post title */
 		$actions['duplicate'] = '<a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( sprintf( __( 'Duplicate “%s”', 'now-campaign-storefronts' ), $post->post_title ) ) . '">' . esc_html__( 'Duplicate', 'now-campaign-storefronts' ) . '</a>';
 		return $actions;
 	}
@@ -73,10 +74,13 @@ final class CampaignDuplicate {
 	}
 
 	public function notices(): void {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin display parameter; no state change.
 		if ( ! empty( $_GET['nowcastf_duplicated'] ) ) {
 			printf( '<div class="notice notice-success is-dismissible"><p>%s</p></div>', esc_html__( 'Campaign duplicated.', 'now-campaign-storefronts' ) );
 		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin display parameter; no state change.
 		if ( ! empty( $_GET['nowcastf_duplicate_error'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only admin display parameter; no state change.
 			$message = sanitize_text_field( wp_unslash( (string) $_GET['nowcastf_duplicate_error'] ) );
 			printf( '<div class="notice notice-error is-dismissible"><p>%s</p></div>', esc_html( $message ) );
 		}

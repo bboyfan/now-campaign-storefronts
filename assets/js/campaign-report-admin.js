@@ -34,7 +34,7 @@
   }
 
   function enhanceMetrics() {
-    var root = document.querySelector('.woo-campaign-editor-metrics');
+    var root = document.querySelector('.nowcastf-editor-metrics, .woo-campaign-editor-metrics');
     if (!root || root.dataset.reportEnhanced === '1') return;
     root.dataset.reportEnhanced = '1';
     [
@@ -53,7 +53,7 @@
   }
 
   function buildCard() {
-    var sidebar = document.querySelector('.woo-campaign-editor-sidebar');
+    var sidebar = document.querySelector('.nowcastf-editor-sidebar, .woo-campaign-editor-sidebar');
     if (!sidebar || document.querySelector('[data-woo-campaign-report-admin]')) return;
 
     var state = $.extend({}, cfg.share || {});

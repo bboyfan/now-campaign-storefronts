@@ -96,6 +96,7 @@ final class Migrator {
 				$wpdb->prepare( "SELECT id FROM {$sectionsTable} WHERE campaign_id = %d ORDER BY display_order ASC, id ASC LIMIT 1", $campaignId ) // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter, WordPress.DB.DirectDatabaseQuery, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			);
 			if ( $sectionId <= 0 ) {
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Direct custom-table insert during migration; values are prepared.
 				$wpdb->insert(
 					$sectionsTable,
 					[
