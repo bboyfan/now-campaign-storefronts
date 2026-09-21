@@ -86,7 +86,7 @@ The CSS distributed with the plugin is the project's source CSS; it is not gener
 
 ## WordPress.org release
 
-The private development source keeps its existing internal identifiers. `scripts/build-wordpress-org.sh` creates the WordPress.org-ready package using the public identity `NOW Campaign Storefronts for WooCommerce`, slug `now-campaign-storefronts`, main file `now-campaign-storefronts.php`, and text domain `now-campaign-storefronts` without changing runtime class names, database identifiers, CSS classes, or option/meta prefixes.
+The source keeps its existing internal identifiers for backward compatibility. `scripts/build-wordpress-org.sh` creates the WordPress.org-ready package using the public identity `NOW Campaign Storefronts for WooCommerce`, slug `now-campaign-storefronts`, main file `now-campaign-storefronts.php`, and text domain `now-campaign-storefronts` without changing runtime class names, database identifiers, CSS classes, or option/meta prefixes.
 
 The WordPress.org package uses English canonical source strings. WordPress.org supplies translation language packs; no translation binaries are bundled in the ZIP.
 
